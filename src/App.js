@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, useRoutes } from "react-router-dom";
-import React, { useState } from 'react'
+import React from 'react'
 import StaffMain from "./screens/staff/main";
 import Login from "./screens/login";
 import AdminMain from "./screens/admin/main";
@@ -11,7 +11,7 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 
 
 const App = () => {
-    
+
     return useRoutes([
         {
             path: "/staff",

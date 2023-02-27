@@ -4,20 +4,26 @@ import axios from 'axios';
 export default function Login() {
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
+    const [isFetching, setFetch] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        var res = await axios.post("http://localhost:5000/login", {
-            username: username,
-            password: password
-        });
+        if (!isFetching) {
+            setFetch(true);
+            var res = await axios.post("https://tch2202.onrender.com/login", {
+                username: username,
+                password: password
+            });
 
-        if (res.status === 200) {
-            console.log(res.data.accessToken);
-            localStorage.setItem('token', res.data.accessToken);
-        } else {
-            // Validation message
-        }
+            if (res.status === 200) {
+                console.log(res.data.accessToken);
+                localStorage.setItem('token', res.data.accessToken);
+                setFetch(false);
+            } else {
+                // Validation message
+                setFetch(false);
+            }
+        } else return;
     };
 
     return (
