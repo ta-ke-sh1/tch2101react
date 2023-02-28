@@ -5,21 +5,21 @@ export default function Login() {
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
+   
     const handleSubmit = async (e) => {
         e.preventDefault();
-        var res = await axios.post("http://localhost:5000/login", {
+        var res = await axios.post("http://localhost:9000/login", {
             username: username,
             password: password
         });
 
         if (res.status === 200) {
-            console.log(res.data.accessToken);
+            console.log(res.data);
             localStorage.setItem('token', res.data.accessToken);
         } else {
             // Validation message
         }
     };
-
     return (
         <>
             <section className="vh-100" style={{ backgroundColor: "#9A616D" }}>
