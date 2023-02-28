@@ -13,16 +13,20 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import DashboardComponent from './dashboard';
+import UserComponent from './user';
+import PostComponent from './post';
+import GroupComponent from './group';
+
 
 const navigation = [
   { index: 0, name: "Dashboard", href: "", icon: HomeIcon, current: true },
-  { index: 1, name: "Team", href: "#", icon: UsersIcon, current: true },
-  { index: 2, name: "Projects", href: "#", icon: FolderIcon, current: true },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: InboxIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
+  { index: 1, name: "User", href: "#", icon: UsersIcon, current: true },
+  { index: 2, name: "Post", href: "#", icon: FolderIcon, current: true },
+  { index: 3, name: "Group", href: "#", icon: CalendarIcon, current: true },
+//   { name: "Documents", href: "#", icon: InboxIcon, current: false },
+//   { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
 ];
-const h1 = "test";
 const userNavigation = [
   { name: "Your Profile", href: "#" },
   { name: "Settings", href: "#" },
@@ -37,9 +41,10 @@ export default function AdminMain() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [componentIndex, setIndex] = useState(0);
   const components = {
-    0: <MainComponent />,
-    1: <SecondaryComponent />,
-    2: <TertiaryComponent />,
+    0: <DashboardComponent />,
+    1: <UserComponent />,
+    2: <PostComponent />,
+    3: <GroupComponent />
   };
 
   return (
@@ -275,47 +280,8 @@ export default function AdminMain() {
   );
 }
 
-function MainComponent() {
-  return (
-    <main className="flex-1">
-      <div className="py-6">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-        </div>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1>asdasdasd</h1>
-        </div>
-      </div>
-    </main>
-  );
-}
 
-function SecondaryComponent() {
-  return (
-    <main className="flex-1">
-      <div className="py-6">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-        </div>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1>Secondary</h1>
-        </div>
-      </div>
-    </main>
-  );
-}
 
-function TertiaryComponent() {
-  return (
-    <main className="flex-1">
-      <div className="py-6">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-        </div>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1>Tertiary</h1>
-        </div>
-      </div>
-    </main>
-  );
-}
+
+
+
