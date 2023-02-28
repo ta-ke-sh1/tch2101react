@@ -11,7 +11,7 @@ import "./styles/index.css";
 
 
 const App = () => {
-    
+
     return useRoutes([
         {
             path: "/staff",
