@@ -8,7 +8,7 @@ import "./styles/main.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import "./styles/index.css";
-
+import Navbar  from "./screens/login"
 
 const App = () => {
 
@@ -26,8 +26,12 @@ const App = () => {
             element: <IdeaMain />,
         },
         {
-            path: "/login",
+            path: "/",
             element: <Login />,
+        },
+        {
+            path: "/narbar",
+            element: <Navbar />,
         },
     ]);
 };

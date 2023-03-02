@@ -1,6 +1,6 @@
 import React from "react";
 import { Fragment, useState } from "react";
-import { Dialog, Menu, Transition } from "@headlessui/react";
+import { Dialog, Menu, Transition,Disclosure } from "@headlessui/react";
 import {
   Bars3BottomLeftIcon,
   BellIcon,
@@ -12,40 +12,88 @@ import {
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
-import DashboardComponent from './dashboard';
-import UserComponent from './user';
-import PostComponent from './post';
-import GroupComponent from './group';
 
+import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+// import DashboardComponent from "./dashboard";
+// import UserComponent from "./user";
+// import PostComponent from "./post";
+// import GroupComponent from "./group";
 
 const navigation = [
-  { index: 0, name: "Dashboard", href: "", icon: HomeIcon, current: true },
-  { index: 1, name: "User", href: "#", icon: UsersIcon, current: true },
+  { index: 0, name: "Dashboard", href: "#", icon: HomeIcon, current: true },
+
+  {
+    index: 1,
+    name: "User",
+    href: "#",
+    icon: UsersIcon,
+    current: true,
+    subnav: true,
+    subNavigations: [
+      { name: "List user ", href: "#", icon: UsersIcon, current: false },
+      { name: "List QA manager ", href: "#", icon: UsersIcon, current: false },
+      {
+        name: "List QA coordinator",
+        href: "#",
+        icon: UsersIcon,
+        current: false,
+      },
+      { name: "List staff ", href: "#", icon: UsersIcon, current: false },
+    ],
+  },
+
   { index: 2, name: "Post", href: "#", icon: FolderIcon, current: true },
-  { index: 3, name: "Group", href: "#", icon: CalendarIcon, current: true },
-//   { name: "Documents", href: "#", icon: InboxIcon, current: false },
-//   { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
+  {
+    index: 3,
+    name: "Group",
+    href: "#",
+    icon: CalendarIcon,
+    current: true,
+    subNavigations: [
+      { name: "List group ", href: "#", icon: UsersIcon, current: false },
+      { name: "List category ", href: "#", icon: UsersIcon, current: false },
+    ],
+  },
+  {
+    index: 4,
+    name: "Pages",
+    href: "#",
+    icon: InboxIcon,
+    current: true,
+    subnav: true,
+    subNavigations: [
+      { name: "List pages ", href: "#", icon: UsersIcon, current: false },
+      { name: "List category ", href: "#", icon: UsersIcon, current: false },
+    ],
+  },
+  // { name: "Documents", href: "#", icon: InboxIcon, current: false },
+  {
+    name: "Reports",
+    href: "#",
+    icon: ChartBarIcon,
+    current: false,
+    subNavigations: [],
+  },
 ];
+
 const userNavigation = [
   { name: "Your Profile", href: "#" },
   { name: "Settings", href: "#" },
   { name: "Sign out", href: "#" },
 ];
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function AdminMain() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [componentIndex, setIndex] = useState(0);
-  const components = {
-    0: <DashboardComponent />,
-    1: <UserComponent />,
-    2: <PostComponent />,
-    3: <GroupComponent />
-  };
+  // const [componentIndex, setIndex] = useState();
+  // const components = {
+  //   0: <DashboardComponent />,
+  //   1: <UserComponent />,
+  //   2: <PostComponent />,
+  //   3: <GroupComponent />,
+  // };
 
   return (
     <>
@@ -105,37 +153,81 @@ export default function AdminMain() {
                   <div className="flex flex-shrink-0 items-center px-4">
                     <img
                       className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                      alt="Your Company"
+                      src="https://www.yourdesigner.vn/wp-content/uploads/2017/03/logo-1-1.png"
+                      alt="tch2202 admin"
                     />
                   </div>
                   <div className="mt-5 h-0 flex-1 overflow-y-auto">
-                    <nav className="space-y-1 px-2">
-                      {navigation.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className={classNames(
-                            item.current
-                              ? "bg-gray-100 text-gray-900"
-                              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                            "group flex items-center rounded-md px-2 py-2 text-base font-medium"
-                          )}
+        <nav className="space-y-1 px-2" aria-label="Sidebar">
+          {navigation.map((item) =>
+            !item.children ? (
+              <div key={item.name}>
+                <a
+                  href="{#}"
+                  className={classNames(
+                    item.current
+                      ? 'bg-gray-100 text-gray-900'
+                      : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                    'group flex w-full items-center rounded-md py-2 pl-2 text-sm font-medium'
+                  )}
+                >
+                  <item.icon
+                    className={classNames(
+                      item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
+                      'mr-3 h-6 w-6 flex-shrink-0'
+                    )}
+                    aria-hidden="true"
+                  />
+                  {item.name}
+                </a>
+              </div>
+            ) : (
+              <Disclosure as="div" key={item.name} className="space-y-1">
+                {({ open }) => (
+                  <>
+                    <Disclosure.Button
+                      className={classNames(
+                        item.current
+                          ? 'bg-gray-100 text-gray-900'
+                          : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                        'group flex w-full items-center rounded-md py-2 pl-2 pr-1 text-left text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                      )}
+                    >
+                      <item.icon
+                        className="mr-3 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                        aria-hidden="true"
+                      />
+                      <span className="flex-1">{item.name}</span>
+                      <svg
+                        className={classNames(
+                          open ? 'rotate-90 text-gray-400' : 'text-gray-300',
+                          'ml-3 h-5 w-5 flex-shrink-0 transform transition-colors duration-150 ease-in-out group-hover:text-gray-400'
+                        )}
+                        viewBox="0 0 20 20"
+                        aria-hidden="true"
+                      >
+                        <path d="M6 6L14 10L6 14V6Z" fill="currentColor" />
+                      </svg>
+                    </Disclosure.Button>
+                    <Disclosure.Panel className="space-y-1">
+                      {item.children.map((subItem) => (
+                        <Disclosure.Button
+                          key={subItem.name}
+                          as="a"
+                          href={subItem.href}
+                          className="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                         >
-                          <item.icon
-                            className={classNames(
-                              item.current
-                                ? "text-gray-500"
-                                : "text-gray-400 group-hover:text-gray-500",
-                              "mr-4 h-6 w-6 flex-shrink-0"
-                            )}
-                            aria-hidden="true"
-                          />
-                          {item.name}
-                        </a>
+                          {subItem.name}
+                        </Disclosure.Button>
                       ))}
-                    </nav>
-                  </div>
+                    </Disclosure.Panel>
+                  </>
+                )}
+              </Disclosure>
+            )
+          )}
+        </nav>
+      </div>
                 </Dialog.Panel>
               </Transition.Child>
               <div className="w-14 flex-shrink-0" aria-hidden="true">
@@ -152,39 +244,80 @@ export default function AdminMain() {
             <div className="flex flex-shrink-0 items-center px-4">
               <img
                 className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="TCH2202"
+                src="https://www.yourdesigner.vn/wp-content/uploads/2017/03/logo-1-1.png"
+                alt="TCH2202 admin"
               />
             </div>
             <div className="mt-5 flex flex-grow flex-col">
-              <nav className="flex-1 space-y-1 px-2 pb-4">
-                {navigation.map((item) => (
-                  <a
-                    onClick={() => {
-                        setIndex(item.index)
-                    }}
-                    key={item.name}
-                    href={item.href}
+            <nav className="flex-1 space-y-1 bg-white px-2" aria-label="Sidebar">
+          {navigation.map((item) =>
+            !item.subNavigations ? (
+              <div key={item.name}>
+                <a
+                  href="{#}"
+                  className={classNames(
+                    item.current
+                      ? 'bg-gray-100 text-gray-900'
+                      : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                    'group flex w-full items-center rounded-md py-2 pl-2 text-sm font-medium'
+                  )}
+                >
+                  <item.icon
                     className={classNames(
-                      item.current
-                        ? "bg-gray-100 text-gray-900"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                      "group flex items-center rounded-md px-2 py-2 text-sm font-medium"
+                      item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
+                      'mr-3 h-6 w-6 flex-shrink-0'
                     )}
-                  >
-                    <item.icon
+                    aria-hidden="true"
+                  />
+                  {item.name}
+                </a>
+              </div>
+            ) : (
+              <Disclosure as="div" key={item.name} className="space-y-1">
+                {({ open }) => (
+                  <>
+                    <Disclosure.Button
                       className={classNames(
                         item.current
-                          ? "text-gray-500"
-                          : "text-gray-400 group-hover:text-gray-500",
-                        "mr-3 h-6 w-6 flex-shrink-0"
+                          ? 'bg-gray-100 text-gray-900'
+                          : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                        'group flex w-full items-center rounded-md py-2 pl-2 pr-1 text-left text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500'
                       )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </a>
-                ))}
-              </nav>
+                    >
+                      <item.icon
+                        className="mr-3 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                        aria-hidden="true"
+                      />
+                      <span className="flex-1">{item.name}</span>
+                      <svg
+                        className={classNames(
+                          open ? 'rotate-90 text-gray-400' : 'text-gray-300',
+                          'ml-3 h-5 w-5 flex-shrink-0 transform transition-colors duration-150 ease-in-out group-hover:text-gray-400'
+                        )}
+                        viewBox="0 0 20 20"
+                        aria-hidden="true"
+                      >
+                        <path d="M6 6L14 10L6 14V6Z" fill="currentColor" />
+                      </svg>
+                    </Disclosure.Button>
+                    <Disclosure.Panel className="space-y-1">
+                      {item.subNavigations.map((subItem) => (
+                        <Disclosure.Button
+                          key={subItem.name}
+                          as="a"
+                          href={subItem.href}
+                          className="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                        >
+                          {subItem.name}
+                        </Disclosure.Button>
+                      ))}
+                    </Disclosure.Panel>
+                  </>
+                )}
+              </Disclosure>
+            )
+          )}
+        </nav>
             </div>
           </div>
         </div>
@@ -273,15 +406,9 @@ export default function AdminMain() {
               </div>
             </div>
           </div>
-          {components[componentIndex]}
+          {/* {components[componentIndex]} */}
         </div>
       </div>
     </>
   );
 }
-
-
-
-
-
-
