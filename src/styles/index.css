@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.divider {
+	width: 100%;
+	background-color: black;
+	opacity: 15%;
+	height: 1px;
+}
