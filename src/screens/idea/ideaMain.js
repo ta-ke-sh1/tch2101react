@@ -1,372 +1,130 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
-export default function IdeaMainComponent() {
-  const [show, setShow] = useState(false);
-  const [showEditIdea, setShowEditIdea] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const handleCloseEditIdea = () => setShowEditIdea(false);
-  const handleShowEditIdea = () => setShowEditIdea(true);
+// eslint-disable-next-line
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+// import axios from "axios";
+import { Link } from "react-router-dom";
+import Tag from "../../components/tag.js";
+
+export default function IdeaMain() {
+  let { id } = useParams();
+
+  const [ideas, setIdeas] = useState([]);
+
+  useEffect(() => {
+    setIdeas([
+      {
+        post_date: '2023/03/02',
+        title: 'Increase Budget',
+        description: 'Increase budget of the ceremony to buy more gifts',
+        category: ['Funding'],
+        is_anonymous: false,
+        writer_id: 'Alexia Nickie',
+      },
+      {
+        post_date: '2023/03/01',
+        title: 'Lorem ipsum dolor',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vulputate libero in finibus laoreet. Suspendisse dignissim ultricies tortor in iaculis. ',
+        category: ['Scheduling', "Sanitary"],
+        is_anonymous: false,
+        writer_id: '',
+      },
+      {
+        post_date: '2023/03/04',
+        title: 'In dui risus',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vulputate libero in finibus laoreet. Suspendisse dignissim ultricies tortor in iaculis. ',
+        category: ['Funding', 'Scheduling', "Sanitary"],
+        is_anonymous: false,
+        writer_id: 'Adrian Chechik',
+      },
+    ])
+
+    // axios
+    //     .get("http://localhost:5000/idea?id=" + id)
+    //     .then(res => {
+    //         console.log(res.data);
+    //     })
+    //     .catch(err => console.error(err));
+  }, []);
+
   return (
-    <div class="container ">
-      <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
-        <div class="row ">
-          <div class="col-sm-3 mt-5 mb-4 text-gred">
-            <div className="w-48 text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-              <button
-                type="button"
-                className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="w-4 h-4 mr-2 fill-current"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                Download
-              </button>
+    <>
+      <div className="flex h-screen flex-col justify-between">
+        <main className="mb-auto">
+          <div className="divide-y divide-gray-200 w-90 dark:divide-gray-700" style={{
+            position: "absolute",
+            left: '50%',
+            transform: 'translateX(-50%)'
+          }}>
+            <div className="space-y-2 pt-6 pb-8 md:space-y-5">
+              <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+                Spring 2023 Student Honoring Ceremony
+              </h1>
+              <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+                From: March 03, 2023
+                <br />
+                To: March 30, 2023
+              </p>
+              <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sagittis pellentesque ex eget commodo. Nunc orci magna, suscipit sed leo at, maximus molestie ex. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+              </p>
             </div>
+            <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+              {!ideas.length && 'No posts found.'}
+              {ideas.map((idea) => <IdeaListItem props={{
+                post_date: idea.post_date,
+                title: idea.title,
+                description: idea.description,
+                category: idea.category,
+                is_anonymous: false,
+                writer_id: idea.writer_id,
+              }} />)}
+            </ul>
           </div>
-          <div
-            class="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred"
-            style={{ color: "green" }}
-          >
-            <h2>
-              <b> List idea</b>
-            </h2>
-          </div>
-          <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
-            <Button variant="primary" onClick={handleShow}>
-              Add New Idea
-            </Button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="table-responsive ">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" className="p-4">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-all-search"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label htmlFor="checkbox-all-search" className="sr-only">
-                        checkbox
-                      </label>
-                    </div>
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    No
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Title
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Status
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Description
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    File
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Category
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Thread
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <td className="w-4 p-4">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-table-search-1"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checkbox-table-search-1"
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
-                  <th
-                    scope="row"
-                    className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    {/* <img
-                      className="w-10 h-10 rounded-full"
-                      src="/docs/images/people/profile-picture-1.jpg"
-                      alt="Jese image"
-                    /> */}
-                    <div className="pl-3">
-                      <div className="text-base font-semibold">1</div>
-                    </div>
-                  </th>
-                  <td className="px-6 py-4">React Developer</td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center">
-                      <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2" />{" "}
-                      Online
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">React Developer</td>
-                  <td className="px-6 py-4">file </td>
-                  <td className="px-6 py-4">tesst1</td>
-                  <td className="px-6 py-4">test2</td>
-
-                  <td className="pl-3">
-                    {/* Modal toggle */}
-                    <Button variant="primary" onClick={handleShowEditIdea}>
-                      Edit Idea
-                    </Button>
-
-                    <Button variant="danger">Delete Idea</Button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* <!--- Model Box ---> */}
-        <div className="model_box">
-          <Modal
-            show={show}
-            onHide={handleClose}
-            backdrop="static"
-            keyboard={false}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>Add A new ideas</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <form>
-                <div className="mb-6">
-                  <label
-                    type="text"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Title
-                  </label>
-                  <input
-                    type="text"
-                    id="title"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    placeholder="Enter Title"
-                    required=""
-                  />
-                </div>
-                <div className="mb-6">
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Description
-                  </label>
-                  <input
-                    type="password"
-                    id="password"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    required=""
-                  />
-                </div>
-                <div className="mb-6">
-                  <label
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-whites"
-                    htmlFor="Idea_avatar"
-                  >
-                    Upload file
-                  </label>
-                  <input
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    aria-describedby="Idea_avatar_help"
-                    id="image idea"
-                    type="file"
-                  />
-                </div>
-                <div className="mb-6">
-                  <label
-                    htmlFor="countries"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Select an category
-                  </label>
-                  <select
-                    id="countries"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option selected="">Not Select</option>
-                    <option value="1">tes1</option>
-                    <option value="2">tes2</option>
-                    <option value="3">tes3</option>
-                    <option value="4">tes4</option>
-                  </select>
-                </div>
-
-                <div className="mb-6">
-                  <label
-                    htmlFor="countries"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Select an thread
-                  </label>
-                  <select
-                    id="countries"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option selected="">Not Select</option>
-                    <option value="1">tes1</option>
-                    <option value="2">tes2</option>
-                    <option value="3">tes3</option>
-                    <option value="4">tes4</option>
-                  </select>
-                </div>
-
-                <button
-                  type="submit"
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Register new idea
-                </button>
-              </form>
-            </Modal.Body>
-
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
-          {/* Model Box Finsihs */}
-          {/*Model EDit account*/}
-
-          <Modal
-            show={showEditIdea}
-            onHide={handleCloseEditIdea}
-            backdrop="static"
-            keyboard={false}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>Add A new ideas</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <form>
-                <div className="mb-6">
-                  <label
-                    type="text"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Title
-                  </label>
-                  <input
-                    type="text"
-                    id="title"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    placeholder="Enter Title"
-                    required=""
-                  />
-                </div>
-                <div className="mb-6">
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Description
-                  </label>
-                  <input
-                    type="password"
-                    id="password"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    required=""
-                  />
-                </div>
-                <div className="mb-6">
-                  <label
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-whites"
-                    htmlFor="Idea_avatar"
-                  >
-                    Upload file
-                  </label>
-                  <input
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    aria-describedby="Idea_avatar_help"
-                    id="image idea"
-                    type="file"
-                  />
-                </div>
-                <div className="mb-6">
-                  <label
-                    htmlFor="countries"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Select an category
-                  </label>
-                  <select
-                    id="countries"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option selected="">Not Select</option>
-                    <option value="1">tes1</option>
-                    <option value="2">tes2</option>
-                    <option value="3">tes3</option>
-                    <option value="4">tes4</option>
-                  </select>
-                </div>
-
-                <div className="mb-6">
-                  <label
-                    htmlFor="countries"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Select an thread
-                  </label>
-                  <select
-                    id="countries"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option selected="">Not Select</option>
-                    <option value="1">tes1</option>
-                    <option value="2">tes2</option>
-                    <option value="3">tes3</option>
-                    <option value="4">tes4</option>
-                  </select>
-                </div>
-
-                <button
-                  type="submit"
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Update idea
-                </button>
-              </form>
-            </Modal.Body>
-
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-
-        {/*Model EDit account finish*/}
+        </main>
       </div>
-    </div>
+    </>
   );
 }
 
+function IdeaListItem({ props }) {
+  return (
+    <li key={props.key} className="py-12">
+      <article>
+        <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
+          <dl>
+            <dt className="sr-only">Published on</dt>
+            <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+              <time>{props.post_date}</time>
+            </dd>
+          </dl>
+          <div className="space-y-5 xl:col-span-3">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold leading-8 tracking-tight">
+                  <Link className="text-gray-900 dark:text-gray-100"  >
+                    {props.title}
+                  </Link>
+                </h2>
+                <div className="flex flex-wrap">
+                  {props.category.map((tag) => (
+                    <Tag key={tag} text={tag} />
+                  ))}
+                </div>
+              </div>
+              <div className="prose max-w-none text-gray-500 dark:text-gray-400">
+                {props.description}
+              </div>
+            </div>
+            <div className="text-base font-medium leading-6">
+              <Link
+                className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+              >
+                Read more &rarr;
+              </Link>
+            </div>
+          </div>
+        </div>
+      </article>
+    </li>
+  )
+}

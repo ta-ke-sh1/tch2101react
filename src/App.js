@@ -8,7 +8,6 @@ import "./styles/main.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import "./styles/index.css";
-import Navbar from "./screens/login"
 import Thread from "./screens/idea/thread";
 
 const App = () => {
@@ -29,10 +28,6 @@ const App = () => {
         {
             path: "/",
             element: <Login />,
-        },
-        {
-            path: "/test",
-            element: <Test />,
         },
         {
             path: '/thread',
