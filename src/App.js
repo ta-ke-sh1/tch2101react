@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import "./styles/index.css";
 import Navbar from "./screens/login"
-import Thread from "./screens/test";
+import Thread from "./screens/idea/thread";
 
 const App = () => {
 

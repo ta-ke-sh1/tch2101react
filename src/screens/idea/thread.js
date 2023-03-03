@@ -1,7 +1,8 @@
+// eslint-disable-next-line
 import React, { useEffect, useState } from "react"
-import axios from "axios";
-import ThreadCard from "../components/card.mjs";
+import ThreadCard from "../../components/card.js";
 import { Link, Outlet } from "react-router-dom";
+import axios from "axios";
 
 export default function Thread() {
 
@@ -50,4 +51,6 @@ export default function Thread() {
 
     )
 }
+
+
 
