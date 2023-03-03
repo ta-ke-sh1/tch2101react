@@ -8,7 +8,8 @@ import "./styles/main.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import "./styles/index.css";
-import Test from "./screens/admin/user"
+import Navbar  from "./screens/login"
+
 const App = () => {
 
     return useRoutes([
@@ -21,7 +22,7 @@ const App = () => {
             element: <AdminMain />,
         },
         {
-            path: "/idea",
+            path: "/idea/:id",
             element: <IdeaMain />,
         },
         {
@@ -32,7 +33,6 @@ const App = () => {
             path: "/test",
             element: <Test />,
         },
-     
     ]);
 };
 
