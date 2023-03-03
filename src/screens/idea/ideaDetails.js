@@ -57,7 +57,7 @@ export default function IdeaDetail() {
                         transform: 'translateX(-50%)'
                     }}>
                         <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-                            <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+                            <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 mb-2">
                                 {idea.title}
                             </h1>
                             {idea.category ? convertStringToArray(idea.category).map((tag) => (
@@ -73,25 +73,58 @@ export default function IdeaDetail() {
                                 {idea.content}
                             </p>
                         </div>
-                        <div className="flex justify-between">
-                            <p>Attached Files:</p>
-                            {idea.file}
-                        </div>
-                        <div className="flex justify-center">
+                        <div className="flex justify-start">
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" >Like</button>
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" >Dislike</button>
                         </div>
+                        <div className="flex justify-between">
+                            <p>Attached Files:</p>
+                            {idea.file == "" ? "" : idea.file}
+                        </div>
                         <h1>Comments</h1>
-                        {comments.map((comment) => {
-                            return <div >
-                                <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify mb-2">
-                                    {comment.user_id} has commented {comment.content}
-                                </p>
-                            </div>
-                        })}
+                        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+                            {!comments.length && 'No comments available.'}
+                            {comments.map((comment) => <IdeaListItem key={idea.id} props={{
+                                user_id: comment.user_id,
+                                content: comment.content,
+                                isAnonymous: comment.isAnonymous,
+                                date: comment.date,
+                                idea_id: comment.idea_id,
+                            }} />)}
+                        </ul>
                     </div>
                 </main>
             </div>
         </>
+    )
+}
+
+function IdeaListItem({ props }) {
+    return (
+        <li key={props.key} className="py-12">
+            <article>
+                <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
+                    <dl>
+                        <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                            <time>{props.date}</time>
+                            <p>
+                                {props.isAnonymous == 0 ? props.user_id : "An user"} has commented
+                            </p>
+                        </dd>
+                    </dl>
+                    <div className="space-y-5 xl:col-span-3">
+                        <div className="space-y-6">
+                            <div className="prose max-w-none text-gray-500 dark:text-gray-400">
+                                {props.content}
+                            </div>
+                            <div className="flex justify-start">
+                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" >Like</button>
+                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" >Dislike</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </li>
     )
 }
