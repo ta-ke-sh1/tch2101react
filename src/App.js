@@ -8,7 +8,8 @@ import "./styles/main.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import "./styles/index.css";
-import Navbar  from "./screens/login"
+import Navbar from "./screens/login"
+import Thread from "./screens/test";
 
 const App = () => {
 
@@ -22,7 +23,7 @@ const App = () => {
             element: <AdminMain />,
         },
         {
-            path: "/idea",
+            path: "/idea/:id",
             element: <IdeaMain />,
         },
         {
@@ -33,6 +34,10 @@ const App = () => {
             path: "/narbar",
             element: <Navbar />,
         },
+        {
+            path: '/thread',
+            element: <Thread />
+        }
     ]);
 };
 
