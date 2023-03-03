@@ -2,13 +2,13 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-export default function PostComponent() {
+export default function IdeaComponent() {
   const [show, setShow] = useState(false);
-  const [showPost, setShowPost] = useState(false);
+  const [showEditIdea, setShowEditIdea] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleClosePost = () => setShowPost(false);
-  const handleShowPost = () => setShowPost(true);
+  const handleCloseEditIdea = () => setShowEditIdea(false);
+  const handleShowEditIdea = () => setShowEditIdea(true);
   return (
     <div class="container ">
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
@@ -19,7 +19,7 @@ export default function PostComponent() {
                 <input
                   class="form-control mr-sm-2"
                   type="search"
-                  placeholder="Search Post"
+                  placeholder="Search account"
                   aria-label="Search"
                 />
               </form>
@@ -30,12 +30,12 @@ export default function PostComponent() {
             style={{ color: "green" }}
           >
             <h2>
-              <b> List Post</b>
+              <b> List idea</b>
             </h2>
           </div>
           <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
             <Button variant="primary" onClick={handleShow}>
-              Add New Post
+              Add New Idea
             </Button>
           </div>
         </div>
@@ -57,28 +57,13 @@ export default function PostComponent() {
                     </div>
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    No
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Avatar
-                  </th>
-                  <th scope="col" className="px-6 py-3">
                     Name
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Content
+                    Role
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Image
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Like
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Comment
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Date
+                    Status
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Action
@@ -127,11 +112,11 @@ export default function PostComponent() {
                   </td>
                   <td className="pl-3">
                     {/* Modal toggle */}
-                    <Button variant="primary" onClick={handleShowPost}>
-                      Edit Post
+                    <Button variant="primary" onClick={handleShowEditIdea}>
+                      Edit Idea
                     </Button>
 
-                    <Button variant="danger">Delete Post</Button>
+                    <Button variant="danger">Delete Idea</Button>
                   </td>
                 </tr>
               </tbody>
@@ -172,9 +157,9 @@ export default function PostComponent() {
                   <input
                     type="text"
                     class="form-control"
-                    id="username"
+                    id="Ideaname"
                     aria-describedby="emailHelp"
-                    placeholder="Enter Username"
+                    placeholder="Enter Ideaname"
                   />
                 </div>
                 <div class="form-group mt-3">
@@ -218,21 +203,21 @@ export default function PostComponent() {
           {/*Model EDit account*/}
 
           <div
-            id="PostModal"
+            id="editIdeaModal"
             tabIndex={-1}
             aria-hidden="true"
             className="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
           >
             <div className="relative w-full h-full max-w-2xl md:h-auto">
               <Modal
-                show={showPost}
-                onHide={handleClosePost}
+                show={showEditIdea}
+                onHide={handleCloseEditIdea}
                 backdrop="static"
                 keyboard={false}
               >
                 {/* Modal header */}
                 <Modal.Header closeButton>
-                  <Modal.Title>Edit User</Modal.Title>
+                  <Modal.Title>Edit Idea</Modal.Title>
                 </Modal.Header>
                 {/* Modal content */}
                 <Modal.Body>

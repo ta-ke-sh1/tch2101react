@@ -31,8 +31,8 @@ const App = () => {
             element: <Login />,
         },
         {
-            path: "/narbar",
-            element: <Navbar />,
+            path: "/test",
+            element: <Test />,
         },
         {
             path: '/thread',
