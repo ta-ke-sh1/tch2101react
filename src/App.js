@@ -8,8 +8,7 @@ import "./styles/main.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import "./styles/index.css";
-import Navbar  from "./screens/login"
-
+import Test from "./screens/admin/user"
 const App = () => {
 
     return useRoutes([
@@ -30,9 +29,10 @@ const App = () => {
             element: <Login />,
         },
         {
-            path: "/narbar",
-            element: <Navbar />,
+            path: "/test",
+            element: <Test />,
         },
+     
     ]);
 };
 
