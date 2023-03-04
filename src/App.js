@@ -8,14 +8,8 @@ import "./styles/main.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import "./styles/index.css";
-<<<<<<< HEAD
-
-
-=======
 import Thread from "./screens/idea/threads";
 import IdeaDetail from "./screens/idea/ideaDetails";
->>>>>>> 9aebab8a69f899c25183dbaebc828357a6ba67e2
-
 const App = () => {
 
     return useRoutes([
@@ -40,17 +34,9 @@ const App = () => {
             element: <Login />,
         },
         {
-<<<<<<< HEAD
-            path: "/idea",
-            element: <IdeaMain />,
-        },
-        
-       
-=======
             path: '/threads',
             element: <Thread />
         }
->>>>>>> 9aebab8a69f899c25183dbaebc828357a6ba67e2
     ]);
 };
 

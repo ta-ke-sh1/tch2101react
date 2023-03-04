@@ -1,11 +1,9 @@
 import React from "react";
-
+import Navbar from "./navbar";
 export default function StaffMain() {
     return (
         <>
-            <div>
-                <h1>Hello, this is staff main screen</h1>
-            </div>
+           <Navbar />
         </>
     );
 }
