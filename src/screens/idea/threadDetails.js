@@ -13,22 +13,12 @@ export default function ThreadDetails() {
 
   const [ideas, setIdeas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [tags, setTags] = useState([]);
   const [thread, setThread] = useState({});
 
   const indexOfLastPost = currentPage * ideaPerPageCount;
   const indexIfFirstPost = indexOfLastPost - ideaPerPageCount;
-  const currentIdeas = ideas.slice(indexIfFirstPost, indexOfLastPost);
-
-  const [tags, setTags] = useState([]);
-
-  function fetchAvailableTags() {
-    var availableTags = [];
-    for (var idea in ideas) {
-      console.log(idea.category)
-    }
-  }
-
+  var currentIdeas = ideas.slice(indexIfFirstPost, indexOfLastPost);
 
   useEffect(() => {
     initIdeas();
@@ -42,7 +32,10 @@ export default function ThreadDetails() {
       .get("http://localhost:5000/idea?id=" + id)
       .then(res => {
         var result = [];
+        var curr_tags = [];
+
         for (var i = 0; i < res.data.length; i++) {
+          var categories = convertStringToArray(res.data[i].idea.category);
           result.push({
             id: res.data[i].id,
             key: res.data[i].idea.id,
@@ -51,13 +44,20 @@ export default function ThreadDetails() {
             post_date: res.data[i].idea.post_date,
             title: res.data[i].idea.title,
             description: res.data[i].idea.description,
-            category: convertStringToArray(res.data[i].idea.category),
+            category: categories,
             is_anonymous: false,
             writer_id: res.data[i].idea.writer_id,
           });
+
+          for (let j = 0; j < categories.length; j++) {
+            if (!curr_tags.includes(categories[j]) && categories[j] !== null && categories[j] !== undefined) {
+              curr_tags.push(categories[j]);
+            }
+          }
         }
         setIdeas(result);
-        fetchAvailableTags();
+        setTags(curr_tags);
+
       })
       .catch(err => console.error(err));
   }
@@ -77,6 +77,13 @@ export default function ThreadDetails() {
       .catch(err => console.error(err));
   }
 
+  function sort(tag) {
+    console.log(tag)
+    var sorted = ideas.filter((a) => a.category.includes(tag));
+    console.log(sorted);
+    setIdeas(sorted);
+  }
+
   return (
     <>
       <div className="flex h-screen flex-col justify-between">
@@ -93,8 +100,14 @@ export default function ThreadDetails() {
               <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
                 From: {thread.startDate}
                 <br />
-                To: {fromMilisecondsToDate(thread.endDate)}
+                Closed Date: {fromMilisecondsToDate(thread.endDate)}
               </p>
+              <div >
+                <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 mb-1">Available tags:</p>
+                {tags.map((tag) => (
+                  <Tag key={tag} text={tag} onClick={() => sort(tag)} />
+                ))}
+              </div>
               <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify">
                 {thread.description}
               </p>
@@ -128,7 +141,6 @@ export default function ThreadDetails() {
                   if (currentPage > 1) {
                     setCurrentPage(currentPage - 1);
                   }
-
                 }} className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                   Prev
                 </button>
@@ -136,7 +148,6 @@ export default function ThreadDetails() {
                   if (currentPage < Math.ceil(ideas.length / ideaPerPageCount)) {
                     setCurrentPage(currentPage + 1);
                   }
-
                 }} className="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                   Next
                 </button>
