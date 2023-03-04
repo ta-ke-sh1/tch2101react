@@ -57,8 +57,8 @@ const navigation = [
     icon: CalendarIcon,
     current: true,
     subNavigations: [
-      { index:3.1,name: "List Idea ", href: "#", icon: UsersIcon, current: false },
-      { index:3.2,name: "Set Deadline Idea ", href: "#", icon: UsersIcon, current: false },
+      { index: 3.1, name: "List Idea ", href: "#", icon: UsersIcon, current: false },
+      { index: 3.2, name: "Set Deadline Idea ", href: "#", icon: UsersIcon, current: false },
     ],
   },
   {
@@ -100,7 +100,7 @@ export default function AdminMain() {
     1.1: <UserComponent />,
     2: <PostComponent />,
     3: <GroupComponent />,
-    3.1:<IdeaComponent />
+    3.1: <IdeaComponent />
   };
 
   return (
@@ -276,6 +276,7 @@ export default function AdminMain() {
                   !item.subNavigations ? (
                     <div key={item.name}>
                       <a
+                        href={"/"}
                         onClick={() => {
                           setIndex(item.index);
                         }}
