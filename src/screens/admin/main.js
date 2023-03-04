@@ -16,7 +16,7 @@ import {
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import DashboardComponent from "./dashboard";
 import UserComponent from "./user";
-import PostComponent from "./post";
+import DepartmentComponent from "./department";
 import GroupComponent from "./group";
 import IdeaComponent from "./idea";
 
@@ -49,7 +49,7 @@ const navigation = [
     ],
   },
 
-  { index: 2, name: "Post", href: "#", icon: FolderIcon, current: true },
+  { index: 2, name: "Department", icon: FolderIcon, current: true },
   {
     index: 3,
     name: "Idea",
@@ -98,7 +98,7 @@ export default function AdminMain() {
   const components = {
     0: <DashboardComponent />,
     1.1: <UserComponent />,
-    2: <PostComponent />,
+    2: <DepartmentComponent />,
     3: <GroupComponent />,
     3.1: <IdeaComponent />
   };
@@ -276,7 +276,7 @@ export default function AdminMain() {
                   !item.subNavigations ? (
                     <div key={item.name}>
                       <a
-                        href={"/"}
+                        href={"#"}
                         onClick={() => {
                           setIndex(item.index);
                         }}
