@@ -1,6 +1,6 @@
 export const fromMilisecondsToDate = (ms) => {
     const date = new Date(ms * 1000);
-    return date.toLocaleDateString('en-US')
+    return date.toUTCString()
 }
 
 export function convertStringToArray(input) {
@@ -11,4 +11,8 @@ export function convertStringToArray(input) {
         input = input.substring(0, input.length - 1)
     }
     return input.split(',');
+}
+
+export function isExpired(date) {
+    return date < (Date.now() / 1000);
 }

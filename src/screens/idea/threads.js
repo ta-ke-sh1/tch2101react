@@ -3,31 +3,46 @@ import React, { useEffect, useState } from "react"
 import ThreadCard from "../../components/card.js";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { fromMilisecondsToDate } from '../../utils/utils.js'
+import { fromMilisecondsToDate, isExpired } from '../../utils/utils.js'
 
 export default function Thread() {
 
     const [threads, setThreads] = useState([]);
+    const [archivedThreads, setArchivedThreads] = useState([]);
+    
 
     useEffect(() => {
-        axios
-            .get("http://localhost:5000/idea/threads")
-            .then(res => {
-                console.log('fetched');
-                setThreads(res.data.threads);
-            })
-            .catch(err => console.error(err));
+        fetchThreads();
     }, [])
 
     const navigateToThread = (name) => {
         console.log('clicked!' + name);
     }
 
-
+    function fetchThreads() {
+        axios
+            .get("http://localhost:5000/idea/threads")
+            .then(res => {
+                console.log('fetched');
+                var unexpired = [];
+                var expired = [];
+                for (let i = 0; i < res.data.threads.length; i++) {
+                    console.log(res.data.threads[i].endDate);
+                    if (isExpired(res.data.threads[i].endDate)) {
+                        expired.push(res.data.threads[i])
+                    } else {
+                        unexpired.push(res.data.threads[i])
+                    }
+                }
+                setThreads(unexpired);
+                setArchivedThreads(expired);
+            })
+            .catch(err => console.error(err));
+    }
 
     return (
         <>
-            <div className="flex h-screen flex-col justify-between">
+            <div className="flex h-screen flex-col justify-between mt-5">
                 <main className="mb-auto">
                     <div className="w-90" style={{
                         position: "absolute",
@@ -46,6 +61,28 @@ export default function Thread() {
                                     <ThreadCard
                                         key={thread.name}
                                         props={{
+                                            ideaCount: thread.ideaCount,
+                                            title: thread.name,
+                                            paragraph: thread.description,
+                                            date: fromMilisecondsToDate(thread.endDate),
+                                            button_text: "See more",
+                                            handleClick: (event) => navigateToThread(thread.name)
+                                        }} />
+                                    <div className="divider mb-5"></div>
+                                </Link>
+                            )}
+                            <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl mb-3">
+                                Archived Threads
+                            </h1>
+                            <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify mb-5">
+                                These Threads are currently archived, but you can still read the submitted ideas & comments.
+                            </p>
+                            {archivedThreads.map((thread) =>
+                                <Link to={'/thread/' + thread.id}>
+                                    <ThreadCard
+                                        key={thread.name}
+                                        props={{
+                                            ideaCount: thread.ideaCount,
                                             title: thread.name,
                                             paragraph: thread.description,
                                             date: fromMilisecondsToDate(thread.endDate),
