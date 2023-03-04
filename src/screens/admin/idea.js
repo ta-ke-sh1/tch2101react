@@ -2,7 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-export default function IdeaComponent() {
+export default function IdeaMainComponent() {
   const [show, setShow] = useState(false);
   const [showEditIdea, setShowEditIdea] = useState(false);
   const handleClose = () => setShow(false);
@@ -14,15 +14,26 @@ export default function IdeaComponent() {
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
         <div class="row ">
           <div class="col-sm-3 mt-5 mb-4 text-gred">
-            <div className="search">
-              <form class="form-inline">
-                <input
-                  class="form-control mr-sm-2"
-                  type="search"
-                  placeholder="Search account"
-                  aria-label="Search"
-                />
-              </form>
+            <div className="w-48 text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+              <button
+                type="button"
+                className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="w-4 h-4 mr-2 fill-current"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Download
+              </button>
             </div>
           </div>
           <div
@@ -57,13 +68,25 @@ export default function IdeaComponent() {
                     </div>
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Name
+                    No
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Role
+                    Title
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Status
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Description
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    File
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Category
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Thread
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Action
@@ -97,10 +120,7 @@ export default function IdeaComponent() {
                       alt="Jese image"
                     /> */}
                     <div className="pl-3">
-                      <div className="text-base font-semibold">Neil Sims</div>
-                      <div className="font-normal text-gray-500">
-                        neil.sims@flowbite.com
-                      </div>
+                      <div className="text-base font-semibold">1</div>
                     </div>
                   </th>
                   <td className="px-6 py-4">React Developer</td>
@@ -110,6 +130,11 @@ export default function IdeaComponent() {
                       Online
                     </div>
                   </td>
+                  <td className="px-6 py-4">React Developer</td>
+                  <td className="px-6 py-4">file </td>
+                  <td className="px-6 py-4">tesst1</td>
+                  <td className="px-6 py-4">test2</td>
+
                   <td className="pl-3">
                     {/* Modal toggle */}
                     <Button variant="primary" onClick={handleShowEditIdea}>
@@ -133,62 +158,93 @@ export default function IdeaComponent() {
             keyboard={false}
           >
             <Modal.Header closeButton>
-              <Modal.Title>Add A New Account</Modal.Title>
+              <Modal.Title>Add A new ideas</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <form>
-                <div class="form-group">
+                <div className="mb-6">
+                  <label
+                    type="text"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Title
+                  </label>
                   <input
                     type="text"
-                    class="form-control"
-                    id="name"
-                    placeholder="Enter Full Name"
+                    id="title"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                    placeholder="Enter Title"
+                    required=""
                   />
                 </div>
-                <div class="form-group mt-3">
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="InputEmail1"
-                    placeholder="Enter Email"
-                  />
-                </div>
-                <div class="form-group mt-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="Ideaname"
-                    aria-describedby="emailHelp"
-                    placeholder="Enter Ideaname"
-                  />
-                </div>
-                <div class="form-group mt-3">
+                <div className="mb-6">
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Description
+                  </label>
                   <input
                     type="password"
-                    class="form-control"
-                    id="Password1"
-                    placeholder="Enter Password"
+                    id="password"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                    required=""
                   />
                 </div>
-                <div class="form-group mt-3">
+                <div className="mb-6">
+                  <label
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-whites"
+                    htmlFor="Idea_avatar"
+                  >
+                    Upload file
+                  </label>
                   <input
-                    type="text"
-                    class="form-control"
-                    id="phone"
-                    placeholder="Enter NumberPhone"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                    aria-describedby="Idea_avatar_help"
+                    id="image idea"
+                    type="file"
                   />
                 </div>
-                <div class="form-group mt-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="role"
-                    placeholder="Enter Role"
-                  />
+                <div className="mb-6">
+                  <label
+                    htmlFor="countries"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Select an category
+                  </label>
+                  <select
+                    id="countries"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option selected="">Not Select</option>
+                    <option value="1">tes1</option>
+                    <option value="2">tes2</option>
+                    <option value="3">tes3</option>
+                    <option value="4">tes4</option>
+                  </select>
                 </div>
 
-                <button type="submit" class="btn btn-success mt-4">
-                  Add A New Account
+                <div className="mb-6">
+                  <label
+                    htmlFor="countries"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Select an thread
+                  </label>
+                  <select
+                    id="countries"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option selected="">Not Select</option>
+                    <option value="1">tes1</option>
+                    <option value="2">tes2</option>
+                    <option value="3">tes3</option>
+                    <option value="4">tes4</option>
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Register new idea
                 </button>
               </form>
             </Modal.Body>
@@ -202,179 +258,113 @@ export default function IdeaComponent() {
           {/* Model Box Finsihs */}
           {/*Model EDit account*/}
 
-          <div
-            id="editIdeaModal"
-            tabIndex={-1}
-            aria-hidden="true"
-            className="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
+          <Modal
+            show={showEditIdea}
+            onHide={handleCloseEditIdea}
+            backdrop="static"
+            keyboard={false}
           >
-            <div className="relative w-full h-full max-w-2xl md:h-auto">
-              <Modal
-                show={showEditIdea}
-                onHide={handleCloseEditIdea}
-                backdrop="static"
-                keyboard={false}
-              >
-                {/* Modal header */}
-                <Modal.Header closeButton>
-                  <Modal.Title>Edit Idea</Modal.Title>
-                </Modal.Header>
-                {/* Modal content */}
-                <Modal.Body>
-                  <form
-                    action="#"
-                    className="relative bg-white rounded-lg shadow dark:bg-gray-700"
+            <Modal.Header closeButton>
+              <Modal.Title>Add A new ideas</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form>
+                <div className="mb-6">
+                  <label
+                    type="text"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    {/* Modal body */}
-                    <div className="p-6 space-y-6">
-                      <div className="grid grid-cols-6 gap-6">
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="first-name"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            First Name
-                          </label>
-                          <input
-                            type="text"
-                            name="first-name"
-                            id="first-name"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Bonnie"
-                            required=""
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="last-name"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Last Name
-                          </label>
-                          <input
-                            type="text"
-                            name="last-name"
-                            id="last-name"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Green"
-                            required=""
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="email"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Email
-                          </label>
-                          <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="example@company.com"
-                            required=""
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="phone-number"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Phone Number
-                          </label>
-                          <input
-                            type="number"
-                            name="phone-number"
-                            id="phone-number"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="e.g. +(12)3456 789"
-                            required=""
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="department"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Department
-                          </label>
-                          <input
-                            type="text"
-                            name="department"
-                            id="department"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Development"
-                            required=""
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="company"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Company
-                          </label>
-                          <input
-                            type="number"
-                            name="company"
-                            id="company"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder={123456}
-                            required=""
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="current-password"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Current Password
-                          </label>
-                          <input
-                            type="password"
-                            name="current-password"
-                            id="current-password"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="••••••••"
-                            required=""
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="new-password"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            New Password
-                          </label>
-                          <input
-                            type="password"
-                            name="new-password"
-                            id="new-password"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="••••••••"
-                            required=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    {/* Modal footer */}
-                    <Modal.Footer>
-                      <button
-                        type="submit"
-                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                      >
-                        Save all
-                      </button>
-                    </Modal.Footer>
-                  </form>
-                </Modal.Body>
-              </Modal>
-            </div>
-          </div>
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    id="title"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                    placeholder="Enter Title"
+                    required=""
+                  />
+                </div>
+                <div className="mb-6">
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Description
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                    required=""
+                  />
+                </div>
+                <div className="mb-6">
+                  <label
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-whites"
+                    htmlFor="Idea_avatar"
+                  >
+                    Upload file
+                  </label>
+                  <input
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                    aria-describedby="Idea_avatar_help"
+                    id="image idea"
+                    type="file"
+                  />
+                </div>
+                <div className="mb-6">
+                  <label
+                    htmlFor="countries"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Select an category
+                  </label>
+                  <select
+                    id="countries"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option selected="">Not Select</option>
+                    <option value="1">tes1</option>
+                    <option value="2">tes2</option>
+                    <option value="3">tes3</option>
+                    <option value="4">tes4</option>
+                  </select>
+                </div>
 
-          {/*Model EDit account finish*/}
+                <div className="mb-6">
+                  <label
+                    htmlFor="countries"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Select an thread
+                  </label>
+                  <select
+                    id="countries"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option selected="">Not Select</option>
+                    <option value="1">tes1</option>
+                    <option value="2">tes2</option>
+                    <option value="3">tes3</option>
+                    <option value="4">tes4</option>
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Update idea
+                </button>
+              </form>
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
+
+        {/*Model EDit account finish*/}
       </div>
     </div>
   );
