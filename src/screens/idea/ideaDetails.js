@@ -79,7 +79,7 @@ export default function IdeaDetail() {
                         </div>
                         <div className="flex justify-between">
                             <p>Attached Files:</p>
-                            {idea.file == "" ? "" : idea.file}
+                            {idea.file === "" ? "" : idea.file}
                         </div>
                         <h1>Comments</h1>
                         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -108,7 +108,7 @@ function IdeaListItem({ props }) {
                         <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                             <time>{props.date}</time>
                             <p>
-                                {props.isAnonymous == 0 ? props.user_id : "An user"} has commented
+                                {props.isAnonymous === 0 ? props.user_id : "User"} has commented
                             </p>
                         </dd>
                     </dl>

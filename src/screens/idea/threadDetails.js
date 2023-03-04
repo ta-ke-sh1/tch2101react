@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Tag from "../../components/tag.js";
-import { fromMilisecondsToDate, convertStringToArray } from '../../utils/utils.js'
+import { fromMilisecondsToDate, convertStringToArray, isExpired } from '../../utils/utils.js'
 
 export default function ThreadDetails() {
   let { id } = useParams();
@@ -20,13 +20,22 @@ export default function ThreadDetails() {
   const indexIfFirstPost = indexOfLastPost - ideaPerPageCount;
   const currentIdeas = ideas.slice(indexIfFirstPost, indexOfLastPost);
 
+  const [tags, setTags] = useState([]);
+
+  function fetchAvailableTags() {
+    var availableTags = [];
+    for (var idea in ideas) {
+      console.log(idea.category)
+    }
+  }
+
 
   useEffect(() => {
     initIdeas();
     initThread();
   }, []);
 
-  
+
 
   async function initIdeas() {
     axios
@@ -48,6 +57,7 @@ export default function ThreadDetails() {
           });
         }
         setIdeas(result);
+        fetchAvailableTags();
       })
       .catch(err => console.error(err));
   }
@@ -60,7 +70,7 @@ export default function ThreadDetails() {
           id: res.id,
           name: res.data.name,
           startDate: fromMilisecondsToDate(res.data.startDate),
-          endDate: fromMilisecondsToDate(res.data.endDate),
+          endDate: res.data.endDate,
           description: res.data.description
         });
       })
@@ -83,14 +93,16 @@ export default function ThreadDetails() {
               <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
                 From: {thread.startDate}
                 <br />
-                To: {thread.endDate}
+                To: {fromMilisecondsToDate(thread.endDate)}
               </p>
               <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify">
                 {thread.description}
               </p>
             </div>
             <div className="flex justify-between">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" >Add Idea</button>
+              {!isExpired(thread.endDate) ?
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" >Add Idea</button> :
+                <button className="bg-gray-500 disabled text-white font-bold py-2 px-4 border border-blue-700 rounded" >Archived Thread</button>}
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" >Sort</button>
             </div>
 

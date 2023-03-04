@@ -10,6 +10,7 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import "./styles/index.css";
 import Thread from "./screens/idea/threads";
 import IdeaDetail from "./screens/idea/ideaDetails";
+
 const App = () => {
 
     return useRoutes([
@@ -43,11 +44,7 @@ const App = () => {
 const AppWrapper = () => {
     return (
         <Router>
-
-            <div className="mt-5">
-                <App />
-            </div>
-
+            <App />
         </Router>
     );
 };
