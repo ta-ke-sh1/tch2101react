@@ -10,6 +10,7 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import "./styles/index.css";
 import Thread from "./screens/idea/threads";
 import IdeaDetail from "./screens/idea/ideaDetails";
+import Navbar from "./screens/navbar";
 
 const App = () => {
 
@@ -24,11 +25,11 @@ const App = () => {
         },
         {
             path: "/thread/:id",
-            element: <ThreadDetails />,
+            element: <><Navbar /><ThreadDetails /></>,
         },
         {
             path: "/idea/:id",
-            element: <IdeaDetail />,
+            element: <><Navbar /><IdeaDetail /></>,
         },
         {
             path: "/",
@@ -36,7 +37,10 @@ const App = () => {
         },
         {
             path: '/threads',
-            element: <Thread />
+            element: <>
+                <Navbar />
+                <Thread />
+            </>
         }
     ]);
 };

@@ -5,6 +5,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Tag from "../../components/tag.js";
 import { fromMilisecondsToDate, convertStringToArray, isExpired } from '../../utils/utils.js'
+import { Button, Modal } from "react-bootstrap";
+import IdeaForm from "./ideaForm.js";
 
 export default function ThreadDetails() {
   let { id } = useParams();
@@ -20,12 +22,17 @@ export default function ThreadDetails() {
   const indexIfFirstPost = indexOfLastPost - ideaPerPageCount;
   var currentIdeas = ideas.slice(indexIfFirstPost, indexOfLastPost);
 
+  const [show, setShow] = useState(false);
+  const [showEditIdea, setShowEditIdea] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handleCloseEditIdea = () => setShowEditIdea(false);
+  const handleShowEditIdea = () => setShowEditIdea(true);
+
   useEffect(() => {
-    initIdeas();
-    initThread();
+    // initIdeas();
+    // initThread();
   }, []);
-
-
 
   async function initIdeas() {
     axios
@@ -91,6 +98,7 @@ export default function ThreadDetails() {
           <div className="w-90" style={{
             position: "absolute",
             left: '50%',
+            top: '10%',
             transform: 'translateX(-50%)'
           }}>
             <div className="space-y-2 pt-6 pb-8 md:space-y-5">
@@ -114,7 +122,9 @@ export default function ThreadDetails() {
             </div>
             <div className="flex justify-between">
               {!isExpired(thread.endDate) ?
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" >Add Idea</button> :
+                <Button variant="primary" onClick={handleShow}>
+                  Add New Idea
+                </Button> :
                 <button className="bg-gray-500 disabled text-white font-bold py-2 px-4 border border-blue-700 rounded" >Archived Thread</button>}
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" >Sort</button>
             </div>
@@ -154,6 +164,18 @@ export default function ThreadDetails() {
               </div>
             </div>
           </div>
+
+          {/*  */}
+          <IdeaForm props={{
+            show: show,
+            showEditIdea: showEditIdea,
+            handleClose: handleClose,
+            handleShow: handleShow,
+            handleShowEditIdea: handleShowEditIdea,
+            handleCloseEditIdea: handleCloseEditIdea,
+            threadId: id,
+          }} />
+          {/*  */}
         </main>
       </div>
     </>

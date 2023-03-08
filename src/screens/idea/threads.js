@@ -9,7 +9,6 @@ export default function Thread() {
 
     const [threads, setThreads] = useState([]);
     const [archivedThreads, setArchivedThreads] = useState([]);
-    
 
     useEffect(() => {
         fetchThreads();
@@ -42,10 +41,11 @@ export default function Thread() {
 
     return (
         <>
-            <div className="flex h-screen flex-col justify-between mt-5">
+            <div className="flex h-screen flex-col justify-between">
                 <main className="mb-auto">
                     <div className="w-90" style={{
                         position: "absolute",
+                        top: '10%',
                         left: '50%',
                         transform: 'translateX(-50%)'
                     }}>

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const fromMilisecondsToDate = (ms) => {
     const date = new Date(ms * 1000);
     return date.toUTCString()
@@ -15,4 +17,8 @@ export function convertStringToArray(input) {
 
 export function isExpired(date) {
     return date < (Date.now() / 1000);
+}
+
+export function getCurrentDateAsDBFormat() {
+    return moment().format('YYYY/MM/DD')
 }
