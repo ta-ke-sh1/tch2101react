@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { convertStringToArray } from "../../utils/utils.js";
 import Tag from "../../components/tag.js";
+import { decodeToken } from "../../utils/utils";
 
 export default function IdeaDetail() {
     let { id } = useParams();
@@ -14,6 +15,10 @@ export default function IdeaDetail() {
     const [dislike, setDislike] = useState(0);
 
     const [comment, setComment] = useState("");
+    const [isAnonymous, setAnonymous] = useState(false);
+
+    const token = localStorage.getItem("access_token");
+    const decodedToken = decodeToken(token);
 
     useEffect(() => {
         fetchIdea();
@@ -69,13 +74,38 @@ export default function IdeaDetail() {
     }
 
     async function handleSubmit(event) {
-        event.preventDefault();
         console.log("commnet posted");
+
+        const response = await axios.post(
+            "http://localhost:5000/comment/add",
+            {
+                user_id: decodedToken.user,
+                idea_id: id,
+                date: Math.floor(Date.now() / 1000),
+                content: comment,
+                isAnonymous: isAnonymous ? 1 : 0,
+            },
+            {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            }
+        );
+        fetchComments();
     }
 
     async function handleReaction(event, reaction) {
         event.preventDefault();
         console.log("Reaction: " + reaction);
+        await axios
+            .get(
+                `http://localhost:5000/reaction?document=${id}&user=${
+                    decodedToken.user
+                }&reaction=${reaction ? 1 : -1}`
+            )
+            .then((res) => {
+                console.log(res);
+            });
     }
 
     return (
@@ -119,7 +149,10 @@ export default function IdeaDetail() {
                             <p>Attached Files:</p>
                             {idea.file === "" ? "" : idea.file}
                         </div>
-                        <form onSubmit={handleSubmit}>
+                        <form
+                            onSubmit={handleSubmit}
+                            encType="multipart/form-data"
+                        >
                             <div className="mb-6">
                                 <input
                                     onChange={(e) => setComment(e.target.value)}
@@ -128,6 +161,22 @@ export default function IdeaDetail() {
                                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                                     placeholder="Enter Comment"
                                 />
+                            </div>
+                            <div className="form-check form-switch mb-6">
+                                <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id="flexSwitchCheckDefault"
+                                    onChange={(e) =>
+                                        setAnonymous(e.target.checked)
+                                    }
+                                />
+                                <label
+                                    className="form-check-label"
+                                    htmlFor="flexSwitchCheckDefault"
+                                >
+                                    Is anonymous?
+                                </label>
                             </div>
                             <div className="flex w-full">
                                 <div className="justify-end">
@@ -161,6 +210,7 @@ export default function IdeaDetail() {
                                 <IdeaListItem
                                     key={idea.id}
                                     props={{
+                                        current_user: decodedToken.user,
                                         id: comment.id,
                                         user_id: comment.user_id,
                                         content: comment.content,
@@ -186,21 +236,45 @@ function IdeaListItem({ props }) {
         fetchReactions();
     }, []);
 
+    function isDeletable() {
+        return props.current_user === props.user_id;
+    }
+
+    async function handleDelete(event) {
+        event.preventDefault();
+        axios.get("http://localhost:5000/comment/delete?id=" + props.id);
+    }
+
     function fetchReactions() {
         axios
             .get("http://localhost:5000/reaction/fetch?document=" + props.id)
             .then((res) => {
                 var l = 0;
                 var d = 0;
+                var r = [];
                 for (let i = 0; i < res.data.length; i++) {
                     if (res.data[i].reaction == 1) {
                         l++;
                     } else if (res.data[i].reaction == -1) {
                         d++;
                     }
+                    r.push(res.data[i]);
                 }
                 setLike(l);
                 setDislike(d);
+            });
+    }
+
+    async function handleReact(event, isLiked) {
+        event.preventDefault();
+        await axios
+            .get(
+                `http://localhost:5000/reaction?idea=${props.id}&user=${
+                    props.current_user
+                }&reaction=${isLiked ? 1 : -1}`
+            )
+            .then((res) => {
+                console.log(res);
             });
     }
 
@@ -212,11 +286,19 @@ function IdeaListItem({ props }) {
                         <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                             <time>{props.date}</time>
                             <p>
-                                {props.isAnonymous === 0
+                                {props.isAnonymous === 0 ||
+                                props.isAnonymous === "false"
                                     ? props.user_id
                                     : "User"}{" "}
                                 has commented
                             </p>
+                            {isDeletable() ? (
+                                <button onClick={(e) => handleDelete(e)}>
+                                    Delete
+                                </button>
+                            ) : (
+                                ""
+                            )}
                         </dd>
                     </dl>
                     <div className="space-y-5 xl:col-span-3">
@@ -229,10 +311,16 @@ function IdeaListItem({ props }) {
                                 Dislike: {dislike}
                             </p>
                             <div className="flex justify-start">
-                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                                <button
+                                    onClick={(e) => handleReact(e, true)}
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                                >
                                     Like
                                 </button>
-                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                                <button
+                                    onClick={(e) => handleReact(e, false)}
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                                >
                                     Dislike
                                 </button>
                             </div>
