@@ -24,11 +24,9 @@ export default function Thread() {
         axios
             .get("http://localhost:5000/idea/threads")
             .then((res) => {
-                console.log("fetched");
                 var unexpired = [];
                 var expired = [];
                 for (let i = 0; i < res.data.threads.length; i++) {
-                    console.log(res.data.threads[i].endDate);
                     if (isExpired(res.data.threads[i].endDate)) {
                         expired.push(res.data.threads[i]);
                     } else {

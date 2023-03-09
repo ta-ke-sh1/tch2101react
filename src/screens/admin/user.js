@@ -1,14 +1,37 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
+import axios from "axios";
+
 export default function UserComponent() {
+
   const [show, setShow] = useState(false);
   const [showEditUser, setShowEditUser] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCloseEditUser = () => setShowEditUser(false);
   const handleShowEditUser = () => setShowEditUser(true);
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, [])
+
+  async function fetchUsers() {
+    axios.get('http://localhost:5000/user/').then(
+      (res) => {
+        var users = [];
+        for (let i = 0; i < res.data.length; i++) {
+          users.push(res.data[i]);
+        }
+        setUsers(users);
+        console.log(users);
+      }
+    ).catch((err) => console.error(err));
+  }
+
   return (
     <div class="container ">
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">

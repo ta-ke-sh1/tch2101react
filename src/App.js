@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, useRoutes } from "react-router-dom";
+import { Outlet, BrowserRouter as Router, useRoutes } from "react-router-dom";
 import React from 'react'
 import StaffMain from "./screens/staff/main";
 import Login from "./screens/login";
@@ -18,6 +18,13 @@ const App = () => {
         {
             path: "/staff",
             element: <StaffMain />,
+        },
+        {
+            path: "/user/:params",
+            element: <>
+                <Navbar />
+                <StaffMain />
+            </>,
         },
         {
             path: "/admin",
@@ -49,6 +56,7 @@ const AppWrapper = () => {
     return (
         <Router>
             <App />
+            <Outlet />
         </Router>
     );
 };

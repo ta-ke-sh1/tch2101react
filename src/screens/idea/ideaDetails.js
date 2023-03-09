@@ -9,7 +9,6 @@ export default function IdeaDetail() {
     let { id } = useParams();
     const [idea, setIdea] = useState({});
     const [comments, setComments] = useState([]);
-    const [reactions, setReactions] = useState([]);
 
     const [like, setLike] = useState(0);
     const [dislike, setDislike] = useState(0);
@@ -62,9 +61,9 @@ export default function IdeaDetail() {
                 var l = 0;
                 var d = 0;
                 for (let i = 0; i < res.data.length; i++) {
-                    if (res.data[i].reaction == 1) {
+                    if (res.data[i].reaction === 1) {
                         l++;
-                    } else if (res.data[i].reaction == -1) {
+                    } else if (res.data[i].reaction === -1) {
                         d++;
                     }
                 }
@@ -76,7 +75,7 @@ export default function IdeaDetail() {
     async function handleSubmit(event) {
         console.log("commnet posted");
 
-        const response = await axios.post(
+        await axios.post(
             "http://localhost:5000/comment/add",
             {
                 user_id: decodedToken.user,
@@ -99,8 +98,7 @@ export default function IdeaDetail() {
         console.log("Reaction: " + reaction);
         await axios
             .get(
-                `http://localhost:5000/reaction?document=${id}&user=${
-                    decodedToken.user
+                `http://localhost:5000/reaction?document=${id}&user=${decodedToken.user
                 }&reaction=${reaction ? 1 : -1}`
             )
             .then((res) => {
@@ -127,8 +125,8 @@ export default function IdeaDetail() {
                             </h1>
                             {idea.category
                                 ? convertStringToArray(
-                                      idea.category
-                                  ).map((tag) => <Tag key={tag} text={tag} />)
+                                    idea.category
+                                ).map((tag) => <Tag key={tag} text={tag} />)
                                 : ""}
                             <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify mb-1">
                                 Posted on: {idea.post_date}
@@ -253,9 +251,9 @@ function IdeaListItem({ props }) {
                 var d = 0;
                 var r = [];
                 for (let i = 0; i < res.data.length; i++) {
-                    if (res.data[i].reaction == 1) {
+                    if (res.data[i].reaction === 1) {
                         l++;
-                    } else if (res.data[i].reaction == -1) {
+                    } else if (res.data[i].reaction === -1) {
                         d++;
                     }
                     r.push(res.data[i]);
@@ -269,8 +267,7 @@ function IdeaListItem({ props }) {
         event.preventDefault();
         await axios
             .get(
-                `http://localhost:5000/reaction?idea=${props.id}&user=${
-                    props.current_user
+                `http://localhost:5000/reaction?idea=${props.id}&user=${props.current_user
                 }&reaction=${isLiked ? 1 : -1}`
             )
             .then((res) => {
@@ -287,7 +284,7 @@ function IdeaListItem({ props }) {
                             <time>{props.date}</time>
                             <p>
                                 {props.isAnonymous === 0 ||
-                                props.isAnonymous === "false"
+                                    props.isAnonymous === "false"
                                     ? props.user_id
                                     : "User"}{" "}
                                 has commented

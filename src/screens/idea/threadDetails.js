@@ -9,7 +9,7 @@ import {
     convertStringToArray,
     isExpired,
 } from "../../utils/utils.js";
-import { Button, Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import IdeaForm from "./ideaForm.js";
 
 export default function ThreadDetails() {

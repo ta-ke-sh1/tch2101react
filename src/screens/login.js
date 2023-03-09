@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { decodeToken } from "../utils/utils";
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [isFetching, setFetch] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -32,10 +34,13 @@ export default function Login() {
                 roles = decodedToken.role;
                 if (roles.includes("Admin")) {
                     console.log("Admin");
+                    navigate('/admin')
                 } else if (roles.includes("Faculty Manager")) {
                     console.log("Faculty Manager");
+                    navigate('/threads')
                 } else if (roles.includes("Staff")) {
                     console.log("Staff");
+                    navigate('/threads')
                 } else {
                     console.log("Invalid account!");
                 }

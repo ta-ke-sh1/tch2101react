@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import axios from "axios";
-import Select from "react-select";
 import { getCurrentDateAsDBFormat, decodeToken } from "../../utils/utils";
 
 export default function IdeaForm({ props }) {
     const [categories, setCategories] = useState([]);
 
-    const [options, setOptions] = useState([]);
     const [content, setContent] = useState("");
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState("");

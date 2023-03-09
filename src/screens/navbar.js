@@ -1,15 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useNavigate } from 'react-router-dom';
+import { decodeToken } from "../utils/utils";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Navbar() {
+  const navigate = useNavigate();
+
+  const user = decodeToken(localStorage.getItem('access_token')).user;
+
+  function logout() {
+    localStorage.setItem("access_token", "");
+    localStorage.setItem("refresh_token", "");
+    navigate('/')
+  }
+
+  useEffect(() => {
+    'gs://tch2202-a782d.appspot.com/avatar/default.jpg'
+  }, []);
+
   return (
     <Disclosure as="nav" className="bg-white shadow fixed w-100" style={{ zIndex: 100 }}>
       {({ open }) => (
@@ -28,33 +44,6 @@ export default function Navbar() {
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXL3vMpwf6wC2f_NUbFBWICDnJ0e1I0vW1Ng&usqp=CAU"
                     alt="TCH2202"
                   />
-                </div>
-                <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
-                  {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
-                  <a
-                    href="{#}"
-                    className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
-                  >
-                    Dashboard
-                  </a>
-                  <a
-                    href="{#}"
-                    className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    Team
-                  </a>
-                  <a
-                    href="{#}"
-                    className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    Projects
-                  </a>
-                  <a
-                    href="{#}"
-                    className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    Calendar
-                  </a>
                 </div>
               </div>
               <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
@@ -120,32 +109,32 @@ export default function Navbar() {
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="{#}"
+                          <div
+                            onClick={() => navigate('/user/' + user)}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Your Profile
-                          </a>
+                          </div>
                         )}
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="{#}"
+                          <div
+                            onClick={() => navigate('/threads')}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Settings
-                          </a>
+                            Threads
+                          </div>
                         )}
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="{#}"
+                          <div
+                            onClick={logout}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Sign out
-                          </a>
+                          </div>
                         )}
                       </Menu.Item>
                     </Menu.Items>

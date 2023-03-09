@@ -1,14 +1,67 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
+import axios from "axios";
+
 export default function IdeaMainComponent() {
+
   const [show, setShow] = useState(false);
   const [showEditIdea, setShowEditIdea] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCloseEditIdea = () => setShowEditIdea(false);
   const handleShowEditIdea = () => setShowEditIdea(true);
+
+  const [threads, setThreads] = useState([]);
+  const [ideas, setIdeas] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetchThreads();
+    fetchIdeas();
+    fetchCategories();
+  }, [])
+
+  async function fetchThreads() {
+    axios
+      .get("http://localhost:5000/idea/threads")
+      .then((res) => {
+        var threads = [];
+        for (let i = 0; i < res.data.threads.length; i++) {
+          threads.push(res.data.threads[i]);
+        }
+        setThreads(threads);
+      })
+      .catch((err) => console.error(err));
+  }
+
+  async function fetchIdeas() {
+    axios
+      .get("http://localhost:5000/idea/")
+      .then((res) => {
+        var ideas = [];
+        for (let i = 0; i < res.data.length; i++) {
+          ideas.push(res.data[i]);
+        }
+        setIdeas(ideas);
+      })
+      .catch((err) => console.error(err));
+  }
+
+  async function fetchCategories() {
+    axios
+      .get("http://localhost:5000/category/")
+      .then((res) => {
+        var categories = [];
+        for (let i = 0; i < res.data.length; i++) {
+          categories.push(res.data[i]);
+        }
+        setCategories(categories);
+      })
+      .catch((err) => console.error(err));
+  }
+
   return (
     <div class="container ">
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
@@ -210,14 +263,17 @@ export default function IdeaMainComponent() {
                     Select an category
                   </label>
                   <select
-                    id="countries"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    id="category"
+                    className="bg-gray-50 border select border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
-                    <option selected="">Not Select</option>
-                    <option value="1">tes1</option>
-                    <option value="2">tes2</option>
-                    <option value="3">tes3</option>
-                    <option value="4">tes4</option>
+                    {categories.map((category) => (
+                      <option
+                        key={category.id}
+                        value={category.id}
+                      >
+                        {category.id}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -229,14 +285,17 @@ export default function IdeaMainComponent() {
                     Select an thread
                   </label>
                   <select
-                    id="countries"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    id="category"
+                    className="bg-gray-50 border select border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
-                    <option selected="">Not Select</option>
-                    <option value="1">tes1</option>
-                    <option value="2">tes2</option>
-                    <option value="3">tes3</option>
-                    <option value="4">tes4</option>
+                    {threads.map((thread) => (
+                      <option
+                        key={thread.name}
+                        value={thread.name}
+                      >
+                        {thread.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
