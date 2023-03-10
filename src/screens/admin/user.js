@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState, } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
+import axios from "axios";
+
 export default function UserComponent() {
   const [show, setShow] = useState(false);
   const [showEditUser, setShowEditUser] = useState(false);
@@ -9,6 +10,23 @@ export default function UserComponent() {
   const handleShow = () => setShow(true);
   const handleCloseEditUser = () => setShowEditUser(false);
   const handleShowEditUser = () => setShowEditUser(true);
+
+
+  const [user, setUser] = useState([]);
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  function fetchUser() {
+    axios
+      .get("http://localhost:9000/user")
+      .then((res) => {
+        setUser(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => console.error(err));
+  }
+
   return (
     <div class="container ">
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
@@ -57,6 +75,9 @@ export default function UserComponent() {
                     </div>
                   </th>
                   <th scope="col" className="px-6 py-3">
+                    No
+                  </th>
+                  <th scope="col" className="px-6 py-3">
                     Name
                   </th>
                   <th scope="col" className="px-6 py-3">
@@ -71,6 +92,7 @@ export default function UserComponent() {
                 </tr>
               </thead>
               <tbody>
+              {user.map((item,index )=> (
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                   <td className="w-4 p-4">
                     <div className="flex items-center">
@@ -87,38 +109,41 @@ export default function UserComponent() {
                       </label>
                     </div>
                   </td>
+                  <td className="px-6 py-4" >{index+1}</td>
                   <th
                     scope="row"
                     className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
                   >
+                 
                     {/* <img
                       className="w-10 h-10 rounded-full"
-                      src="/docs/images/people/profile-picture-1.jpg"
+                      src="{item}"
                       alt="Jese image"
                     /> */}
                     <div className="pl-3">
-                      <div className="text-base font-semibold">Neil Sims</div>
+                      <div className="text-base font-semibold">{item.fullName}</div>
                       <div className="font-normal text-gray-500">
-                        neil.sims@flowbite.com
+                        {item.email}
                       </div>
                     </div>
                   </th>
-                  <td className="px-6 py-4">React Developer</td>
+                  <td className="px-6 py-4">{item.role}</td>
                   <td className="px-6 py-4">
                     <div className="flex items-center">
                       <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2" />{" "}
-                      Online
+                      {item.stat}
                     </div>
                   </td>
                   <td className="pl-3">
                     {/* Modal toggle */}
-                    <Button variant="primary" onClick={handleShowEditUser}>
+                    <Button variant="primary" onClick={handleShowEditUser} key={index}>
                       Edit User
                     </Button>
 
                     <Button variant="danger">Delete User</Button>
                   </td>
-                </tr>
+                </tr>  
+                  ))}
               </tbody>
             </table>
           </div>

@@ -19,6 +19,7 @@ import UserComponent from "./user";
 import DepartmentComponent from "./department";
 import GroupComponent from "./group";
 import IdeaComponent from "./idea";
+import CategoryComponent from "./category";
 
 
 const navigation = [
@@ -59,23 +60,26 @@ const navigation = [
     subNavigations: [
       { index: 3.1, name: "List Idea ", href: "#", icon: UsersIcon, current: false },
       { index: 3.2, name: "Set Deadline Idea ", href: "#", icon: UsersIcon, current: false },
+      { index: 3.3, name: "List Comment ", href: "#", icon: UsersIcon, current: false },
+      { index: 3.4, name: "Set Deadline Comment ", href: "#", icon: UsersIcon, current: false },
+
+
     ],
   },
   {
     index: 4,
-    name: "Pages",
-    href: "#",
+    name: "Category",
     icon: InboxIcon,
     current: true,
     subnav: true,
     subNavigations: [
-      { name: "List pages ", href: "#", icon: UsersIcon, current: false },
+      // { name: "List pages ", href: "#", icon: UsersIcon, current: false },
       { name: "List category ", href: "#", icon: UsersIcon, current: false },
     ],
   },
   // { name: "Documents", href: "#", icon: InboxIcon, current: false },
   {
-    name: "Reports",
+    name: "Thread",
     href: "#",
     icon: ChartBarIcon,
     current: false,
@@ -100,7 +104,8 @@ export default function AdminMain() {
     1.1: <UserComponent />,
     2: <DepartmentComponent />,
     3: <GroupComponent />,
-    3.1: <IdeaComponent />
+    3.1: <IdeaComponent />,
+    4:<CategoryComponent />
   };
 
   return (

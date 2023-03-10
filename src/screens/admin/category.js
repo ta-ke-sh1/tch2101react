@@ -3,29 +3,28 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
 
-export default function DepartmentComponent() {
+export default function CategoryComponent() {
   const [show, setShow] = useState(false);
-  const [showDepartment, setShowDepartment] = useState(false);
+  const [showCategory, setShowCategory] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleCloseDepartment = () => setShowDepartment(false);
-  const handleShowDepartment = () => setShowDepartment(true);
+  const handleCloseCategory = () => setShowCategory(false);
+  const handleShowCategory = () => setShowCategory(true);
 
-  const [department, setDepartment] = useState([]);
+  const [category, setCategory] = useState([]);
   useEffect(() => {
-    fetchDepartment();
+    fetchCategory();
   }, []);
 
-  function fetchDepartment() {
+  function fetchCategory() {
     axios
-      .get("http://localhost:9000/department")
+      .get("http://localhost:9000/")
       .then((res) => {
-        setDepartment(res.data);
+        setCategory(res.data);
         console.log(res.data);
       })
       .catch((err) => console.error(err));
   }
-  
   return (
     <div class="container ">
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
@@ -36,7 +35,7 @@ export default function DepartmentComponent() {
                 <input
                   class="form-control mr-sm-2"
                   type="search"
-                  placeholder="Search Department"
+                  placeholder="Search Category"
                   aria-label="Search"
                 />
               </form>
@@ -47,12 +46,12 @@ export default function DepartmentComponent() {
             style={{ color: "green" }}
           >
             <h2>
-              <b> List Department</b>
+              <b> List Category</b>
             </h2>
           </div>
           <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
             <Button variant="primary" onClick={handleShow}>
-              Add New Department
+              Add New Category
             </Button>
           </div>
         </div>
@@ -79,16 +78,14 @@ export default function DepartmentComponent() {
                  
                   <th scope="col" className="px-6 py-3">
                     Name
-                  </th>  <th scope="col" className="px-6 py-3">
-                  emp_count
-                  </th>
+                  </th>  
                   <th scope="col" className="px-6 py-3">
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody>
-              {department.map((item,index )=> (
+              
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                   <td className="w-4 p-4">
                     <div className="flex items-center">
@@ -110,22 +107,21 @@ export default function DepartmentComponent() {
                     className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
                   >
                     <div className="pl-3">
-                      <div className="text-base font-semibold">{index+1}</div>
+                      <div className="text-base font-semibold">index</div>
                     </div>
                   </th>
-                  <td className="px-6 py-4">{item.name}</td>
-                  <td className="px-6 py-4">{item.emp_count}</td>
+                  <td className="px-6 py-4">name</td>
 
                   <td className="pl-3">
                     {/* Modal toggle */}
-                    <Button variant="primary" onClick={handleShowDepartment}>
+                    <Button variant="primary" onClick={handleShowCategory}>
                       Edit 
                     </Button>
 
                     <Button variant="danger">Delete </Button>
                   </td>
                 </tr>
-              ))}
+             
               </tbody>
             </table>
           </div>
@@ -140,21 +136,21 @@ export default function DepartmentComponent() {
             keyboard={false}
           >
             <Modal.Header closeButton>
-              <Modal.Title>Add A New Department</Modal.Title>
+              <Modal.Title>Add A New Category</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <form >
+              <form>
                 <div class="form-group">
                   <input
                     type="text"
                     class="form-control"
                     id="name"
-                    placeholder="Enter Name Department"
+                    placeholder="Enter Name Category"
                   />
                 </div>
                
                 <button type="submit" class="btn btn-success mt-4">
-                  Add A New Department
+                  Add A New Category
                 </button>
               </form>
             </Modal.Body>
@@ -169,15 +165,15 @@ export default function DepartmentComponent() {
           {/*Model EDit account*/}
           
           <div
-            id="DepartmentModal"
+            id="CategoryModal"
             tabIndex={-1}
             aria-hidden="true"
             className="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
           >
             <div className="relative w-full h-full max-w-2xl md:h-auto">
               <Modal
-                show={showDepartment}
-                onHide={handleCloseDepartment}
+                show={showCategory}
+                onHide={handleCloseCategory}
                 backdrop="static"
                 keyboard={false}
               >
@@ -199,7 +195,7 @@ export default function DepartmentComponent() {
                             htmlFor="first-name"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
-                            Name Department
+                            Name Category
                           </label>
                           <input
                             type="text"
