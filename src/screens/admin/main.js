@@ -280,8 +280,7 @@ export default function AdminMain() {
                 {navigation.map((item) =>
                   !item.subNavigations ? (
                     <div key={item.name}>
-                      <a
-                        href={"#"}
+                      <div
                         onClick={() => {
                           setIndex(item.index);
                         }}
@@ -302,7 +301,7 @@ export default function AdminMain() {
                           aria-hidden="true"
                         />
                         {item.name}
-                      </a>
+                      </div>
                     </div>
                   ) : (
                     <Disclosure as="div" key={item.name} className="space-y-1">

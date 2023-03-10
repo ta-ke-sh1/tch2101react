@@ -1,9 +1,14 @@
 import React, { useEffect, useState, } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+<<<<<<< HEAD
+=======
+import { useState, useEffect } from "react";
+>>>>>>> d913f8e4f86a340a606e22fbb01b70ae3e014506
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
 
 export default function UserComponent() {
+
   const [show, setShow] = useState(false);
   const [showEditUser, setShowEditUser] = useState(false);
   const handleClose = () => setShow(false);
@@ -11,6 +16,7 @@ export default function UserComponent() {
   const handleCloseEditUser = () => setShowEditUser(false);
   const handleShowEditUser = () => setShowEditUser(true);
 
+<<<<<<< HEAD
 
   const [user, setUser] = useState([]);
   useEffect(() => {
@@ -25,6 +31,25 @@ export default function UserComponent() {
         console.log(res.data);
       })
       .catch((err) => console.error(err));
+=======
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, [])
+
+  async function fetchUsers() {
+    axios.get('http://localhost:5000/user/').then(
+      (res) => {
+        var users = [];
+        for (let i = 0; i < res.data.length; i++) {
+          users.push(res.data[i]);
+        }
+        setUsers(users);
+        console.log(users);
+      }
+    ).catch((err) => console.error(err));
+>>>>>>> d913f8e4f86a340a606e22fbb01b70ae3e014506
   }
 
   return (

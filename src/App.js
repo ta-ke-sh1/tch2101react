@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, useRoutes } from "react-router-dom";
+import { Outlet, BrowserRouter as Router, useRoutes } from "react-router-dom";
 import React from 'react'
 import StaffMain from "./screens/staff/main";
 import Login from "./screens/login";
@@ -10,6 +10,7 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import "./styles/index.css";
 import Thread from "./screens/idea/threads";
 import IdeaDetail from "./screens/idea/ideaDetails";
+import Navbar from "./screens/navbar";
 
 const App = () => {
 
@@ -19,16 +20,23 @@ const App = () => {
             element: <StaffMain />,
         },
         {
+            path: "/user/:params",
+            element: <>
+                <Navbar />
+                <StaffMain />
+            </>,
+        },
+        {
             path: "/admin",
             element: <AdminMain />,
         },
         {
             path: "/thread/:id",
-            element: <ThreadDetails />,
+            element: <><Navbar /><ThreadDetails /></>,
         },
         {
             path: "/idea/:id",
-            element: <IdeaDetail />,
+            element: <><Navbar /><IdeaDetail /></>,
         },
         {
             path: "/",
@@ -36,7 +44,10 @@ const App = () => {
         },
         {
             path: '/threads',
-            element: <Thread />
+            element: <>
+                <Navbar />
+                <Thread />
+            </>
         }
     ]);
 };
@@ -45,6 +56,7 @@ const AppWrapper = () => {
     return (
         <Router>
             <App />
+            <Outlet />
         </Router>
     );
 };
