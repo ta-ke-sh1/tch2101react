@@ -1,9 +1,5 @@
 import React, { useEffect, useState, } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-<<<<<<< HEAD
-=======
-import { useState, useEffect } from "react";
->>>>>>> d913f8e4f86a340a606e22fbb01b70ae3e014506
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
 
@@ -16,22 +12,6 @@ export default function UserComponent() {
   const handleCloseEditUser = () => setShowEditUser(false);
   const handleShowEditUser = () => setShowEditUser(true);
 
-<<<<<<< HEAD
-
-  const [user, setUser] = useState([]);
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  function fetchUser() {
-    axios
-      .get("http://localhost:9000/user")
-      .then((res) => {
-        setUser(res.data);
-        console.log(res.data);
-      })
-      .catch((err) => console.error(err));
-=======
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -49,7 +29,6 @@ export default function UserComponent() {
         console.log(users);
       }
     ).catch((err) => console.error(err));
->>>>>>> d913f8e4f86a340a606e22fbb01b70ae3e014506
   }
 
   return (
@@ -117,7 +96,7 @@ export default function UserComponent() {
                 </tr>
               </thead>
               <tbody>
-              {user.map((item,index )=> (
+              {users.map((item,index )=> (
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                   <td className="w-4 p-4">
                     <div className="flex items-center">
