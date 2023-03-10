@@ -40,7 +40,7 @@ export default function ThreadDetails() {
 
     async function initIdeas() {
         axios
-            .get("http://localhost:5000/idea?id=" + id)
+            .get("http://localhost:9000/idea?id=" + id)
             .then((res) => {
                 var result = [];
                 var curr_tags = [];
@@ -80,7 +80,7 @@ export default function ThreadDetails() {
 
     async function initThread() {
         axios
-            .get("http://localhost:5000/idea/threads?id=" + id)
+            .get("http://localhost:9000/idea/threads?id=" + id)
             .then((res) => {
                 setThread({
                     id: res.id,

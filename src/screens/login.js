@@ -2,19 +2,21 @@ import React, { useState } from "react";
 import axios from "axios";
 import { decodeToken } from "../utils/utils";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../App";
 
 export default function Login() {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [isFetching, setFetch] = useState(false);
     const navigate = useNavigate();
+    const auth = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!isFetching) {
             setFetch(true);
             var res = await axios.post(
-                "http://localhost:5000/login",
+                "http://localhost:9000/login",
                 {
                     username: username,
                     password: password,
@@ -32,6 +34,10 @@ export default function Login() {
                 localStorage.setItem("refresh_token", res.data.refreshToken);
                 const decodedToken = decodeToken(res.data.accessToken);
                 roles = decodedToken.role;
+
+                auth.token = res.data.accessToken;
+                auth.roles = roles;
+
                 if (roles.includes("Admin")) {
                     console.log("Admin");
                     navigate('/admin')

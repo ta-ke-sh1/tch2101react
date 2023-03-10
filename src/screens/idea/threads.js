@@ -22,7 +22,7 @@ export default function Thread() {
 
     function fetchThreads() {
         axios
-            .get("http://localhost:5000/idea/threads")
+            .get("http://localhost:9000/idea/threads")
             .then((res) => {
                 var unexpired = [];
                 var expired = [];

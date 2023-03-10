@@ -25,7 +25,7 @@ export default function IdeaMainComponent() {
 
   async function fetchThreads() {
     axios
-      .get("http://localhost:5000/idea/threads")
+      .get("http://localhost:9000/idea/threads")
       .then((res) => {
         var threads = [];
         for (let i = 0; i < res.data.threads.length; i++) {
@@ -38,7 +38,7 @@ export default function IdeaMainComponent() {
 
   async function fetchIdeas() {
     axios
-      .get("http://localhost:5000/idea/")
+      .get("http://localhost:9000/idea/")
       .then((res) => {
         var ideas = [];
         for (let i = 0; i < res.data.length; i++) {
@@ -51,7 +51,7 @@ export default function IdeaMainComponent() {
 
   async function fetchCategories() {
     axios
-      .get("http://localhost:5000/category/")
+      .get("http://localhost:9000/category/")
       .then((res) => {
         var categories = [];
         for (let i = 0; i < res.data.length; i++) {

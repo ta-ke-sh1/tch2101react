@@ -19,7 +19,7 @@ export default function UserComponent() {
   }, [])
 
   async function fetchUsers() {
-    axios.get('http://localhost:5000/user/').then(
+    axios.get('http://localhost:9000/user/').then(
       (res) => {
         var users = [];
         for (let i = 0; i < res.data.length; i++) {

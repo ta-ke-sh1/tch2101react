@@ -240,12 +240,12 @@ function IdeaListItem({ props }) {
 
     async function handleDelete(event) {
         event.preventDefault();
-        axios.get("http://localhost:5000/comment/delete?id=" + props.id);
+        axios.get("http://localhost:9000/comment/delete?id=" + props.id);
     }
 
     function fetchReactions() {
         axios
-            .get("http://localhost:5000/reaction/fetch?document=" + props.id)
+            .get("http://localhost:9000/reaction/fetch?document=" + props.id)
             .then((res) => {
                 var l = 0;
                 var d = 0;
@@ -267,7 +267,7 @@ function IdeaListItem({ props }) {
         event.preventDefault();
         await axios
             .get(
-                `http://localhost:5000/reaction?idea=${props.id}&user=${props.current_user
+                `http://localhost:9000/reaction?idea=${props.id}&user=${props.current_user
                 }&reaction=${isLiked ? 1 : -1}`
             )
             .then((res) => {
