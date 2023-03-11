@@ -61,7 +61,7 @@ export default function Thread() {
                                 to explore
                             </p>
                             {threads.map((thread) => (
-                                <Link to={"/thread/" + thread.id}>
+                                <Link to={"/threads/" + thread.id}>
                                     <ThreadCard
                                         key={thread.name}
                                         props={{
@@ -87,7 +87,7 @@ export default function Thread() {
                                 can still read the submitted ideas & comments.
                             </p>
                             {archivedThreads.map((thread) => (
-                                <Link to={"/thread/" + thread.id}>
+                                <Link to={"/threads/" + thread.id}>
                                     <ThreadCard
                                         key={thread.name}
                                         props={{
