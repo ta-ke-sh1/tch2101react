@@ -10,14 +10,18 @@ export default function IdeaDetail() {
     const [idea, setIdea] = useState({});
     const [comments, setComments] = useState([]);
 
-    const [like, setLike] = useState(0);
-    const [dislike, setDislike] = useState(0);
-
     const [comment, setComment] = useState("");
     const [isAnonymous, setAnonymous] = useState(false);
 
     const token = localStorage.getItem("access_token");
     const decodedToken = decodeToken(token);
+
+    const [reactions, setReactions] = useState({
+        like: 0,
+        dislike: 0,
+    });
+
+    const [isReacted, setReacted] = useState(0);
 
     useEffect(() => {
         fetchIdea();
@@ -27,7 +31,7 @@ export default function IdeaDetail() {
 
     function fetchIdea() {
         axios
-            .get("http://localhost:5000/idea/fetch?id=" + id)
+            .get("http://localhost:9000/idea/fetch?id=" + id)
             .then((res) => {
                 setIdea(res.data);
             })
@@ -36,7 +40,7 @@ export default function IdeaDetail() {
 
     function fetchComments() {
         axios
-            .get("http://localhost:5000/comment?id=" + id)
+            .get("http://localhost:9000/comment?id=" + id)
             .then((res) => {
                 var result = [];
                 for (var i = 0; i < res.data.length; i++) {
@@ -56,7 +60,7 @@ export default function IdeaDetail() {
 
     function fetchReactions() {
         axios
-            .get("http://localhost:5000/reaction/fetch?document=" + id)
+            .get("http://localhost:9000/reaction/fetch?document=" + id)
             .then((res) => {
                 var l = 0;
                 var d = 0;
@@ -66,9 +70,19 @@ export default function IdeaDetail() {
                     } else if (res.data[i].reaction === -1) {
                         d++;
                     }
+
+                    if (
+                        res.data[i].user ===
+                        decodeToken(localStorage.getItem("access_token")).user
+                    ) {
+                        setReacted(res.data[i].reaction);
+                        console.log("reacted!");
+                    }
                 }
-                setLike(l);
-                setDislike(d);
+                setReactions({
+                    like: l,
+                    dislike: d,
+                });
             });
     }
 
@@ -76,7 +90,7 @@ export default function IdeaDetail() {
         console.log("commnet posted");
 
         await axios.post(
-            "http://localhost:5000/comment/add",
+            "http://localhost:9000/comment/add",
             {
                 user_id: decodedToken.user,
                 idea_id: id,
@@ -98,12 +112,14 @@ export default function IdeaDetail() {
         console.log("Reaction: " + reaction);
         await axios
             .get(
-                `http://localhost:5000/reaction?document=${id}&user=${decodedToken.user
+                `http://localhost:9000/reaction?document=${id}&user=${
+                    decodedToken.user
                 }&reaction=${reaction ? 1 : -1}`
             )
             .then((res) => {
                 console.log(res);
             });
+        fetchReactions();
     }
 
     return (
@@ -125,8 +141,8 @@ export default function IdeaDetail() {
                             </h1>
                             {idea.category
                                 ? convertStringToArray(
-                                    idea.category
-                                ).map((tag) => <Tag key={tag} text={tag} />)
+                                      idea.category
+                                  ).map((tag) => <Tag key={tag} text={tag} />)
                                 : ""}
                             <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify mb-1">
                                 Posted on: {idea.post_date}
@@ -135,8 +151,8 @@ export default function IdeaDetail() {
                                 Approved by {idea.approver_id}
                             </p>
                             <p>
-                                Like: {like} <br />
-                                Dislike: {dislike}
+                                Like: {reactions.like} <br />
+                                Dislike: {reactions.dislike}
                             </p>
                             <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify">
                                 {idea.content}
@@ -190,13 +206,21 @@ export default function IdeaDetail() {
                         <div className="justify-start">
                             <button
                                 onClick={(e) => handleReaction(e, true)}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                                className={
+                                    isReacted === 1
+                                        ? "bg-blue-500 text-white hover:bg-blue-700 font-bold py-2 px-4 border border-blue-700 rounded mr-5"
+                                        : "bg-white text-black hover:bg-blue-700 font-bold py-2 px-4 border border-blue-700 rounded  mr-5"
+                                }
                             >
                                 Like
                             </button>
                             <button
                                 onClick={(e) => handleReaction(e, false)}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                                className={
+                                    isReacted === -1
+                                        ? "bg-blue-500 text-white hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                                        : "bg-white text-black hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                                }
                             >
                                 Dislike
                             </button>
@@ -230,6 +254,8 @@ function IdeaListItem({ props }) {
     const [like, setLike] = useState(0);
     const [dislike, setDislike] = useState(0);
 
+    const [isReacted, setReacted] = useState(0);
+
     useEffect(() => {
         fetchReactions();
     }, []);
@@ -257,6 +283,14 @@ function IdeaListItem({ props }) {
                         d++;
                     }
                     r.push(res.data[i]);
+
+                    if (
+                        res.data[i].user ===
+                        decodeToken(localStorage.getItem("access_token")).user
+                    ) {
+                        setReacted(res.data[i].reaction);
+                        console.log("reacted!");
+                    }
                 }
                 setLike(l);
                 setDislike(d);
@@ -267,12 +301,14 @@ function IdeaListItem({ props }) {
         event.preventDefault();
         await axios
             .get(
-                `http://localhost:9000/reaction?idea=${props.id}&user=${props.current_user
+                `http://localhost:9000/reaction?document=${props.id}&user=${
+                    props.current_user
                 }&reaction=${isLiked ? 1 : -1}`
             )
             .then((res) => {
                 console.log(res);
             });
+        fetchReactions();
     }
 
     return (
@@ -284,7 +320,7 @@ function IdeaListItem({ props }) {
                             <time>{props.date}</time>
                             <p>
                                 {props.isAnonymous === 0 ||
-                                    props.isAnonymous === "false"
+                                props.isAnonymous === "false"
                                     ? props.user_id
                                     : "User"}{" "}
                                 has commented
@@ -310,13 +346,21 @@ function IdeaListItem({ props }) {
                             <div className="flex justify-start">
                                 <button
                                     onClick={(e) => handleReact(e, true)}
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                                    className={
+                                        isReacted === 1
+                                            ? "bg-blue-500 text-white hover:bg-blue-700 font-bold py-2 px-4 border border-blue-700 rounded mr-5"
+                                            : "bg-white text-black hover:bg-blue-700 font-bold py-2 px-4 border border-blue-700 rounded  mr-5"
+                                    }
                                 >
                                     Like
                                 </button>
                                 <button
                                     onClick={(e) => handleReact(e, false)}
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                                    className={
+                                        isReacted === -1
+                                            ? "bg-blue-500 text-white hover:bg-blue-700 font-bold py-2 px-4 border border-blue-700 rounded mr-5"
+                                            : "bg-white text-black hover:bg-blue-700 font-bold py-2 px-4 border border-blue-700 rounded  mr-5"
+                                    }
                                 >
                                     Dislike
                                 </button>

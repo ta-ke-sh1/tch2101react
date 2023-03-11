@@ -233,6 +233,35 @@ export default function ThreadDetails() {
 }
 
 function IdeaListItem({ props }) {
+    const [reactions, setReactions] = useState({
+        like: 0,
+        dislike: 0,
+    });
+
+    useState(() => {
+        fetchReactions();
+    }, []);
+
+    async function fetchReactions() {
+        axios
+            .get("http://localhost:9000/reaction/fetch?document=" + props.id)
+            .then((res) => {
+                var l = 0;
+                var d = 0;
+                for (let i = 0; i < res.data.length; i++) {
+                    if (res.data[i].reaction === 1) {
+                        l++;
+                    } else if (res.data[i].reaction === -1) {
+                        d++;
+                    }
+                }
+                setReactions({
+                    like: l,
+                    dislike: d,
+                });
+            });
+    }
+
     return (
         <li
             className="py-12"
@@ -247,6 +276,9 @@ function IdeaListItem({ props }) {
                         <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                             <time>{props.post_date}</time>
                             <p>by {props.writer_id}</p>
+                            <br />
+                            <p>Like: {reactions.like}</p>
+                            <p>Dislike: {reactions.dislike}</p>
                         </dd>
                     </dl>
                     <div className="space-y-5 xl:col-span-3">
