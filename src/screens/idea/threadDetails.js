@@ -33,6 +33,9 @@ export default function ThreadDetails() {
     const handleCloseEditIdea = () => setShowEditIdea(false);
     const handleShowEditIdea = () => setShowEditIdea(true);
 
+    const [isLoadedThread, setIsLoadedThread] = useState(false);
+    const [isLoadedIdeas, setIsLoadedIdeas] = useState(false);
+
     useEffect(() => {
         initIdeas();
         initThread();
@@ -40,7 +43,11 @@ export default function ThreadDetails() {
 
     async function initIdeas() {
         axios
-            .get("http://localhost:9000/idea?id=" + id)
+            .get("http://localhost:9000/idea", {
+                params: {
+                    id: id
+                }
+            })
             .then((res) => {
                 var result = [];
                 var curr_tags = [];
@@ -74,13 +81,18 @@ export default function ThreadDetails() {
                 }
                 setIdeas(result);
                 setTags(curr_tags);
+                setIsLoadedIdeas(true);
             })
             .catch((err) => console.error(err));
     }
 
     async function initThread() {
         axios
-            .get("http://localhost:9000/idea/threads?id=" + id)
+            .get("http://localhost:9000/idea/threads", {
+                params: {
+                    id: id
+                }
+            })
             .then((res) => {
                 setThread({
                     id: res.id,
@@ -89,6 +101,7 @@ export default function ThreadDetails() {
                     endDate: res.data.endDate,
                     description: res.data.description,
                 });
+                setIsLoadedThread(true);
             })
             .catch((err) => console.error(err));
     }
@@ -98,6 +111,10 @@ export default function ThreadDetails() {
         var sorted = ideas.filter((a) => a.category.includes(tag));
         console.log(sorted);
         setIdeas(sorted);
+    }
+
+    if (!isLoadedIdeas || !isLoadedThread) {
+        return <> <h1>Loading ... </h1> </>
     }
 
     return (
@@ -238,6 +255,8 @@ function IdeaListItem({ props }) {
         dislike: 0,
     });
 
+    const [isLoading, setLoading] = useState(false)
+
     useState(() => {
         fetchReactions();
     }, []);
@@ -259,9 +278,12 @@ function IdeaListItem({ props }) {
                     like: l,
                     dislike: d,
                 });
+                setLoading(true)
             });
     }
-
+    if (!isLoading) {
+        return <> <h1>Loading ...</h1> </>
+    }
     return (
         <li
             className="py-12"

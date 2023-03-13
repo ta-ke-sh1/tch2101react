@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { convertStringToArray } from "../../utils/utils.js";
 import Tag from "../../components/tag.js";
-import { decodeToken } from "../../utils/utils";
+import { decodeToken } from "../../utils/utils.js";
 
 export default function IdeaDetail() {
     let { id } = useParams();
@@ -16,6 +16,8 @@ export default function IdeaDetail() {
     const token = localStorage.getItem("access_token");
     const decodedToken = decodeToken(token);
 
+    const [isVisited, setVisited] = useState(false);
+
     const [reactions, setReactions] = useState({
         like: 0,
         dislike: 0,
@@ -27,7 +29,16 @@ export default function IdeaDetail() {
         fetchIdea();
         fetchComments();
         fetchReactions();
+        updateViewCount();
     }, []);
+
+    function updateViewCount() {
+        if (!isVisited) {
+            axios.get('http://localhost:9000/idea/accessed?id=' + id
+            );
+            setVisited(true);
+        }
+    }
 
     function fetchIdea() {
         axios
@@ -112,9 +123,7 @@ export default function IdeaDetail() {
         console.log("Reaction: " + reaction);
         await axios
             .get(
-                `http://localhost:9000/reaction?document=${id}&user=${
-                    decodedToken.user
-                }&reaction=${reaction ? 1 : -1}`
+                `http://localhost:9000/reaction?document=${id}&user=${decodedToken.user}&reaction=${reaction ? 1 : -1}`
             )
             .then((res) => {
                 console.log(res);
@@ -141,8 +150,8 @@ export default function IdeaDetail() {
                             </h1>
                             {idea.category
                                 ? convertStringToArray(
-                                      idea.category
-                                  ).map((tag) => <Tag key={tag} text={tag} />)
+                                    idea.category
+                                ).map((tag) => <Tag key={tag} text={tag} />)
                                 : ""}
                             <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify mb-1">
                                 Posted on: {idea.post_date}
@@ -301,8 +310,7 @@ function IdeaListItem({ props }) {
         event.preventDefault();
         await axios
             .get(
-                `http://localhost:9000/reaction?document=${props.id}&user=${
-                    props.current_user
+                `http://localhost:9000/reaction?document=${props.id}&user=${props.current_user
                 }&reaction=${isLiked ? 1 : -1}`
             )
             .then((res) => {
@@ -320,7 +328,7 @@ function IdeaListItem({ props }) {
                             <time>{props.date}</time>
                             <p>
                                 {props.isAnonymous === 0 ||
-                                props.isAnonymous === "false"
+                                    props.isAnonymous === "false"
                                     ? props.user_id
                                     : "User"}{" "}
                                 has commented
