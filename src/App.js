@@ -13,11 +13,17 @@ import IdeaDetail from "./screens/idea/ideaDetails";
 import Navbar from "./screens/navbar";
 import ErrorPage from "./screens/error";
 import { AuthProvider, RequireAuth } from "./hooks/useAuth";
+import Dashboard from "./screens/chart";
 
 const App = () => {
     return (
         <AuthProvider>
             <Routes>
+                <Route
+                    path="/chart"
+                    errorElement={<ErrorPage />}
+                    element={<Dashboard />}
+                />
                 <Route
                     path="/"
                     errorElement={<ErrorPage />}
