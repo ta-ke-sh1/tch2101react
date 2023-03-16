@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import Tag from "../../components/tag.js";
 import {
     fromMilisecondsToDate,
-    convertStringToArray,
     isExpired,
 } from "../../utils/utils.js";
 import { Button } from "react-bootstrap";
@@ -52,11 +51,8 @@ export default function ThreadDetails() {
             .then((res) => {
                 var result = [];
                 var curr_tags = [];
-
                 for (var i = 0; i < res.data.length; i++) {
-                    var categories = convertStringToArray(
-                        res.data[i].idea.category
-                    );
+                    var categories = res.data[i].idea.category;
                     result.push({
                         id: res.data[i].id,
                         key: res.data[i].idea.id,
@@ -65,7 +61,7 @@ export default function ThreadDetails() {
                         post_date: res.data[i].idea.post_date,
                         title: res.data[i].idea.title,
                         description: res.data[i].idea.description,
-                        category: categories,
+                        category: res.data[i].idea.category,
                         is_anonymous: false,
                         writer_id: res.data[i].idea.writer_id,
                     });
@@ -80,6 +76,7 @@ export default function ThreadDetails() {
                         }
                     }
                 }
+                result.sort((a, b) => a.post_date - b.post_date).reverse();
                 setIdeas(result);
                 setTags(curr_tags);
                 setIsLoadedIdeas(true);

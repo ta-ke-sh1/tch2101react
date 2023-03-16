@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { decodeToken } from "../utils/utils";
+import { decodeToken, getDeviceType } from "../utils/utils";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
@@ -20,6 +20,7 @@ export default function Login() {
                 {
                     username: username,
                     password: password,
+                    device_type: getDeviceType()
                 },
                 {
                     headers: {

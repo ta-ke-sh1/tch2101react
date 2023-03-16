@@ -27,3 +27,18 @@ export function getCurrentDateAsDBFormat() {
 export function decodeToken(token) {
     return jwt_decode(token.substring(7, token.length));
 }
+
+export const getDeviceType = () => {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+        return "tablet";
+    }
+    if (
+        /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+            ua
+        )
+    ) {
+        return "mobile";
+    }
+    return "desktop";
+};

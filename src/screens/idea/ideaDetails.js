@@ -65,6 +65,7 @@ export default function IdeaDetail() {
                         idea_id: res.data[i].data.idea_id,
                     });
                 }
+                result.sort((a, b) => a.date - b.date).reverse();
                 setComments(result);
             })
             .catch((err) => console.error(err));
@@ -141,9 +142,7 @@ export default function IdeaDetail() {
                         {idea.title}
                     </h1>
                     {idea.category
-                        ? convertStringToArray(
-                            idea.category
-                        ).map((tag) => <Tag key={tag} text={tag} />)
+                        ? idea.category.map((tag) => <Tag key={tag} text={tag} />)
                         : ""}
                     <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify mb-1">
                         Posted on: {idea.post_date}
@@ -317,7 +316,7 @@ function IdeaListItem({ props }) {
                             <time>{props.date}</time>
                             <p>
                                 {props.isAnonymous === 0 ||
-                                    props.isAnonymous === "false"
+                                    props.isAnonymous === "0"
                                     ? props.user_id
                                     : "User"}{" "}
                                 has commented

@@ -9,6 +9,7 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
+
     const navigate = useNavigate();
     const [token, setToken] = useState(localStorage.getItem("access_token"));
     const [clearance, setClearance] = useState(
