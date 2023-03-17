@@ -1,7 +1,7 @@
 import React, { useEffect, useState, } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from "react-bootstrap";
-import axios from "axios";
+// import axios from "axios";
 
 export default function CategoryComponent() {
   const [show, setShow] = useState(false);
@@ -11,19 +11,19 @@ export default function CategoryComponent() {
   const handleCloseCategory = () => setShowCategory(false);
   const handleShowCategory = () => setShowCategory(true);
 
-  const [category, setCategory] = useState([]);
+  // const [category, setCategory] = useState([]);
   useEffect(() => {
     fetchCategory();
   }, []);
 
   function fetchCategory() {
-    axios
-      .get("http://localhost:9000/")
-      .then((res) => {
-        setCategory(res.data);
-        console.log(res.data);
-      })
-      .catch((err) => console.error(err));
+    // axios
+    //   .get("http://localhost:9000/")
+    //   .then((res) => {
+    //     setCategory(res.data);
+    //     console.log(res.data);
+    //   })
+    //   .catch((err) => console.error(err));
   }
   return (
     <div class="container ">
@@ -75,17 +75,17 @@ export default function CategoryComponent() {
                   <th scope="col" className="px-6 py-3">
                     No
                   </th>
-                 
+
                   <th scope="col" className="px-6 py-3">
                     Name
-                  </th>  
+                  </th>
                   <th scope="col" className="px-6 py-3">
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody>
-              
+
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                   <td className="w-4 p-4">
                     <div className="flex items-center">
@@ -115,13 +115,13 @@ export default function CategoryComponent() {
                   <td className="pl-3">
                     {/* Modal toggle */}
                     <Button variant="primary" onClick={handleShowCategory}>
-                      Edit 
+                      Edit
                     </Button>
 
                     <Button variant="danger">Delete </Button>
                   </td>
                 </tr>
-             
+
               </tbody>
             </table>
           </div>
@@ -148,7 +148,7 @@ export default function CategoryComponent() {
                     placeholder="Enter Name Category"
                   />
                 </div>
-               
+
                 <button type="submit" class="btn btn-success mt-4">
                   Add A New Category
                 </button>
@@ -163,7 +163,7 @@ export default function CategoryComponent() {
           </Modal>
           {/* Model Box Finsihs */}
           {/*Model EDit account*/}
-          
+
           <div
             id="CategoryModal"
             tabIndex={-1}

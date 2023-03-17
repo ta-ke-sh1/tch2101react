@@ -20,12 +20,9 @@ import DepartmentComponent from "./department";
 import GroupComponent from "./group";
 import IdeaComponent from "./idea";
 import CategoryComponent from "./category";
-import ValidToken from "../../components/token_validity";
-
 
 const navigation = [
   { index: 0, name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-
   {
     name: "User",
     href: "#",

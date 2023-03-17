@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, } from "react-router-dom";
 import React from "react";
 import StaffMain from "./screens/staff/main";
 import Login from "./screens/login";
@@ -14,7 +14,7 @@ import Navbar from "./screens/navbar";
 import ErrorPage from "./screens/error";
 import { AuthProvider, RequireAuth } from "./hooks/useAuth";
 import Dashboard from "./screens/chart";
-import ValidToken from "./components/token_validity";
+
 
 const App = () => {
     return (
@@ -33,7 +33,6 @@ const App = () => {
                 />
 
                 <Route element={<RequireAuth props={{ clearance: 1 }} />}>
-
                     <Route
                         path="/threads/:id"
                         errorElement={<ErrorPage />}

@@ -48,11 +48,11 @@ export default function StaffMain() {
                             <h1>
                                 Hello this is the staff screen
                             </h1>
-                            {/* <p>{user.dob}</p>
+                            <p>{user.dob}</p>
                             <p>{department}</p>
                             <p>{user.fullName}</p>
                             <p>{user.phone}</p>
-                            <p>{user.mail}</p> */}
+                            <p>{user.mail}</p>
                         </div>
                     </div>
                 </main>

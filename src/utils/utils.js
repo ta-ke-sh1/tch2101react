@@ -42,6 +42,11 @@ export function isExpiredToken(secondsSinceEpoch) {
     return secondsSinceEpoch < Date.now() / 1000;
 }
 
+export function convertDateToDayOfTheWeek(date) {
+    var day = moment(date, "DD MMM YYYY");
+    return day.format('ddd');
+}
+
 export function getCurrentDateAsDBFormat() {
     return moment().format("YYYY/M/D");
 }

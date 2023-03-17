@@ -10,22 +10,20 @@ export default function ValidToken({ children }) {
     const [isExpired, setExpired] = useState(false);
     const [seconds, setSeconds] = useState(0);
     const [isHiddden, setHidden] = useState(false);
-    const [token, setToken] = useState(auth.token);
 
     useEffect(() => {
-        if (token) {
-            var decoded = decodeToken(token);
+        if (auth.token) {
+            var decoded = decodeToken(auth.token);
             setInterval(() => {
                 var duration = decoded.exp - Date.now() / 1000;
                 setSeconds(Math.round(duration));
-                console.log(Math.round(duration))
                 if (duration < 0) {
                     setExpired(true)
                 }
             }, 1000);
         }
 
-    }, [token]);
+    }, [auth.token]);
 
     const getTimeString = () => {
         var time = convertSecondsToTime(seconds);

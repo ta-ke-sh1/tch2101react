@@ -38,9 +38,8 @@ export default function Thread() {
                         to explore
                     </p>
                     {unexpired.map((thread) => (
-                        <Link to={"/threads/" + thread.id}>
+                        <Link key={thread.name} to={"/threads/" + thread.id}>
                             <ThreadCard
-                                key={thread.name}
                                 props={{
                                     ideaCount: thread.ideaCount,
                                     title: thread.name,
@@ -62,9 +61,8 @@ export default function Thread() {
                         can still read the submitted ideas & comments.
                     </p>
                     {expired.map((thread) => (
-                        <Link to={"/threads/" + thread.id}>
+                        <Link key={thread.name} to={"/threads/" + thread.id}>
                             <ThreadCard
-                                key={thread.name}
                                 props={{
                                     ideaCount: thread.ideaCount,
                                     title: thread.name,

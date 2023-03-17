@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
 import { getCurrentDateAsDBFormat, decodeToken } from "../../utils/utils";
+import Select from 'react-select';
 
 export default function IdeaForm({ props }) {
     const [categories, setCategories] = useState([]);
 
     const [content, setContent] = useState("");
     const [title, setTitle] = useState("");
-    const [category, setCategory] = useState("");
+    const [category, setCategory] = useState([]);
     const [files, setFiles] = useState([]);
     const [isAnonymous, setAnonymous] = useState(false);
 
@@ -21,14 +22,27 @@ export default function IdeaForm({ props }) {
             .get("http://localhost:9000/category/")
             .then((res) => {
                 console.log("fetched");
-                var categories = [];
+                var c = [];
                 for (let i = 0; i < res.data.length; i++) {
-                    categories.push(res.data[i]);
+                    c.push({
+                        value: res.data[i].id,
+                        label: res.data[i].id
+                    });
                 }
-                setCategories(categories);
+                setCategories(c);
+                console.log(c)
             })
             .catch((err) => console.error(err));
     }
+
+    const handleChange = selectValue => {
+        console.log(selectValue);
+        const categories = [];
+        for (let i = 0; i < selectValue.length; i++) {
+            categories.push(selectValue[i].label);
+        }
+        setCategory(categories);
+    };
 
     async function handleSubmit(event) {
         const token = localStorage.getItem("access_token");
@@ -39,7 +53,7 @@ export default function IdeaForm({ props }) {
         formData.append("approver_id", "admin");
         formData.append("writer_id", decodedToken.user);
         formData.append("title", title);
-        formData.append("category", "[" + category + "]");
+        formData.append("category", category);
         formData.append("content", content);
         formData.append("is_anonymous", isAnonymous);
         formData.append("approved_date", getCurrentDateAsDBFormat());
@@ -51,6 +65,8 @@ export default function IdeaForm({ props }) {
             formData.append("items", chosenFiles[i]);
         }
 
+        console.log(category);
+
         const response = await axios.post(
             "http://localhost:9000/idea/add",
             formData,
@@ -60,7 +76,6 @@ export default function IdeaForm({ props }) {
                 },
             }
         );
-
         console.log(response);
     }
 
@@ -98,7 +113,7 @@ export default function IdeaForm({ props }) {
                                 id="title"
                                 className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                                 placeholder="Enter Title"
-                                required=""
+                                required
                             />
                         </div>
                         <div className="mb-6">
@@ -110,7 +125,7 @@ export default function IdeaForm({ props }) {
                                 onChange={(e) => setContent(e.target.value)}
                                 id="content"
                                 className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                                required=""
+                                required
                                 placeholder="Enter content"
                             />
                         </div>
@@ -134,21 +149,13 @@ export default function IdeaForm({ props }) {
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Select an category
                             </label>
-                            <select
-                                multiple
-                                onChange={(e) => setCategory(e.target.value)}
-                                id="category"
-                                className="bg-gray-50 border select border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            >
-                                {categories.map((category) => (
-                                    <option
-                                        key={category.id}
-                                        value={category.id}
-                                    >
-                                        {category.id}
-                                    </option>
-                                ))}
-                            </select>
+                            <Select
+                                required
+                                closeMenuOnSelect={false}
+                                isMulti
+                                defaultValue={{ label: 'Equipment', value: 'Equipment' }}
+                                onChange={handleChange}
+                                options={categories} />
                         </div>
                         <div className="form-check form-switch mb-6">
                             <input
