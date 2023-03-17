@@ -38,6 +38,10 @@ export function isExpired(secondsSinceEpoch) {
     return secondsSinceEpoch < Date.now() / 1000;
 }
 
+export function isExpiredToken(secondsSinceEpoch) {
+    return secondsSinceEpoch < Date.now() / 1000;
+}
+
 export function getCurrentDateAsDBFormat() {
     return moment().format("YYYY/M/D");
 }

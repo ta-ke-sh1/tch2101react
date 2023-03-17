@@ -1,6 +1,7 @@
 import { useContext, createContext } from "react";
 import { useNavigate, Navigate, Outlet } from "react-router-dom";
 import React, { useState, useMemo } from "react";
+import ValidToken from "../components/token_validity";
 
 const AuthContext = createContext();
 
@@ -17,6 +18,7 @@ export function AuthProvider({ children }) {
     );
 
     const login = async (data) => {
+        console.log('Auth provider login!');
         setToken(data.token);
         setClearance(data.clearance);
     };
@@ -26,9 +28,15 @@ export function AuthProvider({ children }) {
         setClearance(0);
         navigate("/", { replace: true });
     };
+
     let value = useMemo(() => ({ token, clearance, login, logout }), [token]);
+
     return (
-        <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={value}>
+            <ValidToken>
+                {children}
+            </ValidToken>
+        </AuthContext.Provider>
     );
 }
 
@@ -39,10 +47,8 @@ export function RequireAuth({ props }) {
         return <Navigate to="/" />;
     }
 
-    console.log(props);
 
     if (props) {
-        console.log(props);
         var clearance = auth.clearance;
         if (clearance < props.clearance) {
             console.log(

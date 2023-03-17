@@ -19,19 +19,20 @@ import ValidToken from "./components/token_validity";
 const App = () => {
     return (
         <AuthProvider>
-            <ValidToken>
-                <Routes>
-                    <Route path="*" element={<ErrorPage />} />
-                    <Route
-                        path="/chart"
-                        errorElement={<ErrorPage />}
-                        element={<Dashboard />}
-                    />
-                    <Route
-                        path="/"
-                        errorElement={<ErrorPage />}
-                        element={<Login />}
-                    />
+            <Routes>
+                <Route path="*" element={<ErrorPage />} />
+                <Route
+                    path="/chart"
+                    errorElement={<ErrorPage />}
+                    element={<Dashboard />}
+                />
+                <Route
+                    path="/"
+                    errorElement={<ErrorPage />}
+                    element={<Login />}
+                />
+
+                <Route element={<RequireAuth props={{ clearance: 1 }} />}>
 
                     <Route
                         path="/threads/:id"
@@ -63,7 +64,22 @@ const App = () => {
                             </>
                         }
                     />
-                    <Route element={<RequireAuth props={{ clearance: 1 }} />}>
+                    <Route
+                        path="/user/:params"
+                        errorElement={<ErrorPage />}
+                        element={
+                            <>
+                                <Navbar />
+                                <StaffMain />
+                            </>
+                        }
+                    />
+                    <Route element={<RequireAuth props={{ clearance: 4 }} />}>
+                        <Route
+                            path="/admin"
+                            errorElement={<ErrorPage />}
+                            element={<AdminMain />}
+                        />
                         <Route
                             path="/user/:params"
                             errorElement={<ErrorPage />}
@@ -74,43 +90,26 @@ const App = () => {
                                 </>
                             }
                         />
-                        <Route element={<RequireAuth props={{ clearance: 4 }} />}>
-                            <Route
-                                path="/admin"
-                                errorElement={<ErrorPage />}
-                                element={<AdminMain />}
-                            />
-                            <Route
-                                path="/user/:params"
-                                errorElement={<ErrorPage />}
-                                element={
-                                    <>
-                                        <Navbar />
-                                        <StaffMain />
-                                    </>
-                                }
-                            />
-                        </Route>
-                        <Route element={<RequireAuth props={{ clearance: 2 }} />}>
-                            <Route
-                                path="/staff"
-                                errorElement={<ErrorPage />}
-                                element={<StaffMain />}
-                            />
-                            <Route
-                                path="/user/:params"
-                                errorElement={<ErrorPage />}
-                                element={
-                                    <>
-                                        <Navbar />
-                                        <StaffMain />
-                                    </>
-                                }
-                            />
-                        </Route>
                     </Route>
-                </Routes>
-            </ValidToken>
+                    <Route element={<RequireAuth props={{ clearance: 2 }} />}>
+                        <Route
+                            path="/staff"
+                            errorElement={<ErrorPage />}
+                            element={<StaffMain />}
+                        />
+                        <Route
+                            path="/user/:params"
+                            errorElement={<ErrorPage />}
+                            element={
+                                <>
+                                    <Navbar />
+                                    <StaffMain />
+                                </>
+                            }
+                        />
+                    </Route>
+                </Route>
+            </Routes>
         </AuthProvider>
     );
 };

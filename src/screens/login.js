@@ -77,6 +77,7 @@ export default function Login() {
 
                 roles = decodedToken.role;
                 auth.token = res.data.accessToken;
+                auth.refresh_token = res.data.refreshToken; 
 
                 relocate(roles);
                 setFetch(false);
