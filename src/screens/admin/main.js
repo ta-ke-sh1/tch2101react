@@ -73,17 +73,18 @@ const navigation = [
     current: true,
     subnav: true,
     subNavigations: [
-      // { name: "List pages ", href: "#", icon: UsersIcon, current: false },
       { name: "List category ", href: "#", icon: UsersIcon, current: false },
     ],
   },
-  // { name: "Documents", href: "#", icon: InboxIcon, current: false },
   {
-    name: "Thread",
+    name: "Event",
     href: "#",
     icon: ChartBarIcon,
     current: false,
-    subNavigations: [],
+    subNavigations: [
+      { index: 5.1,name: "List threads ", href: "#", icon: UsersIcon, current: false },
+      {index:5.2, name: "List ideas ", href: "#", icon: UsersIcon, current: false },
+    ],
   },
 ];
 
@@ -106,6 +107,8 @@ export default function AdminMain() {
     3: <GroupComponent />,
     3.1: <IdeaComponent />,
     4:<CategoryComponent />
+    // 5.1<
+    // 5.2<Component />
   };
 
   return (

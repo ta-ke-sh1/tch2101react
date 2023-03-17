@@ -27,7 +27,7 @@ export default function IdeaDetail() {
 
     function fetchIdea() {
         axios
-            .get("http://localhost:5000/idea/fetch?id=" + id)
+            .get("http://localhost:9000/idea/fetch?id=" + id)
             .then((res) => {
                 setIdea(res.data);
             })
@@ -36,7 +36,7 @@ export default function IdeaDetail() {
 
     function fetchComments() {
         axios
-            .get("http://localhost:5000/comment?id=" + id)
+            .get("http://localhost:9000/comment?id=" + id)
             .then((res) => {
                 var result = [];
                 for (var i = 0; i < res.data.length; i++) {
@@ -56,7 +56,7 @@ export default function IdeaDetail() {
 
     function fetchReactions() {
         axios
-            .get("http://localhost:5000/reaction/fetch?document=" + id)
+            .get("http://localhost:9000/reaction/fetch?document=" + id)
             .then((res) => {
                 var l = 0;
                 var d = 0;
@@ -76,7 +76,7 @@ export default function IdeaDetail() {
         console.log("commnet posted");
 
         await axios.post(
-            "http://localhost:5000/comment/add",
+            "http://localhost:9000/comment/add",
             {
                 user_id: decodedToken.user,
                 idea_id: id,
@@ -98,7 +98,7 @@ export default function IdeaDetail() {
         console.log("Reaction: " + reaction);
         await axios
             .get(
-                `http://localhost:5000/reaction?document=${id}&user=${decodedToken.user
+                `http://localhost:9000/reaction?document=${id}&user=${decodedToken.user
                 }&reaction=${reaction ? 1 : -1}`
             )
             .then((res) => {
@@ -240,12 +240,12 @@ function IdeaListItem({ props }) {
 
     async function handleDelete(event) {
         event.preventDefault();
-        axios.get("http://localhost:5000/comment/delete?id=" + props.id);
+        axios.get("http://localhost:9000/comment/delete?id=" + props.id);
     }
 
     function fetchReactions() {
         axios
-            .get("http://localhost:5000/reaction/fetch?document=" + props.id)
+            .get("http://localhost:9000/reaction/fetch?document=" + props.id)
             .then((res) => {
                 var l = 0;
                 var d = 0;
@@ -267,7 +267,7 @@ function IdeaListItem({ props }) {
         event.preventDefault();
         await axios
             .get(
-                `http://localhost:5000/reaction?idea=${props.id}&user=${props.current_user
+                `http://localhost:9000/reaction?idea=${props.id}&user=${props.current_user
                 }&reaction=${isLiked ? 1 : -1}`
             )
             .then((res) => {

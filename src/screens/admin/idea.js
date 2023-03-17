@@ -13,32 +13,15 @@ export default function IdeaMainComponent() {
   const handleCloseEditIdea = () => setShowEditIdea(false);
   const handleShowEditIdea = () => setShowEditIdea(true);
 
-  const [threads, setThreads] = useState([]);
   const [ideas, setIdeas] = useState([]);
-  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    fetchThreads();
     fetchIdeas();
-    fetchCategories();
   }, [])
-
-  async function fetchThreads() {
-    axios
-      .get("http://localhost:5000/idea/threads")
-      .then((res) => {
-        var threads = [];
-        for (let i = 0; i < res.data.threads.length; i++) {
-          threads.push(res.data.threads[i]);
-        }
-        setThreads(threads);
-      })
-      .catch((err) => console.error(err));
-  }
 
   async function fetchIdeas() {
     axios
-      .get("http://localhost:5000/idea/")
+      .get("http://localhost:9000/idea/")
       .then((res) => {
         var ideas = [];
         for (let i = 0; i < res.data.length; i++) {
@@ -48,20 +31,6 @@ export default function IdeaMainComponent() {
       })
       .catch((err) => console.error(err));
   }
-
-  async function fetchCategories() {
-    axios
-      .get("http://localhost:5000/category/")
-      .then((res) => {
-        var categories = [];
-        for (let i = 0; i < res.data.length; i++) {
-          categories.push(res.data[i]);
-        }
-        setCategories(categories);
-      })
-      .catch((err) => console.error(err));
-  }
-
   return (
     <div class="container ">
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
@@ -124,10 +93,10 @@ export default function IdeaMainComponent() {
                     No
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Title
+                    Writer_id
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Status
+                  Approver_id
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Description
@@ -266,12 +235,12 @@ export default function IdeaMainComponent() {
                     id="category"
                     className="bg-gray-50 border select border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
-                    {categories.map((category) => (
+                    {ideas.map((idea) => (
                       <option
-                        key={category.id}
-                        value={category.id}
+                        key={idea.id}
+                        value={idea.id}
                       >
-                        {category.id}
+                        {idea.id}
                       </option>
                     ))}
                   </select>
@@ -284,7 +253,7 @@ export default function IdeaMainComponent() {
                   >
                     Select an thread
                   </label>
-                  <select
+                  {/* <select
                     id="category"
                     className="bg-gray-50 border select border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
@@ -296,7 +265,7 @@ export default function IdeaMainComponent() {
                         {thread.name}
                       </option>
                     ))}
-                  </select>
+                  </select> */}
                 </div>
 
                 <button

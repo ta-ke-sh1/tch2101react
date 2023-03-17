@@ -16,7 +16,7 @@ export default function StaffMain() {
 
     async function fetchUser() {
         await axios
-            .get("http://localhost:5000/user?id=" + params.params)
+            .get("http://localhost:9000/user?id=" + params.params)
             .then(res => {
                 setUser(res.data);
                 console.log(res.data);
@@ -26,7 +26,7 @@ export default function StaffMain() {
     }
 
     async function fetchDepartment() {
-        await axios.get("http://localhost:5000/department?id=" + user.department_id).then(res => {
+        await axios.get("http://localhost:9000/department?id=" + user.department_id).then(res => {
             setDepartment(res.data.name);
         }).catch(err => console.error(err));
     }

@@ -18,7 +18,7 @@ export default function IdeaForm({ props }) {
 
     function fetchCategories() {
         axios
-            .get("http://localhost:5000/category/")
+            .get("http://localhost:9000/category/")
             .then((res) => {
                 console.log("fetched");
                 var categories = [];
@@ -52,7 +52,7 @@ export default function IdeaForm({ props }) {
         }
 
         const response = await axios.post(
-            "http://localhost:5000/idea/add",
+            "http://localhost:9000/idea/add",
             formData,
             {
                 headers: {
