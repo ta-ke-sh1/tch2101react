@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import {
     PieChart,
     LineChart,
+    BarChart,
     Pie,
     Cell,
     Line,
+    Bar,
     XAxis,
     Tooltip,
     YAxis,
@@ -16,23 +18,89 @@ import ContainerWrapper from "../components/container_wrapper";
 import moment from "moment";
 import { convertDateToDayOfTheWeek } from "../utils/utils";
 
+
+var tagsData = {
+    "tag_count": [
+        {
+            "id": "Equipment",
+            "count": 0
+        },
+        {
+            "id": "Funding",
+            "count": 19
+        },
+        {
+            "id": "Human Resources",
+            "count": 23
+        },
+        {
+            "id": "Sanitary",
+            "count": 23
+        },
+        {
+            "id": "Scheduling",
+            "count": 25
+        },
+        {
+            "id": "Teaching Quality",
+            "count": 27
+        }
+    ],
+    "ideaByDepartment": [
+        {
+            "id": "1D17R3ozi5G8Ih12H4CV",
+            "name": "Graphic Design",
+            "count": 16
+        },
+        {
+            "id": "1desZrSKpLUFY7rZXB5s",
+            "name": "asdasdasdasdasdasdasd",
+            "count": 0
+        },
+        {
+            "id": "HrBpfqyOOPVomC6FuyPM",
+            "name": "Game Design",
+            "count": 6
+        },
+        {
+            "id": "TnKVhc7Euaskx4W9n3sW",
+            "name": "Business",
+            "count": 27
+        },
+        {
+            "id": "ZbxTmrJKbT16HOSYPbN2",
+            "name": "Computer Science",
+            "count": 0
+        },
+        {
+            "id": "s4sXB2J5q6Zx1f4qIIwB",
+            "name": "Finance",
+            "count": 34
+        }
+    ]
+}
+
 export default function Dashboard() {
 
     const url = 'http://localhost:9000/admin/dashboard?limit=7';
     const { error, isLoaded, data } = useFetch(url);
 
-    const popularTrends = useFetch('http://localhost:9000/admin/popularTags')
+    // const popularTrends = useFetch('http://localhost:9000/admin/popularTags')
 
     const [deviceTypes, setDeviceTypes] = useState([]);
     const [comments, setComments] = useState([]);
     const [posts, setPosts] = useState([]);
     const [uniqueVisit, setVisit] = useState([]);
+    const [tagCount, setTagCount] = useState([]);
+    const [departmentCount, setDepartmentCount] = useState([]);
 
     useEffect(() => {
         var dt = [];
         var c = [];
         var p = [];
         var uv = [];
+        var tc = [];
+        var dc = [];
         for (var d in data) {
             var date = moment()
                 .subtract(d, "days")
@@ -58,10 +126,28 @@ export default function Dashboard() {
                 date: convertDateToDayOfTheWeek(date),
             });
         }
+
+        for (var t in tagsData.tag_count) {
+            tc.push({
+                name: tagsData.tag_count[t].id,
+                count: tagsData.tag_count[t].count
+            })
+        }
+
+        for (var i in tagsData.ideaByDepartment) {
+            dc.push({
+                name: tagsData.ideaByDepartment[i].name,
+                id: tagsData.ideaByDepartment[i].id,
+                count: tagsData.ideaByDepartment[i].count,
+            })
+        }
+
         setDeviceTypes(dt);
         setComments(c);
         setPosts(p);
         setVisit(uv);
+        setTagCount(tc);
+        setDepartmentCount(dc);
     }, [data]);
 
     if (error) {
@@ -112,7 +198,54 @@ export default function Dashboard() {
                     data: deviceTypes
                 }} />
             </div>
+            <div className="flex">
+                <BarData
+                    props={{
+                        tableName: "Most Popular Categories",
+                        data: tagCount
+                    }}
+                />
+                <BarData props={{
+                    tableName: "Most Contributing Department",
+                    data: departmentCount
+                }} />
+            </div>
         </ContainerWrapper>
+    );
+}
+
+function BarData({ props }) {
+    const [data, setData] = useState([{}]);
+
+    useEffect(() => {
+        setData(props.data);
+    }, [data])
+
+    return (
+        <>
+            <div className="container mx-auto">
+                <div className="flex justify-between">
+                    <h1>{props.tableName}</h1>
+                </div>
+                <BarChart
+                    width={540}
+                    height={270}
+                    data={data}
+                    margin={{
+                        top: 40,
+                        right: 0,
+                        left: 0,
+                        bottom: 10,
+                    }}
+                >
+                    <CartesianGrid strokeDasharray="4 4" />
+                    <XAxis dataKey={"name"} />
+                    <YAxis />
+                    <Bar dataKey="count" fill="#FF8042" />
+                    <Tooltip />
+                </BarChart>
+            </div>
+        </>
     );
 }
 
@@ -165,8 +298,8 @@ function PieData({ props }) {
                 </div>
 
                 <PieChart
-                    width={500}
-                    height={500}
+                    width={400}
+                    height={400}
                     margin={{
                         top: -50,
                         right: 0,
@@ -203,8 +336,8 @@ function LineData({ props }) {
                 </div>
 
                 <LineChart
-                    width={700}
-                    height={360}
+                    width={540}
+                    height={270}
                     data={data}
                     margin={{
                         top: 40,

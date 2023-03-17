@@ -64,7 +64,7 @@ export default function ValidToken({ children }) {
             <>
                 <div style={{
                     position: 'fixed',
-                    top: '10%',
+                    bottom: '40px',
                     right: '40px',
                     zIndex: 100000000,
                 }} id="alert-additional-content-1" className="p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">
@@ -96,7 +96,7 @@ export default function ValidToken({ children }) {
             {!isHiddden ?
                 <div style={{
                     position: 'fixed',
-                    top: '10%',
+                    bottom: '40px',
                     right: '40px',
                     zIndex: 100000000,
                 }} id="alert-additional-content-1" className="p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">

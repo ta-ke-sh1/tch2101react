@@ -13,8 +13,7 @@ import IdeaDetail from "./screens/idea/ideaDetails";
 import Navbar from "./screens/navbar";
 import ErrorPage from "./screens/error";
 import { AuthProvider, RequireAuth } from "./hooks/useAuth";
-import Dashboard from "./screens/chart";
-
+import Dashboard from "./components/chart";
 
 const App = () => {
     return (

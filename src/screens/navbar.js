@@ -5,7 +5,8 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom';
-import { decodeToken } from "../utils/utils";
+import { decodeToken, host_url } from "../utils/utils";
+import { useAuth } from "../hooks/useAuth";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -13,17 +14,21 @@ function classNames(...classes) {
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const auth = useAuth();
 
-  const user = decodeToken(localStorage.getItem('access_token')).user;
+  const token = decodeToken(localStorage.getItem('access_token'));
+  const user = token.user;
+  const avatar = token.avatar;
+  console.log(token)
 
   function logout() {
     localStorage.setItem("access_token", "");
     localStorage.setItem("refresh_token", "");
-    navigate('/')
+    auth.logout();
+    navigate('/');
   }
 
   useEffect(() => {
-    'gs://tch2202-a782d.appspot.com/avatar/default.jpg'
   }, []);
 
   return (
@@ -36,13 +41,13 @@ export default function Navbar() {
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     className="block h-8 w-auto lg:hidden"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXL3vMpwf6wC2f_NUbFBWICDnJ0e1I0vW1Ng&usqp=CAU"
-                    alt="TCH2202"
+                    src={host_url + avatar}
+                    alt={host_url + avatar}
                   />
                   <img
                     className="hidden h-8 w-auto lg:block"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXL3vMpwf6wC2f_NUbFBWICDnJ0e1I0vW1Ng&usqp=CAU"
-                    alt="TCH2202"
+                    src={host_url + avatar}
+                    alt={host_url + avatar}
                   />
                 </div>
               </div>
@@ -92,8 +97,8 @@ export default function Navbar() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
+                        src={host_url + avatar}
+                        alt={host_url + avatar}
                       />
                     </Menu.Button>
                   </div>
@@ -181,8 +186,8 @@ export default function Navbar() {
                 <div className="flex-shrink-0">
                   <img
                     className="h-10 w-10 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
+                    src={host_url + avatar}
+                    alt={host_url + avatar}
                   />
                 </div>
                 <div className="ml-3">
