@@ -125,7 +125,8 @@ export default function IdeaDetail() {
         console.log("Reaction: " + reaction);
         await axios
             .get(
-                `http://localhost:9000/reaction?document=${id}&user=${decodedToken.user}&reaction=${reaction ? 1 : -1}`
+                `http://localhost:5000/reaction?document=${id}&user=${decodedToken.user
+                }&reaction=${reaction ? 1 : -1}`
             )
             .then((res) => {
                 console.log(res);
