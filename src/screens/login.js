@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { decodeToken, getDeviceType } from "../utils/utils";
+import { decodeToken, getDeviceType, host_url } from "../utils/utils";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
@@ -8,15 +8,55 @@ export default function Login() {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [isFetching, setFetch] = useState(false);
+    const [isLoggedIn, setLoggedIn] = useState(false);
     const navigate = useNavigate();
     const auth = useAuth();
+
+    useEffect(() => {
+        checkToken();
+    }, []);
+
+    const relocate = async (roles) => {
+        if (roles.includes("Admin")) {
+            auth.clearance = 4;
+            localStorage.setItem("clearance", 4);
+            navigate("/admin");
+        } else if (roles.includes("Faculty Manager")) {
+            auth.clearance = 3;
+            localStorage.setItem("clearance", 3);
+            navigate("/threads");
+        } else if (roles.includes("Faculty Coordinator")) {
+            auth.clearance = 2;
+            localStorage.setItem("clearance", 2);
+            navigate("/threads");
+        } else if (roles.includes("Staff")) {
+            auth.clearance = 1;
+            localStorage.setItem("clearance", 1);
+            navigate("/threads");
+        }
+    }
+
+    const checkToken = async () => {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            setLoggedIn(true);
+            return;
+        }
+
+        const decodedToken = decodeToken(token);
+        if (decodedToken.exp < Date.now()) {
+            relocate(decodedToken.role);
+        } else {
+            setLoggedIn(true);
+        }
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!isFetching) {
             setFetch(true);
             var res = await axios.post(
-                "http://localhost:9000/login",
+                host_url + "/login",
                 {
                     username: username,
                     password: password,
@@ -31,7 +71,6 @@ export default function Login() {
 
             if (res.status === 200) {
                 var roles = [];
-
                 localStorage.setItem("access_token", res.data.accessToken);
                 localStorage.setItem("refresh_token", res.data.refreshToken);
                 const decodedToken = decodeToken(res.data.accessToken);
@@ -39,25 +78,7 @@ export default function Login() {
                 roles = decodedToken.role;
                 auth.token = res.data.accessToken;
 
-                if (roles.includes("Admin")) {
-                    auth.clearance = 4;
-                    localStorage.setItem("clearance", 4);
-                    navigate("/admin");
-                } else if (roles.includes("Faculty Manager")) {
-                    auth.clearance = 3;
-                    localStorage.setItem("clearance", 3);
-                    navigate("/threads");
-                } else if (roles.includes("Faculty Coordinator")) {
-                    auth.clearance = 2;
-                    localStorage.setItem("clearance", 2);
-                    navigate("/threads");
-                } else if (roles.includes("Staff")) {
-                    auth.clearance = 1;
-                    localStorage.setItem("clearance", 1);
-                    navigate("/threads");
-                } else {
-                    console.log("Invalid account!");
-                }
+                relocate(roles);
                 setFetch(false);
             } else {
                 // Validation message
@@ -65,6 +86,10 @@ export default function Login() {
             }
         } else return;
     };
+
+    if (!isLoggedIn) {
+        return <><h1>Checking data</h1></>
+    }
     return (
         <>
             <section className="vh-100" style={{ backgroundColor: "#9A616D" }}>

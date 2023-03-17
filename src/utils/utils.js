@@ -1,6 +1,24 @@
 import moment from "moment";
 import jwt_decode from "jwt-decode";
 
+export const host_url = 'http://localhost:9000';
+
+export const convertSecondsToTime = (input) => {
+    var seconds = input;
+    var days = Math.floor(seconds / (3600 * 24));
+    seconds -= days * 3600 * 24;
+    var hrs = Math.floor(seconds / 3600);
+    seconds -= hrs * 3600;
+    var mnts = Math.floor(seconds / 60);
+    seconds -= mnts * 60;
+    return {
+        days: days,
+        hours: hrs,
+        minutes: mnts,
+        seconds: seconds,
+    }
+}
+
 export const fromMilisecondsToDate = (milisecondsSinceEpoch) => {
     const date = new Date(milisecondsSinceEpoch * 1000);
     return date.toUTCString();

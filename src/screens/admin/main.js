@@ -20,6 +20,7 @@ import DepartmentComponent from "./department";
 import GroupComponent from "./group";
 import IdeaComponent from "./idea";
 import CategoryComponent from "./category";
+import ValidToken from "../../components/token_validity";
 
 
 const navigation = [
@@ -105,7 +106,7 @@ export default function AdminMain() {
     2: <DepartmentComponent />,
     3: <GroupComponent />,
     3.1: <IdeaComponent />,
-    4:<CategoryComponent />
+    4: <CategoryComponent />
   };
 
   return (
