@@ -19,6 +19,19 @@ export default function IdeaMainComponent() {
     fetchIdeas();
   }, [])
 
+  async function fetchThreads() {
+    axios
+      .get("http://localhost:9000/idea/threads")
+      .then((res) => {
+        var threads = [];
+        for (let i = 0; i < res.data.threads.length; i++) {
+          threads.push(res.data.threads[i]);
+        }
+        setThreads(threads);
+      })
+      .catch((err) => console.error(err));
+  }
+
   async function fetchIdeas() {
     axios
       .get("http://localhost:9000/idea/")
@@ -31,6 +44,20 @@ export default function IdeaMainComponent() {
       })
       .catch((err) => console.error(err));
   }
+
+  async function fetchCategories() {
+    axios
+      .get("http://localhost:9000/category/")
+      .then((res) => {
+        var categories = [];
+        for (let i = 0; i < res.data.length; i++) {
+          categories.push(res.data[i]);
+        }
+        setCategories(categories);
+      })
+      .catch((err) => console.error(err));
+  }
+
   return (
     <div class="container ">
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">

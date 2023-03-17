@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { decodeToken } from "../utils/utils";
-import { useNavigate } from 'react-router-dom';
+import { decodeToken, getDeviceType } from "../utils/utils";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 export default function Login() {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [isFetching, setFetch] = useState(false);
     const navigate = useNavigate();
+    const auth = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,6 +20,7 @@ export default function Login() {
                 {
                     username: username,
                     password: password,
+                    device_type: getDeviceType()
                 },
                 {
                     headers: {
@@ -28,19 +31,30 @@ export default function Login() {
 
             if (res.status === 200) {
                 var roles = [];
+
                 localStorage.setItem("access_token", res.data.accessToken);
                 localStorage.setItem("refresh_token", res.data.refreshToken);
                 const decodedToken = decodeToken(res.data.accessToken);
+
                 roles = decodedToken.role;
+                auth.token = res.data.accessToken;
+
                 if (roles.includes("Admin")) {
-                    console.log("Admin");
-                    navigate('/admin')
+                    auth.clearance = 4;
+                    localStorage.setItem("clearance", 4);
+                    navigate("/admin");
                 } else if (roles.includes("Faculty Manager")) {
-                    console.log("Faculty Manager");
-                    navigate('/threads')
+                    auth.clearance = 3;
+                    localStorage.setItem("clearance", 3);
+                    navigate("/threads");
+                } else if (roles.includes("Faculty Coordinator")) {
+                    auth.clearance = 2;
+                    localStorage.setItem("clearance", 2);
+                    navigate("/threads");
                 } else if (roles.includes("Staff")) {
-                    console.log("Staff");
-                    navigate('/threads')
+                    auth.clearance = 1;
+                    localStorage.setItem("clearance", 1);
+                    navigate("/threads");
                 } else {
                     console.log("Invalid account!");
                 }

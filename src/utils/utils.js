@@ -1,8 +1,8 @@
 import moment from "moment";
 import jwt_decode from "jwt-decode";
 
-export const fromMilisecondsToDate = (ms) => {
-    const date = new Date(ms * 1000);
+export const fromMilisecondsToDate = (milisecondsSinceEpoch) => {
+    const date = new Date(milisecondsSinceEpoch * 1000);
     return date.toUTCString();
 };
 
@@ -16,14 +16,29 @@ export function convertStringToArray(input) {
     return input.split(",");
 }
 
-export function isExpired(date) {
-    return date < Date.now() / 1000;
+export function isExpired(secondsSinceEpoch) {
+    return secondsSinceEpoch < Date.now() / 1000;
 }
 
 export function getCurrentDateAsDBFormat() {
-    return moment().format("YYYY/MM/DD");
+    return moment().format("YYYY/M/D");
 }
 
 export function decodeToken(token) {
     return jwt_decode(token.substring(7, token.length));
 }
+
+export const getDeviceType = () => {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+        return "tablet";
+    }
+    if (
+        /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+            ua
+        )
+    ) {
+        return "mobile";
+    }
+    return "desktop";
+};
