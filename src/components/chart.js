@@ -12,6 +12,7 @@ import {
     YAxis,
     CartesianGrid,
     Legend,
+    ResponsiveContainer,
 } from "recharts";
 import { useFetch } from "../hooks/fetchingHooks";
 import ContainerWrapper from "../components/container_wrapper";
@@ -172,15 +173,34 @@ export default function Dashboard() {
 
     return (
         <ContainerWrapper>
-            <div className="flex">
+            <div className="flex" style={{
+                marginTop: '5%'
+            }}>
+                <div className="relative-container" style={{
+                    marginBottom: '5%'
+                }}>
+                    <div className="custom-center">
+                        <StackData props={{
+                            tableName: "Device Types",
+                            data: deviceTypes
+                        }} />
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div className="flex justify-between">
                 <LineData
                     props={{
+                        width: 350,
+                        height: 350,
                         tableName: "Ideas",
                         data: posts
                     }}
                 />
                 <LineData
                     props={{
+                        width: 350,
+                        height: 350,
                         tableName: "Comments",
                         data: comments
                     }}
@@ -189,30 +209,34 @@ export default function Dashboard() {
             <div className="flex">
                 <LineData
                     props={{
+                        width: 800,
+                        height: 350,
                         tableName: "Unique Visits",
                         data: uniqueVisit
                     }}
                 />
-                <PieData props={{
-                    tableName: "Device Types",
-                    data: deviceTypes
-                }} />
+
             </div>
-            <div className="flex">
+            <div className="flex justify-between">
                 <BarData
                     props={{
-                        tableName: "Most Popular Categories",
+                        width: 350,
+                        height: 350,
+                        tableName: "Categories Ranking",
                         data: tagCount
                     }}
                 />
                 <BarData props={{
-                    tableName: "Most Contributing Department",
+                    width: 350,
+                    height: 350,
+                    tableName: "Department Ranking",
                     data: departmentCount
                 }} />
             </div>
         </ContainerWrapper>
     );
 }
+
 
 function BarData({ props }) {
     const [data, setData] = useState([{}]);
@@ -223,50 +247,36 @@ function BarData({ props }) {
 
     return (
         <>
-            <div className="container mx-auto">
-                <div className="flex justify-between">
-                    <h1>{props.tableName}</h1>
+            <div className="overflow-hidden rounded-lg shadow-md m-2 pr-8" >
+                <div className="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
+                    <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">{props.tableName}</h1>
                 </div>
-                <BarChart
-                    width={540}
-                    height={270}
-                    data={data}
-                    margin={{
-                        top: 40,
-                        right: 0,
-                        left: 0,
-                        bottom: 10,
-                    }}
-                >
-                    <CartesianGrid strokeDasharray="4 4" />
-                    <XAxis dataKey={"name"} />
-                    <YAxis />
-                    <Bar dataKey="count" fill="#FF8042" />
-                    <Tooltip />
-                </BarChart>
+                <ResponsiveContainer
+                    width={props.width}
+                    height={props.height}>
+                    <BarChart
+                        data={data}
+                    >
+                        <CartesianGrid strokeDasharray="4 4" />
+                        <XAxis dataKey={"name"} />
+                        <YAxis />
+                        <Bar dataKey="count" fill="#FF8042" />
+                        <Tooltip />
+                    </BarChart>
+                </ResponsiveContainer>
+
             </div>
         </>
     );
 }
 
-function PieData({ props }) {
-    //
+function StackData({ props }) {
     const [data, setData] = useState([]);
-
-    const COLORS = ['#00C49F', '#FFBB28', '#FF8042'];
+    const [sum, setSum] = useState(0);
 
     useEffect(() => {
         initData();
     }, [props.data]);
-
-    let renderLabel = function (entry) {
-        let sum = 0;
-        for (var d in data) {
-            sum += data[d].value;
-        }
-        var percentage = entry.value / sum * 100;
-        return Number(percentage).toFixed(2) + "%";
-    }
 
     const initData = () => {
         var sum_d = 0;
@@ -277,48 +287,46 @@ function PieData({ props }) {
             sum_m += props.data[i].value.mobile;
             sum_t += props.data[i].value.tablet;
         }
-        console.log(sum_d + " - " + sum_m + " - " + sum_t)
+        setSum(sum_d + sum_m + sum_t)
         setData([{
-            "name": "Desktop",
-            "value": sum_d
-        }, {
-            "name": "Mobile",
-            "value": sum_m
-        }, {
-            "name": "Tablet",
-            "value": sum_t
+            "Desktop": sum_d,
+            "Mobile": sum_m,
+            "Tablet": sum_t
         }])
     }
 
     return (
         <>
-            <div className="container mx-auto">
-                <div className="flex justify-between">
-                    <h1>{props.tableName}</h1>
+            <div className="overflow-hidden rounded-lg shadow-md m-2 pr-8" style={{
+                position: 'relative',
+            }}>
+                <div className="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
+                    <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">{props.tableName}</h1>
                 </div>
-
-                <PieChart
-                    width={400}
-                    height={400}
-                    margin={{
-                        top: -50,
-                        right: 0,
-                        left: 40,
-                        bottom: 10,
-                    }}
+                <p className="bg-neutral-50 pb-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
+                    Total: {sum}
+                </p>
+                <BarChart
+                    width={800}
+                    height={60}
+                    data={data}
+                    stackOffset="expand"
+                    layout="vertical"
                 >
-                    <Legend layout="vertical" verticalAlign="middle" align="right" />
-                    <Pie data={data} dataKey="value" nameKey="name" label={renderLabel} >
-                        {data.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                    </Pie>
-                    <Tooltip />
-                </PieChart>
+                    <Legend layout="horizontal" verticalAlign="bottom" height={36} />
+                    <XAxis hide type="number" />
+                    <YAxis type="category" dataKey="name" stroke="#FFFFFF" fontSize="12" />
+                    <Bar dataKey="Desktop" stackId={'a'} fill="#FF8042" />
+                    <Bar dataKey="Mobile" stackId={'a'} fill="#FFBB28" />
+                    <Bar dataKey="Tablet" stackId={'a'} fill="#00C49F" />
+                </BarChart>
             </div>
+            <br /><br />
         </>
     );
 }
+
+//<Legend layout="vertical" verticalAlign="middle" align="right" />
 
 function LineData({ props }) {
     //
@@ -330,21 +338,15 @@ function LineData({ props }) {
 
     return (
         <>
-            <div className="container mx-auto">
-                <div className="flex justify-between">
-                    <h1>{props.tableName}</h1>
+            <div className="overflow-hidden rounded-lg shadow-md m-2 pr-8">
+                <div className="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
+                    <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">{props.tableName}</h1>
                 </div>
 
                 <LineChart
-                    width={540}
-                    height={270}
+                    width={props.width}
+                    height={props.height}
                     data={data}
-                    margin={{
-                        top: 40,
-                        right: 0,
-                        left: 0,
-                        bottom: 10,
-                    }}
                 >
                     <CartesianGrid strokeDasharray="4 4" />
                     <XAxis dataKey={"date"} />

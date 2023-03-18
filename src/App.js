@@ -4,7 +4,7 @@ import StaffMain from "./screens/staff/main";
 import Login from "./screens/login";
 import AdminMain from "./screens/admin/main";
 import ThreadDetails from "./screens/idea/threadDetails";
-import "./styles/main.scss";
+import "./styles/main.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "./styles/index.css";
