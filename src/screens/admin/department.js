@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
+import { host_url } from "../../utils/utils";
 
 export default function DepartmentComponent() {
   const [show, setShow] = useState(false);
   const [showDepartment, setShowDepartment] = useState(false);
   const [nameDepartment, setNameDepartment] = useState("");
- 
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -15,7 +16,7 @@ export default function DepartmentComponent() {
   const handleShowDepartment = (id) => {
     setShowDepartment(true);
     axios
-      .get("http://localhost:9000/department?id="+id)
+      .get(host_url + "/department?id=" + id)
       .then((res) => {
         setDepartmentById(res.data);
         console.log(res.data);
@@ -32,27 +33,27 @@ export default function DepartmentComponent() {
 
   function fetchDepartment() {
     axios
-      .get("http://localhost:9000/department")
+      .get(host_url + "/department")
       .then((res) => {
         setDepartment(res.data);
       })
       .catch((err) => console.error(err));
   }
   function addDepartment() {
-    axios.post("http://localhost:9000/department/add", {
+    axios.post(host_url + "/department/add", {
       name: nameDepartment,
     });
   }
   function editDepartment() {
-    axios.post("http://localhost:9000/department/edit", {
+    axios.post(host_url + "/department/edit", {
       id: departmentById.id,
       name: nameDepartmentById,
-      emp_count:0,
+      emp_count: 0,
     });
   }
   function deleteDepartment(id) {
     axios
-      .post("http://localhost:9000/department/delete/", {
+      .post(host_url + "/department/delete/", {
         id: id,
       })
   }
@@ -215,7 +216,7 @@ export default function DepartmentComponent() {
             aria-hidden="true"
             className="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
           >
-            
+
 
             <div className="relative w-full h-full max-w-2xl md:h-auto">
 
@@ -230,48 +231,48 @@ export default function DepartmentComponent() {
                   <Modal.Title>Edit </Modal.Title>
                 </Modal.Header>
                 {/* Modal content */}
-                
+
 
                 <Modal.Body>
 
-                    <form
-                       onSubmit={editDepartment}
-                      className="relative bg-white rounded-lg shadow dark:bg-gray-700"
-                    >
-                      {/* Modal body */}
-                      <div className="p-6 space-y-6">
-                        <div className="grid grid-cols-6 gap-6">
+                  <form
+                    onSubmit={editDepartment}
+                    className="relative bg-white rounded-lg shadow dark:bg-gray-700"
+                  >
+                    {/* Modal body */}
+                    <div className="p-6 space-y-6">
+                      <div className="grid grid-cols-6 gap-6">
 
-                          <div className="col-span-6 sm:col-span-3">
-                            <label
-                              htmlFor="first-name"
-                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                              Name Department
-                            </label>
-                            <input
-                              type="text"
-                              name="form-control"
-                              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                              placeholder={departmentById.name}
-                              onChange={(e) => setNameDepartmentById(e.target.value)}
-                              required=""
-                            />
-                          </div>
+                        <div className="col-span-6 sm:col-span-3">
+                          <label
+                            htmlFor="first-name"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
+                            Name Department
+                          </label>
+                          <input
+                            type="text"
+                            name="form-control"
+                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder={departmentById.name}
+                            onChange={(e) => setNameDepartmentById(e.target.value)}
+                            required=""
+                          />
                         </div>
                       </div>
+                    </div>
 
 
-                      {/* Modal footer */}
-                      <Modal.Footer>
-                        <button
-                          type="submit"
-                          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        >
-                          Save all
-                        </button>
-                      </Modal.Footer>
-                    </form>
+                    {/* Modal footer */}
+                    <Modal.Footer>
+                      <button
+                        type="submit"
+                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      >
+                        Save all
+                      </button>
+                    </Modal.Footer>
+                  </form>
                 </Modal.Body>
 
               </Modal>

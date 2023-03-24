@@ -2,12 +2,12 @@
 import React from "react";
 import ThreadCard from "../../components/card.js";
 import { Link } from "react-router-dom";
-import { fromMilisecondsToDate, isExpired } from "../../utils/utils.js";
+import { fromMilisecondsToDate, host_url, isExpired } from "../../utils/utils.js";
 import { useFetch } from "../../hooks/fetchingHooks.js";
 import ContainerWrapper from "../../components/container_wrapper.js";
 
 export default function Thread() {
-    const { error, isLoaded, data } = useFetch('http://localhost:9000/idea/threads');
+    const { error, isLoaded, data } = useFetch( host_url + '/idea/threads');
     if (error !== null) {
         return <div>Error: {error.message}</div>;
     }

@@ -17,7 +17,7 @@ import {
 import { useFetch } from "../hooks/fetchingHooks";
 import ContainerWrapper from "../components/container_wrapper";
 import moment from "moment";
-import { convertDateToDayOfTheWeek } from "../utils/utils";
+import { convertDateToDayOfTheWeek, host_url } from "../utils/utils";
 
 
 var tagsData = {
@@ -83,7 +83,7 @@ var tagsData = {
 
 export default function Dashboard() {
 
-    const url = 'http://localhost:9000/admin/dashboard?limit=7';
+    const url = host_url + '/admin/dashboard?limit=7';
     const { error, isLoaded, data } = useFetch(url);
 
     // const popularTrends = useFetch('http://localhost:9000/admin/popularTags')

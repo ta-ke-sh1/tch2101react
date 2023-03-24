@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Tag from "../../components/tag.js";
-import { decodeToken } from "../../utils/utils.js";
+import { decodeToken, host_url } from "../../utils/utils.js";
 import ContainerWrapper from "../../components/container_wrapper.js";
 import IdeaListItem from "../../components/comment_item.js";
 
@@ -35,7 +35,7 @@ export default function IdeaDetail() {
 
     function updateViewCount() {
         if (!isVisited) {
-            axios.get('http://localhost:9000/idea/accessed?id=' + id
+            axios.get(host_url + '/idea/accessed?id=' + id
             );
             setVisited(true);
         }
@@ -43,7 +43,7 @@ export default function IdeaDetail() {
 
     function fetchIdea() {
         axios
-            .get("http://localhost:9000/idea/fetch?id=" + id)
+            .get(host_url + "/idea/fetch?id=" + id)
             .then((res) => {
                 setIdea(res.data);
             })
@@ -52,7 +52,7 @@ export default function IdeaDetail() {
 
     function fetchComments() {
         axios
-            .get("http://localhost:9000/comment?id=" + id)
+            .get(host_url + "/comment?id=" + id)
             .then((res) => {
                 var result = [];
                 for (var i = 0; i < res.data.length; i++) {
@@ -73,7 +73,7 @@ export default function IdeaDetail() {
 
     function fetchReactions() {
         axios
-            .get("http://localhost:9000/reaction/fetch?document=" + id)
+            .get(host_url + "/reaction/fetch?document=" + id)
             .then((res) => {
                 var l = 0;
                 var d = 0;
@@ -103,7 +103,7 @@ export default function IdeaDetail() {
         console.log("commnet posted");
 
         await axios.post(
-            "http://localhost:9000/comment/add",
+            host_url + "/comment/add",
             {
                 user_id: decodedToken.user,
                 idea_id: id,
@@ -122,10 +122,10 @@ export default function IdeaDetail() {
 
     async function handleReaction(event, reaction) {
         event.preventDefault();
-        console.log("Reaction: " + reaction);
+        console.log("Reaction: " + decodedToken.user);
         await axios
             .get(
-                `http://localhost:5000/reaction?document=${id}&user=${decodedToken.user
+                host_url + `/reaction?document=${id}&user=${decodedToken.user
                 }&reaction=${reaction ? 1 : -1}`
             )
             .then((res) => {

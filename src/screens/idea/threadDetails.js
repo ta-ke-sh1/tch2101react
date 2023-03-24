@@ -5,6 +5,7 @@ import axios from "axios";
 import Tag from "../../components/tag.js";
 import {
     fromMilisecondsToDate,
+    host_url,
     isExpired,
 } from "../../utils/utils.js";
 import { Button } from "react-bootstrap";
@@ -43,7 +44,7 @@ export default function ThreadDetails() {
 
     async function initIdeas() {
         axios
-            .get("http://localhost:9000/idea", {
+            .get(host_url + "/idea", {
                 params: {
                     id: id
                 }
@@ -86,7 +87,7 @@ export default function ThreadDetails() {
 
     async function initThread() {
         axios
-            .get("http://localhost:9000/idea/threads", {
+            .get(host_url + "/idea/threads", {
                 params: {
                     id: id
                 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
+import { host_url } from "../../utils/utils";
 
 export default function UserComponent() {
   const [show, setShow] = useState(false);
@@ -31,7 +32,7 @@ export default function UserComponent() {
   }, []);
   async function fetchUsers() {
     axios
-      .get("http://localhost:9000/user/")
+      .get(host_url + "/user/")
       .then((res) => {
         var users = [];
         for (let i = 0; i < res.data.length; i++) {
@@ -44,7 +45,7 @@ export default function UserComponent() {
   }
   function fetchDepartment() {
     axios
-      .get("http://localhost:9000/department")
+      .get(host_url + "/department")
       .then((res) => {
         setDepartment(res.data);
         console.log(res.data);
@@ -53,7 +54,7 @@ export default function UserComponent() {
   }
   function addUser() {
     axios
-      .post("http://localhost:9000/user/add", {
+      .post(host_url + "/user/add", {
         fullName: fullNameUser,
         email: emailUser,
         username: userName,
@@ -65,11 +66,11 @@ export default function UserComponent() {
         dob: dobUser,
         department_id: departmentId,
       },
-      {
-        headers: {
+        {
+          headers: {
             "Content-Type": "multipart/form-data",
-        },
-    }
+          },
+        }
       )
       .then((res) => {
         console.log(res.data.messages);
@@ -293,7 +294,7 @@ export default function UserComponent() {
                 </div>
 
                 <div class="form-group mt-3">
-                <label
+                  <label
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-whites"
                     htmlFor="avatar"
                   >
@@ -317,30 +318,30 @@ export default function UserComponent() {
                     placeholder="Enter Role"
                   />
                 </div>
-                  <div class="form-group mt-3" > 
-                    <label
-                      htmlFor="department"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Select a department
-                    </label>
-               
+                <div class="form-group mt-3" >
+                  <label
+                    htmlFor="department"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Select a department
+                  </label>
 
-                    <select
+
+                  <select
                     onChange={(e) => setDepartmentId(e.target.value)}
-                      id="countries"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                     {department.map((item) =>
-                      <option 
-                        value= {item.id}
-                        
+                    id="countries"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    {department.map((item) =>
+                      <option
+                        value={item.id}
+
                       >{item.id} - {item.name}</option>
-                )}
+                    )}
 
-                    </select>
+                  </select>
 
-                  </div>
+                </div>
                 <button type="submit" class="btn btn-success mt-4">
                   Add A New Account
                 </button>

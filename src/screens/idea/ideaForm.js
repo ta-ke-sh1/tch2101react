@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
-import { getCurrentDateAsDBFormat, decodeToken } from "../../utils/utils";
+import { getCurrentDateAsDBFormat, decodeToken, host_url } from "../../utils/utils";
 import Select from 'react-select';
 
 export default function IdeaForm({ props }) {
@@ -19,7 +19,7 @@ export default function IdeaForm({ props }) {
 
     function fetchCategories() {
         axios
-            .get("http://localhost:9000/category/")
+            .get(host_url + "/category/")
             .then((res) => {
                 console.log("fetched");
                 var c = [];
@@ -68,7 +68,7 @@ export default function IdeaForm({ props }) {
         console.log(category);
 
         const response = await axios.post(
-            "http://localhost:9000/idea/add",
+            host_url + "/idea/add",
             formData,
             {
                 headers: {

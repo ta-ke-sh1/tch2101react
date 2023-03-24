@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
+import { host_url } from "../../utils/utils";
 
 export default function StaffMain() {
 
@@ -16,7 +17,7 @@ export default function StaffMain() {
 
     async function fetchUser() {
         await axios
-            .get("http://localhost:9000/user?id=" + params.params)
+            .get( host_url + "/user?id=" + params.params)
             .then(res => {
                 setUser(res.data);
                 console.log(res.data);
@@ -26,7 +27,7 @@ export default function StaffMain() {
     }
 
     async function fetchDepartment() {
-        await axios.get("http://localhost:9000/department?id=" + user.department_id).then(res => {
+        await axios.get(host_url + "/department?id=" + user.department_id).then(res => {
             setDepartment(res.data.name);
         }).catch(err => console.error(err));
     }

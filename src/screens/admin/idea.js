@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
+import { host_url } from "../../utils/utils";
 
 export default function IdeaMainComponent() {
 
@@ -22,7 +23,7 @@ export default function IdeaMainComponent() {
 
   async function fetchIdeas() {
     axios
-      .get("http://localhost:9000/idea/")
+      .get(host_url + "/idea/")
       .then((res) => {
         var ideas = [];
         for (let i = 0; i < res.data.length; i++) {

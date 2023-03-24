@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect, Suspense } from "react";
-import { decodeToken } from "../utils/utils";
+import { decodeToken, host_url } from "../utils/utils";
 
 export default function CommentItem({ props }) {
     const [like, setLike] = useState(0);
@@ -18,12 +18,12 @@ export default function CommentItem({ props }) {
 
     async function handleDelete(event) {
         event.preventDefault();
-        axios.get("http://localhost:9000/comment/delete?id=" + props.id);
+        axios.get(host_url + "/comment/delete?id=" + props.id);
     }
 
     function fetchReactions() {
         axios
-            .get("http://localhost:9000/reaction/fetch?document=" + props.id)
+            .get(host_url + "/reaction/fetch?document=" + props.id)
             .then((res) => {
                 var l = 0;
                 var d = 0;
@@ -53,7 +53,7 @@ export default function CommentItem({ props }) {
         event.preventDefault();
         await axios
             .get(
-                `http://localhost:9000/reaction?document=${props.id}&user=${props.current_user
+                host_url + `/reaction?document=${props.id}&user=${props.current_user
                 }&reaction=${isLiked ? 1 : -1}`
             )
             .then((res) => {
