@@ -14,6 +14,9 @@ import Navbar from "./screens/navbar";
 import ErrorPage from "./screens/error";
 import { AuthProvider, RequireAuth } from "./hooks/useAuth";
 import Dashboard from "./components/chart";
+import Test from "./screens/admin/test";
+import Test2 from "./screens/idea/test2";
+
 
 const App = () => {
     return (
@@ -30,6 +33,17 @@ const App = () => {
                     errorElement={<ErrorPage />}
                     element={<Login />}
                 />
+                <Route
+                    path="/test"
+                    errorElement={<ErrorPage />}
+                    element={<Test />}
+                />
+                <Route
+                    path="/test2"
+                    errorElement={<ErrorPage />}
+                    element={<Test2 />}
+                />
+
 
                 <Route element={<RequireAuth props={{ clearance: 1 }} />}>
                     <Route
@@ -47,7 +61,7 @@ const App = () => {
                         errorElement={<ErrorPage />}
                         element={
                             <>
-                                <Navbar />
+                                {/* <Navbar /> */}
                                 <IdeaDetail />
                             </>
                         }
@@ -57,7 +71,7 @@ const App = () => {
                         errorElement={<ErrorPage />}
                         element={
                             <>
-                                <Navbar />
+                                {/* <Navbar /> */}
                                 <Thread />
                             </>
                         }

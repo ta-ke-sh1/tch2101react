@@ -32,13 +32,14 @@ export default function Navbar() {
   }, []);
 
   return (
-    <Disclosure as="nav" className="bg-white shadow fixed w-100" style={{ zIndex: 100 }}>
+    
+    <Disclosure as="nav" className="bg-white-100 shadow sticky w-100 " style={{ zIndex: 1 }}>
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
+          <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8 ">
             <div className="flex h-16 justify-between">
               <div className="flex px-2 lg:px-0">
-                <div className="flex flex-shrink-0 items-center">
+                {/* <div className="flex flex-shrink-0 items-center">
                   <img
                     className="block h-8 w-auto lg:hidden"
                     src={host_url + avatar}
@@ -49,7 +50,7 @@ export default function Navbar() {
                     src={host_url + avatar}
                     alt={host_url + avatar}
                   />
-                </div>
+                </div> */}
               </div>
               <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
                 <div className="w-full max-w-lg lg:max-w-xs">

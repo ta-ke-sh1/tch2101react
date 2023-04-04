@@ -4,6 +4,8 @@ import Tag from "./tag";
 import { Link } from "react-router-dom";
 
 export default function IdeaItem({ props }) {
+    
+    const [isReacted, setReacted] = useState(0);
     const [reactions, setReactions] = useState({
         like: 0,
         dislike: 0,
