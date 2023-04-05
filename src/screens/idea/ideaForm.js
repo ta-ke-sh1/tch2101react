@@ -10,6 +10,7 @@ import Select from "react-select";
 
 export default function IdeaForm({ props }) {
     const [categories, setCategories] = useState([]);
+    const [hashtags, setHashtags] = useState([]);
 
     const [content, setContent] = useState("");
     const [title, setTitle] = useState("");
@@ -19,7 +20,26 @@ export default function IdeaForm({ props }) {
 
     useEffect(() => {
         fetchCategories();
+        fetchHashtags();
     }, []);
+
+    function fetchHashtags() {
+        axios
+            .get(host_url + "/hashtag")
+            .then((res) => {
+                console.log("fetched");
+                var h = [];
+                for (let i = 0; i < res.data.length; i++) {
+                    h.push({
+                        value: res.data[i].id,
+                        label: res.data[i].id,
+                    });
+                }
+                setHashtags(h);
+                console.log(h);
+            })
+            .catch((err) => console.error(err));
+    }
 
     function fetchCategories() {
         axios
@@ -39,13 +59,20 @@ export default function IdeaForm({ props }) {
             .catch((err) => console.error(err));
     }
 
-    const handleChange = (selectValue) => {
-        console.log(selectValue);
+    const handleChangeCategory = (selectValue) => {
         const categories = [];
         for (let i = 0; i < selectValue.length; i++) {
             categories.push(selectValue[i].label);
         }
         setCategory(categories);
+    };
+
+    const handleChangeHashtag = (selectValue) => {
+        const hashtags = [];
+        for (let i = 0; i < selectValue.length; i++) {
+            hashtags.push(selectValue[i].label);
+        }
+        setHashtags(hashtags);
     };
 
     async function handleSubmit(event) {
@@ -155,8 +182,20 @@ export default function IdeaForm({ props }) {
                                     label: "Equipment",
                                     value: "Equipment",
                                 }}
-                                onChange={handleChange}
+                                onChange={handleChangeCategory}
                                 options={categories}
+                            />
+                        </div>
+                        <div className="mb-6">
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Select a hashtag
+                            </label>
+                            <Select
+                                required
+                                closeMenuOnSelect={false}
+                                isMulti
+                                onChange={handleChangeHashtag}
+                                options={hashtags}
                             />
                         </div>
                         <div className="form-check form-switch mb-6">
