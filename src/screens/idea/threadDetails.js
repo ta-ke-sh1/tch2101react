@@ -127,10 +127,31 @@ export default function ThreadDetails() {
     }
 
     function sort(tag) {
-        console.log(tag);
-        var sorted = ideas.filter((a) => a.category.includes(tag));
-        console.log(sorted);
-        setIdeas(sorted);
+        axios
+            .get(host_url + "/idea/filter", {
+                params: {
+                    category: tag,
+                },
+            })
+            .then((res) => {
+                var result = [];
+                for (var i = 0; i < res.data.length; i++) {
+                    result.push({
+                        id: res.data[i].id,
+                        key: res.data[i].idea.id,
+                        visit_count: res.data[i].idea.visit_count,
+                        stat: res.data[i].idea.stat,
+                        post_date: res.data[i].idea.post_date,
+                        title: res.data[i].idea.title,
+                        description: res.data[i].idea.description,
+                        category: res.data[i].idea.category,
+                        is_anonymous: false,
+                        writer_id: res.data[i].idea.writer_id,
+                    });
+                }
+                result.sort((a, b) => a.post_date - b.post_date).reverse();
+                setIdeas(result);
+            });
     }
 
     if (!isLoadedIdeas || !isLoadedThread) {
@@ -141,6 +162,14 @@ export default function ThreadDetails() {
             </>
         );
     }
+
+    const handleDeleteCategory = (id) => {
+        axios
+            .delete(host_url + "/category", { params: { id: id } })
+            .then((res) => {
+                console.log(res);
+            });
+    };
 
     return (
         <>
@@ -196,13 +225,20 @@ export default function ThreadDetails() {
                         </ul>
                     </div>
 
-                    {auth.clearance > 2 ? (
+                    {auth.clearance < 2 ? (
                         <div className="h-30 w-full shadow  mt-10">
                             <h1>Available Categories</h1>
                             {categories.map((tag) => (
                                 <li>
                                     <span>{tag.id}</span> -{" "}
-                                    <span>{tag.idea}</span>
+                                    <span>{tag.idea}</span> -{" "}
+                                    <button
+                                        onClick={() =>
+                                            handleDeleteCategory(tag.id)
+                                        }
+                                    >
+                                        Delete
+                                    </button>
                                 </li>
                             ))}
                             <form action="">

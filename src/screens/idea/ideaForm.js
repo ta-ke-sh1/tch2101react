@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
-import { getCurrentDateAsDBFormat, decodeToken, host_url } from "../../utils/utils";
-import Select from 'react-select';
+import {
+    getCurrentDateAsDBFormat,
+    decodeToken,
+    host_url,
+} from "../../utils/utils";
+import Select from "react-select";
 
 export default function IdeaForm({ props }) {
     const [categories, setCategories] = useState([]);
@@ -26,16 +30,16 @@ export default function IdeaForm({ props }) {
                 for (let i = 0; i < res.data.length; i++) {
                     c.push({
                         value: res.data[i].id,
-                        label: res.data[i].id
+                        label: res.data[i].id,
                     });
                 }
                 setCategories(c);
-                console.log(c)
+                console.log(c);
             })
             .catch((err) => console.error(err));
     }
 
-    const handleChange = selectValue => {
+    const handleChange = (selectValue) => {
         console.log(selectValue);
         const categories = [];
         for (let i = 0; i < selectValue.length; i++) {
@@ -65,17 +69,11 @@ export default function IdeaForm({ props }) {
             formData.append("items", chosenFiles[i]);
         }
 
-        console.log(category);
-
-        const response = await axios.post(
-            host_url + "/idea/add",
-            formData,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }
-        );
+        const response = await axios.post(host_url + "/idea", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
         console.log(response);
     }
 
@@ -153,9 +151,13 @@ export default function IdeaForm({ props }) {
                                 required
                                 closeMenuOnSelect={false}
                                 isMulti
-                                defaultValue={{ label: 'Equipment', value: 'Equipment' }}
+                                defaultValue={{
+                                    label: "Equipment",
+                                    value: "Equipment",
+                                }}
                                 onChange={handleChange}
-                                options={categories} />
+                                options={categories}
+                            />
                         </div>
                         <div className="form-check form-switch mb-6">
                             <input
