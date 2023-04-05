@@ -1,4 +1,4 @@
-import { Routes, Route, } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import React from "react";
 import StaffMain from "./screens/staff/main";
 import Login from "./screens/login";
@@ -17,7 +17,6 @@ import Dashboard from "./components/chart";
 import Test from "./screens/admin/test";
 import Test2 from "./screens/idea/test2";
 
-
 const App = () => {
     return (
         <AuthProvider>
@@ -33,18 +32,6 @@ const App = () => {
                     errorElement={<ErrorPage />}
                     element={<Login />}
                 />
-                <Route
-                    path="/test"
-                    errorElement={<ErrorPage />}
-                    element={<Test />}
-                />
-                <Route
-                    path="/test2"
-                    errorElement={<ErrorPage />}
-                    element={<Test2 />}
-                />
-
-
                 <Route element={<RequireAuth props={{ clearance: 1 }} />}>
                     <Route
                         path="/threads/:id"
