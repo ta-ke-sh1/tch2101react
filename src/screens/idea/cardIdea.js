@@ -1,18 +1,14 @@
 import React, { useLayoutEffect } from "react";
 // eslint-disable-next-line
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 import Tag from "../../components/tag.js";
 import {
-    fromMilisecondsToDate,
     host_url,
-    isExpired,
 } from "../../utils/utils.js";
 import { decodeToken } from "../../utils/utils.js";
 
 export default function CardItem({ props }) {
-    let { id } = useParams();
     const [isReacted, setReacted] = useState(0);
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState("");
@@ -121,26 +117,6 @@ export default function CardItem({ props }) {
             });
         fetchReactions();
     }
-
-    async function fetchReactions() {
-        axios
-            .get("http://localhost:9000/reaction/fetch?document=" + props.id)
-            .then((res) => {
-                var l = 0;
-                var d = 0;
-                for (let i = 0; i < res.data.length; i++) {
-                    if (res.data[i].reaction === 1) {
-                        l++;
-                    } else if (res.data[i].reaction === -1) {
-                        d++;
-                    }
-                }
-                setReactions({
-                    like: l,
-                    dislike: d,
-                });
-            });
-    }
     useEffect(() => {
         fetchComments();
         fetchReactions();
@@ -213,7 +189,7 @@ export default function CardItem({ props }) {
                     </div>
                     <div className="w-1/3 flex items-center justify-center  p-2 bg-white rounded-md hover:bg-gray-200 focus:outline-none">
                         <a
-                            href="#"
+                        href="{#}"
                             className="text-blue-500 hover:underline"
                             onClick={openPopup}
                         >

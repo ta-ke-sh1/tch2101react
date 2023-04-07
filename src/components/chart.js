@@ -81,7 +81,7 @@ var tagsData = {
     ]
 }
 
-export default function Dashboard() {
+export default function Dashboard1() {
 
     const url = host_url + '/admin/dashboard?limit=7';
     const { error, isLoaded, data } = useFetch(url);
@@ -172,7 +172,8 @@ export default function Dashboard() {
     }
 
     return (
-        <ContainerWrapper>
+         <main className="py-10">
+            <div className="px-4 sm:px-6 lg:px-8">
             <div className="flex" style={{
                 marginTop: '5%'
             }}>
@@ -233,7 +234,10 @@ export default function Dashboard() {
                     data: departmentCount
                 }} />
             </div>
-        </ContainerWrapper>
+            </div>
+          </main>
+         
+       
     );
 }
 

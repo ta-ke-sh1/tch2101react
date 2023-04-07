@@ -20,6 +20,8 @@ import DepartmentComponent from "./department";
 import GroupComponent from "./group";
 import IdeaComponent from "./idea";
 import CategoryComponent from "./category";
+import Dashboard1 from '../../components/chart';
+
 
 const navigation = [
   { index: 0, name: "Dashboard", href: "#", icon: HomeIcon, current: true },
@@ -95,7 +97,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+
+
 export default function AdminMain() {
+  let isRender = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [componentIndex, setIndex] = useState();
   const components = {
@@ -105,10 +110,7 @@ export default function AdminMain() {
     3: <GroupComponent />,
     3.1: <IdeaComponent />,
     4:<CategoryComponent />
-    // 5.1<
-    // 5.2<Component />
   };
-
   return (
     <>
       <div>
@@ -445,7 +447,14 @@ export default function AdminMain() {
               </div>
             </div>
           </div>
-          {components[componentIndex]}
+
+          <main className="py-10">
+            <div className="px-4 sm:px-6 lg:px-8">
+            {/* {isRender ? <Dashboard1 /> : components[componentIndex] } */}
+          { components[componentIndex] }
+            </div>
+          </main>
+          
         </div>
       </div>
     </>

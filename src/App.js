@@ -14,8 +14,6 @@ import Navbar from "./screens/navbar";
 import ErrorPage from "./screens/error";
 import { AuthProvider, RequireAuth } from "./hooks/useAuth";
 import Dashboard from "./components/chart";
-import Test from "./screens/admin/test";
-import Test2 from "./screens/idea/test2";
 
 const App = () => {
     return (

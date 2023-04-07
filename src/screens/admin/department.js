@@ -19,7 +19,7 @@ export default function DepartmentComponent() {
       .get(host_url + "/department?id=" + id)
       .then((res) => {
         setDepartmentById(res.data);
-        console.log(res.data);
+        console.log(res.data.id);
       });
   };
 
@@ -40,12 +40,12 @@ export default function DepartmentComponent() {
       .catch((err) => console.error(err));
   }
   function addDepartment() {
-    axios.post(host_url + "/department/add", {
+    axios.post(host_url + "/department/", {
       name: nameDepartment,
     });
   }
   function editDepartment() {
-    axios.post(host_url + "/department/edit", {
+    axios.put(host_url + "/department/", {
       id: departmentById.id,
       name: nameDepartmentById,
       emp_count: 0,
@@ -53,19 +53,19 @@ export default function DepartmentComponent() {
   }
   function deleteDepartment(id) {
     axios
-      .post(host_url + "/department/delete/", {
+      .delete(host_url + "/department/", {
         id: id,
       })
   }
   return (
-    <div class="container ">
+    <div className="container ">
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
-        <div class="row ">
-          <div class="col-sm-3 mt-5 mb-4 text-gred">
+        <div className="row ">
+          <div className="col-sm-3 mt-5 mb-4 text-gred">
             <div className="search">
-              <form class="form-inline">
+              <form className="form-inline">
                 <input
-                  class="form-control mr-sm-2"
+                  className="form-control mr-sm-2"
                   type="search"
                   placeholder="Search Department"
                   aria-label="Search"
@@ -74,21 +74,21 @@ export default function DepartmentComponent() {
             </div>
           </div>
           <div
-            class="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred"
+            className="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred"
             style={{ color: "green" }}
           >
             <h2>
               <b> List Department</b>
             </h2>
           </div>
-          <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
+          <div className="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
             <Button variant="primary" onClick={handleShow}>
               Add New Department
             </Button>
           </div>
         </div>
-        <div class="row">
-          <div class="table-responsive ">
+        <div className="row">
+          <div className="table-responsive ">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -146,7 +146,7 @@ export default function DepartmentComponent() {
                         </div>
                       </div>
                     </th>
-                    <td className="px-6 py-4">{item.name}</td>
+                    <td className="px-6 py-4" key={item.id}>{item.name}</td>
                     <td className="px-6 py-4">{item.emp_count}</td>
 
                     <td className="pl-3">
@@ -185,17 +185,17 @@ export default function DepartmentComponent() {
             </Modal.Header>
             <Modal.Body>
               <form onSubmit={addDepartment}>
-                <div class="form-group">
+                <div className="form-group">
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     onChange={(e) => setNameDepartment(e.target.value)}
                     id="name"
                     placeholder="Enter Name Department"
                   />
                 </div>
 
-                <button type="submit" class="btn btn-success mt-4">
+                <button type="submit" className="btn btn-success mt-4">
                   Add A New Department
                 </button>
               </form>

@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Tag from "../../components/tag.js";
 import { decodeToken, host_url } from "../../utils/utils.js";
-import IdeaListItem from "../../components/comment_item.js";
 import Navbar from "../navbar.js";
 
 export default function IdeaDetail() {
@@ -152,7 +151,7 @@ export default function IdeaDetail() {
                     <ul>
                         <li>
                             <a
-                                href="/"
+                                href="{/}"
                                 className="text-blue-500 hover:underline"
                             >
                                 Category 1
@@ -160,7 +159,7 @@ export default function IdeaDetail() {
                         </li>
                         <li>
                             <a
-                                href="/"
+                                href="{/}"
                                 className="text-blue-500 hover:underline"
                             >
                                 Category 2
@@ -168,7 +167,7 @@ export default function IdeaDetail() {
                         </li>
                         <li>
                             <a
-                                href="/"
+                                href="{/}"
                                 className="text-blue-500 hover:underline"
                             >
                                 Category 3
@@ -253,7 +252,7 @@ export default function IdeaDetail() {
                                 </div>
                                 <div className="w-1/3 flex items-center justify-center  p-2 bg-white rounded-md hover:bg-gray-200 focus:outline-none">
                                     <a
-                                        href="#"
+                                        href="{#}"
                                         className="text-blue-500 hover:underline"
                                         onClick={openPopup}
                                     >
@@ -404,7 +403,7 @@ export default function IdeaDetail() {
                     <ul>
                         <li>
                             <a
-                                href="#"
+                                href="{#}"
                                 className="text-blue-500 hover:underline"
                             >
                                 Post 1
@@ -412,7 +411,7 @@ export default function IdeaDetail() {
                         </li>
                         <li>
                             <a
-                                href="#"
+                                href="{#}"
                                 className="text-blue-500 hover:underline"
                             >
                                 Post 2
@@ -420,7 +419,7 @@ export default function IdeaDetail() {
                         </li>
                         <li>
                             <a
-                                href="#"
+                                href="{#}"
                                 className="text-blue-500 hover:underline"
                             >
                                 Post 3
