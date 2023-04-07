@@ -20,7 +20,6 @@ export default function UserComponent() {
   const [userName, setUserName] = useState("");
   const [passwordUser, setPasswordUser] = useState("");
   const [numberPhoneUser, setNumberPhoneUser] = useState("");
-  const [statusUser, setStatusUser] = useState("");
   const [avatarUser, setAvatarUser] = useState("");
   const [roleUser, setRoleUser] = useState("");
   const [dobUser, setDobUser] = useState("");
@@ -52,15 +51,17 @@ export default function UserComponent() {
       })
       .catch((err) => console.error(err));
   }
-  function addUser() {
+
+  function addUser(event) {
+    event.preventDefault();
     axios
-      .post(host_url + "/user/add", {
+      .post(host_url + "/user/", {
         fullName: fullNameUser,
         email: emailUser,
         username: userName,
         password: passwordUser,
         phone: numberPhoneUser,
-        stat: statusUser,
+        stat: 'Activated',
         avatar: avatarUser,
         role: roleUser,
         dob: dobUser,
@@ -269,7 +270,7 @@ export default function UserComponent() {
                     class="form-control"
                     onChange={(e) => setNumberPhoneUser(e.target.value)}
                     id="phone"
-                    placeholder="Enter NumberPhone"
+                    placeholder="Enter Phone Number"
                   />
                 </div>
 
@@ -282,17 +283,6 @@ export default function UserComponent() {
                     placeholder="Enter Dob"
                   />
                 </div>
-
-                <div class="form-group mt-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    onChange={(e) => setStatusUser(e.target.value)}
-                    id="status"
-                    placeholder="Enter Status"
-                  />
-                </div>
-
                 <div class="form-group mt-3">
                   <label
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-whites"
@@ -310,13 +300,31 @@ export default function UserComponent() {
                 </div>
 
                 <div class="form-group mt-3">
-                  <input
-                    type="text"
-                    class="form-control"
+                  <label
+                    htmlFor="role"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Select a Role
+                  </label>
+                  <select
+                    defaultValue={'Staff'}
                     onChange={(e) => setRoleUser(e.target.value)}
                     id="role"
-                    placeholder="Enter Role"
-                  />
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option
+                      value={'Admin'}
+                    >Admin</option>
+                    <option
+                      value={'Quality Assurance Manager'}
+                    >Quality Assurance Manager</option>
+                    <option
+                      value={'Quality Assurance Coordinator'}
+                    >Quality Assurance Coordinator</option>
+                    <option
+                      value={'Staff'}
+                    >Staff</option>
+                  </select>
                 </div>
                 <div class="form-group mt-3" >
                   <label
@@ -325,20 +333,16 @@ export default function UserComponent() {
                   >
                     Select a department
                   </label>
-
-
                   <select
                     onChange={(e) => setDepartmentId(e.target.value)}
-                    id="countries"
+                    id="department"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
                     {department.map((item) =>
                       <option
                         value={item.id}
-
-                      >{item.id} - {item.name}</option>
+                      >{item.name}</option>
                     )}
-
                   </select>
 
                 </div>
