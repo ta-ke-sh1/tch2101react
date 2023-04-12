@@ -10,7 +10,6 @@ export default function UserComponent() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCloseEditUser = () => setShowEditUser(false);
-  const handleShowEditUser = () => setShowEditUser(true);
 
   const [users, setUsers] = useState([]);
   const [department, setDepartment] = useState([]);
@@ -24,11 +23,23 @@ export default function UserComponent() {
   const [roleUser, setRoleUser] = useState("");
   const [dobUser, setDobUser] = useState("");
   const [departmentId, setDepartmentId] = useState("");
+  const [UserById, setUserById] = useState({});
+
 
   useEffect(() => {
     fetchUsers();
     fetchDepartment();
   }, []);
+  const handleShowEditUser = (id) => {
+    setShowEditUser(true);
+    console.log(id);
+    axios
+      .get(`${host_url}/user?id=${id}`)
+      .then((res) => {
+        setUserById(res.data);
+        console.log(res.data.id);
+      });
+  };
   async function fetchUsers() {
     axios
       .get(host_url + "/user/")
@@ -38,7 +49,7 @@ export default function UserComponent() {
           users.push(res.data[i]);
         }
         setUsers(users);
-        console.log(users);
+        // console.log(users);
       })
       .catch((err) => console.error(err));
   }
@@ -47,7 +58,6 @@ export default function UserComponent() {
       .get(host_url + "/department")
       .then((res) => {
         setDepartment(res.data);
-        console.log(res.data);
       })
       .catch((err) => console.error(err));
   }
@@ -77,15 +87,15 @@ export default function UserComponent() {
         console.log(res.data.messages);
       });
   }
-  // function deleteUser(id) {
-  //   axios
-  //     .post("http://localhost:9000/department/delete/", {
-  //       id: id,
-  //     })
-  //     .then((res) => {
-  //       console.log(res.data.messages);
-  //     });
-  // }
+  function deleteUser(id) {
+    axios
+      .post("http://localhost:9000/department/delete/", {
+        id: id,
+      })
+      .then((res) => {
+        console.log(res.data.messages);
+      });
+  }
 
   return (
     <div class="container ">
@@ -199,13 +209,18 @@ export default function UserComponent() {
                       {/* Modal toggle */}
                       <Button
                         variant="primary"
-                        onClick={handleShowEditUser}
-                        key={index}
+                        onClick={() => handleShowEditUser(item.username)}
+                        key={item.username}
                       >
                         Edit User
                       </Button>
 
-                      <Button variant="danger">Delete User</Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => deleteUser(item.username)}
+                      >
+                        Delete User
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -331,7 +346,7 @@ export default function UserComponent() {
                     htmlFor="department"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Select a department
+                    Select a department 
                   </label>
                   <select
                     onChange={(e) => setDepartmentId(e.target.value)}
@@ -340,11 +355,11 @@ export default function UserComponent() {
                   >
                     {department.map((item) =>
                       <option
+                        selected
                         value={item.id}
                       >{item.name}</option>
                     )}
                   </select>
-
                 </div>
                 <button type="submit" class="btn btn-success mt-4">
                   Add A New Account
@@ -385,138 +400,126 @@ export default function UserComponent() {
                     className="relative bg-white rounded-lg shadow dark:bg-gray-700"
                   >
                     {/* Modal body */}
-                    <div className="p-6 space-y-6">
-                      <div className="grid grid-cols-6 gap-6">
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="first-name"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            First Name
-                          </label>
-                          <input
-                            type="text"
-                            name="first-name"
-                            id="first-name"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Bonnie"
-                            required=""
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="last-name"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Last Name
-                          </label>
-                          <input
-                            type="text"
-                            name="last-name"
-                            id="last-name"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Green"
-                            required=""
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="email"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Email
-                          </label>
-                          <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="example@company.com"
-                            required=""
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="phone-number"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Phone Number
-                          </label>
-                          <input
-                            type="number"
-                            name="phone-number"
-                            id="phone-number"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="e.g. +(12)3456 789"
-                            required=""
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="department"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Department
-                          </label>
-                          <input
-                            type="text"
-                            name="department"
-                            id="department"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Development"
-                            required=""
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="company"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Company
-                          </label>
-                          <input
-                            type="number"
-                            name="company"
-                            id="company"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder={123456}
-                            required=""
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="current-password"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Current Password
-                          </label>
-                          <input
-                            type="password"
-                            name="current-password"
-                            id="current-password"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="••••••••"
-                            required=""
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label
-                            htmlFor="new-password"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            New Password
-                          </label>
-                          <input
-                            type="password"
-                            name="new-password"
-                            id="new-password"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="••••••••"
-                            required=""
-                          />
-                        </div>
-                      </div>
-                    </div>
+                    <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    onChange={(e) => setFullNameUser(e.target.value)}
+                    id="name"
+                    placeholder={UserById.fullName}
+                  />
+                </div>
+                <div class="form-group mt-3">
+                  <input
+                    type="email"
+                    class="form-control"
+                    onChange={(e) => setEmailUser(e.target.value)}
+                    id="InputEmail1"
+                    placeholder={UserById.email}
+                  />
+                </div>
+                <div class="form-group mt-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    onChange={(e) => setUserName(e.target.value)}
+                    id="username"
+                    aria-describedby="emailHelp"
+                    placeholder={UserById.username}
+                  />
+                </div>
+                <div class="form-group mt-3">
+                  <input
+                    type="password"
+                    class="form-control"
+                    onChange={(e) => setPasswordUser(e.target.value)}
+                    id="Password"
+                    placeholder="nhập mật khẩu mới"
+                  />
+                </div>
+                <div class="form-group mt-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    onChange={(e) => setNumberPhoneUser(e.target.value)}
+                    id="phone"
+                    placeholder={UserById.phone}
+                  />
+                </div>
+
+                <div class="form-group mt-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    onChange={(e) => setDobUser(e.target.value)}
+                    id="dob"
+                    placeholder={UserById.dob}
+                  />
+                </div>
+                <div class="form-group mt-3">
+                  <label
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-whites"
+                    htmlFor="avatar"
+                  >
+                    Upload file
+                  </label>
+                  <input
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                    aria-describedby="avatar"
+                    onChange={(e) => setAvatarUser(e.target.value)}
+                    id="image idea"
+                    type="file"
+                  />
+                </div>
+
+                <div class="form-group mt-3">
+                  <label
+                    htmlFor="role"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Select a Role
+                  </label>
+                  <select
+                    defaultValue={UserById.role}
+                    onChange={(e) => setRoleUser(e.target.value)}
+                    id="role"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option
+                      value={'Admin'}
+                    >Admin</option>
+                    <option
+                      value={'Quality Assurance Manager'}
+                    >Quality Assurance Manager</option>
+                    <option
+                      value={'Quality Assurance Coordinator'}
+                    >Quality Assurance Coordinator</option>
+                    <option
+                      value={'Staff'}
+                    >Staff</option>
+                  </select>
+                </div>
+                <div class="form-group mt-3" >
+                  <label
+                    htmlFor="department"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Select a department 
+                  </label>
+                  <select
+                    onChange={(e) => setDepartmentId(e.target.value)}
+                    id="department"
+                    placeholder={UserById.department}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    {department.map((item) =>
+                      <option
+                        selected
+                        value={item.id}
+                      >{item.name}</option>
+                    )}
+                  </select>
+                </div>
                     {/* Modal footer */}
                     <Modal.Footer>
                       <button

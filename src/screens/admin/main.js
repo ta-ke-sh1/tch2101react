@@ -17,7 +17,6 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import DashboardComponent from "./dashboard";
 import UserComponent from "./user";
 import DepartmentComponent from "./department";
-import GroupComponent from "./group";
 import IdeaComponent from "./idea";
 import CategoryComponent from "./category";
 import Dashboard1 from '../../components/chart';
@@ -70,12 +69,8 @@ const navigation = [
     index: 4,
     name: "Category",
     icon: InboxIcon,
-    current: true,
-    subnav: true,
-    subNavigations: [
-      { name: "List category ", href: "#", icon: UsersIcon, current: false },
-    ],
-  },
+     current: true },
+    ,
   {
     name: "Event",
     href: "#",
@@ -100,14 +95,13 @@ function classNames(...classes) {
 
 
 export default function AdminMain() {
-  let isRender = useState(true);
+  const [isRender,setRender] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [componentIndex, setIndex] = useState();
   const components = {
     0: <DashboardComponent />,
     1.1: <UserComponent />,
     2: <DepartmentComponent />,
-    3: <GroupComponent />,
     3.1: <IdeaComponent />,
     4:<CategoryComponent />
   };
@@ -451,7 +445,7 @@ export default function AdminMain() {
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
             {/* {isRender ? <Dashboard1 /> : components[componentIndex] } */}
-          { components[componentIndex] }
+            {components[componentIndex] }
             </div>
           </main>
           

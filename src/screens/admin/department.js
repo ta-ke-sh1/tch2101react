@@ -40,22 +40,25 @@ export default function DepartmentComponent() {
       .catch((err) => console.error(err));
   }
   function addDepartment() {
-    axios.post(host_url + "/department/", {
+    axios.post(host_url + "/department", {
       name: nameDepartment,
     });
   }
   function editDepartment() {
-    axios.put(host_url + "/department/", {
+    axios.put(host_url + "/department", {
       id: departmentById.id,
       name: nameDepartmentById,
       emp_count: 0,
     });
   }
   function deleteDepartment(id) {
-    axios
-      .delete(host_url + "/department/", {
-        id: id,
+    axios.delete(`${host_url}/department?id=${id}`)
+      .then((response) => {
+        console.log(response);
       })
+      .catch((error) => {
+        console.log(error);
+      });
   }
   return (
     <div className="container ">
@@ -256,7 +259,6 @@ export default function DepartmentComponent() {
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder={departmentById.name}
                             onChange={(e) => setNameDepartmentById(e.target.value)}
-                            required=""
                           />
                         </div>
                       </div>

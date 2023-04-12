@@ -14,6 +14,7 @@ import Navbar from "./screens/navbar";
 import ErrorPage from "./screens/error";
 import { AuthProvider, RequireAuth } from "./hooks/useAuth";
 import Dashboard from "./components/chart";
+import Test from "./screens/idea/ideaQAM"
 
 const App = () => {
     return (
@@ -29,6 +30,11 @@ const App = () => {
                     path="/"
                     errorElement={<ErrorPage />}
                     element={<Login />}
+                />
+                 <Route
+                    path="/test"
+                    errorElement={<ErrorPage />}
+                    element={<Test />}
                 />
                 <Route element={<RequireAuth props={{ clearance: 1 }} />}>
                     <Route
