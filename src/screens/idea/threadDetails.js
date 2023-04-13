@@ -1,8 +1,10 @@
 // eslint-disable-next-line
 import React, { useEffect, useState } from "react";
+import { Breadcrumb, Layout, Menu, theme ,Card} from "antd";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Tag from "../../components/tag.js";
+import { UploadOutlined } from "@ant-design/icons";
+
 import {
   fromMilisecondsToDate,
   host_url,
@@ -15,12 +17,13 @@ import CardItem from "./cardIdea.js";
 import { useAuth } from "../../hooks/useAuth.js";
 
 export default function ThreadDetails() {
+  const { Header, Content, Footer } = Layout;
   let { id } = useParams();
   const auth = useAuth();
 
   const ideaPerPageCount = 4;
 
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
 
   const [ideas, setIdeas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -45,24 +48,24 @@ export default function ThreadDetails() {
   useEffect(() => {
     initIdeas();
     initThread();
-    if (auth.clearance > 2) {
-      initCategories();
-    }
+    // if (auth.clearance > 2) {
+    //   initCategories();
+    // }
   }, []);
 
-  async function initCategories() {
-    axios.get(host_url + "/category").then((res) => {
-      var result = [];
-      for (let i = 0; i < res.data.length; i++) {
-        result.push({
-          id: res.data[i].id,
-          addedBy: res.data[i].addedBy,
-          idea: res.data[i].idea,
-        });
-      }
-      setCategories(result);
-    });
-  }
+  // async function initCategories() {
+  //   axios.get(host_url + "/category").then((res) => {
+  //     var result = [];
+  //     for (let i = 0; i < res.data.length; i++) {
+  //       result.push({
+  //         id: res.data[i].id,
+  //         addedBy: res.data[i].addedBy,
+  //         idea: res.data[i].idea,
+  //       });
+  //     }
+  //     setCategories(result);
+  //   });
+  // }
 
   async function initIdeas() {
     axios
@@ -164,144 +167,96 @@ export default function ThreadDetails() {
     );
   }
 
-  const handleDeleteCategory = (id) => {
-    axios.delete(host_url + "/category", { params: { id: id } }).then((res) => {
-      console.log(res);
-    });
-  };
+  // const handleDeleteCategory = (id) => {
+  //   axios.delete(host_url + "/category", { params: { id: id } }).then((res) => {
+  //     console.log(res);
+  //   });
+  // };
 
   return (
     <>
-      <div className="flex flex-row md-auto mx-auto  h-screen ">
-        <div className="w-1/4 bg-white shadow p-4 mb-10">
-          {/* left sidebar content */}
-          <div className="mt-10  h-30 shadow">
-            <ul>
-              <li>
-                <Link to={"/threads"}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-                    />
-                  </svg>
-                  Home
-                </Link>
-              </li>
-              <li>
-                {!isExpired(thread.endDate) ? (
-                  <a onClick={handleShow}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 4.5v15m7.5-7.5h-15"
-                      />
-                    </svg>
+     <Layout>
+      <Header style={{ position: "sticky", top: 0, zIndex: 1, width: "100%" }}>
+        <div
+          style={{
+            float: "right",
+            width: 120,
+            height: 31,
+            margin: "16px 24px 16px 0",
+            background: "rgba(255, 255, 255, 0.2)",
+          }}
+        />
+
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={['2']}
+          items={[
+            {
+              key: '1',
+            //   icon: <UserOutlined />,
+              label: 'Thread',
+              href: '/threads'
+            },
+            {
+              key: '2',
+            //   icon: <VideoCameraOutlined />,
+              label: 'Add Category',
+            },
+            {
+              key: '3',
+              icon: <UploadOutlined />,
+              label: 'Upload Idea',
+            },
+          ]}
+        />
+{/*         
+         <Link to={"/threads"} className="mr-3"> {!isExpired(thread.endDate) ? (
+                  <a onClick={handleShow} >
+                    
                     Add New Idea
                   </a>
                 ) : (
-                  <Button className="bg-gray-500 disabled text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                 <div className="flex flex-row text-2xs md:text-2px"> 
                     Archived Thread
-                  </Button>
-                )}
-              </li>
-            </ul>
-          </div>
+                    </div>
+                )}</Link>
+         <Link to={"/threads"} className="mr-3">Upload Idea</Link> */}
 
-          {auth.clearance < 2 ? (
-            <div className="h-30 w-full shadow  mt-10">
-              {/* <Button variant="primary" onClick={handleShowCategory}>
-                Add New Category
-              </Button>
-              */}
+          
+        {/* </Menu> */}
+      </Header>
+      <Content
+        className="site-layout "
+        style={{ margin: "24px 16px 0", overflow: "initial" }}
+      >
+       <Card 
+      bordered 
+      style={{ width: '100%' }}
+      className="my-card  bg-gray-100"
+    >
+      
+    </Card>
+        <Breadcrumb style={{ margin: "16px 0" }} className="flex justify-center items-center h-16  sm:h-20 bg-gray-100"> 
+        <h1 class="text-gray-800 text-lg sm:text-2xl font-bold">Tiêu đề của bạn</h1></Breadcrumb>
+        <br></br>
 
-              
-              {/* {categories.map((tag) => (
-                <li>
-                  <span>{tag.id}</span> - <span>{tag.idea}</span> -{" "}
-                  <button onClick={() => handleDeleteCategory(tag.id)}>
-                    Delete
-                  </button>
-                </li>
-              ))} */}
-              {/* <form action="">
-                <input
-                  type="text"
-                  name=""
-                  id="input"
-                  class="form-control"
-                  value=""
-                  required="required"
-                  pattern=""
-                  title=""
-                />
-                <button>Add Category</button>
-              </form> */}
-            </div>
-          ) : (
-            <div className="h-30 w-full shadow  mt-10">
-              <h2 className="text-lg font-bold">Sort by category: </h2>
-              <ul>
-                {tags.map((tag) => (
-                  <li>
-                    <Tag key={tag} text={tag} onClick={() => sort(tag)} />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-        <div className="w-2/4  md:w-3/4 lg:w-4/5  md:px-12 lg:24 h-full overflow-x-scroll divide-y antialiased bg-white shadow p-4">
-          <div className="space-y-2 pt-6 pb-8 pl-6 pr-6 md:space-y-5 ">
-            <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-              {thread.name}
-            </h1>
-            <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-              From: {thread.startDate}
-              <br />
-              Closed Date: {fromMilisecondsToDate(thread.endDate)}
-            </p>
-            <div>
-              <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 mb-1">
-                Available tags:
-              </p>
-            </div>
-            <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify">
-              {thread.description}
-            </p>
-          </div>
+                    {!ideas.length && "No posts found."}
+                              {currentIdeas.map((idea) => (
+                                <CardItem
+                                  key={idea.id}
+                                  props={{
+                                    id: idea.id,
+                                    post_date: idea.post_date,
+                                    title: idea.title,
+                                    description: idea.description,
+                                    category: idea.category,
+                                    is_anonymous: false,
+                                    writer_id: idea.writer_id,
+                                  }}
+                                />
+                              ))}
 
-          {!ideas.length && "No posts found."}
-          {currentIdeas.map((idea) => (
-            <CardItem
-              key={idea.id}
-              props={{
-                id: idea.id,
-                post_date: idea.post_date,
-                title: idea.title,
-                description: idea.description,
-                category: idea.category,
-                is_anonymous: false,
-                writer_id: idea.writer_id,
-              }}
-            />
-          ))}
           <div className="flex flex-col items-center mb-5">
             <span className="text-sm text-gray-700 dark:text-gray-400">
               Page{" "}
@@ -338,8 +293,10 @@ export default function ThreadDetails() {
               </Button>
             </div>
           </div>
-        </div>
-      </div>
+      </Content>
+      <Footer style={{ textAlign: "center" }}>TCH2202</Footer>
+    </Layout>
+      
 
       {/*  */}
       <IdeaForm  

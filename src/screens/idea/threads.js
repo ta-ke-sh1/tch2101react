@@ -38,18 +38,17 @@ export default function Thread() {
 
     return (
         <>
-            <div className="flex flex-col md-auto mx-auto  h-screen">
-                <div className="navbar navbar-expand-lg md-auto mt-2">
+            <div className="flex flex-col min-h-screen ">
+                <div className="flex justify-between items-center">
                     <Navbar />
                 </div>
-                <div className="container md-auto mx-auto mt-10 flex">
-                    <div className="w-full mt-4 mr-9">
-                        <h1 className="text-3xl md:text-4xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-6xl sm:leading-10  mb-3 lg:text-5xl">
+                <div className="flex-grow flex justify-center items-center text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl">
+                    <div className="container">
+                        <h1 className="text-center font-bold mt-3 mb-2 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
                             Current Events
                         </h1>
-                        <p className="text-2xl leading-7 text-gray-500 dark:text-gray-400 text-justify mb-5">
-                            The currently active threads are here. Feel free to
-                            explore
+                        <p className="px-2 text-center mb-2 text-xs sm:text-xl md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-500 ">
+                            The currently active threads are here. Feel free to explore
                         </p>
                         {unexpired.map((thread) => (
                             <Link
@@ -69,12 +68,11 @@ export default function Thread() {
                                 />
                             </Link>
                         ))}
-                        <h1 className="text-3xl md:text-4xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-6xl sm:leading-10  mb-3 lg:text-5xl">
+                        <h1 className="text-center font-bold mt-3 mb-2 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
                             Closed Events
                         </h1>
-                        <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify mb-5">
-                            These Threads are currently closed, no new ideas can
-                            be added but you can still react and comment.
+                        <p className="px-2 text-center mb-2 text-xs sm:text-xl md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-500 ">
+                            These Threads are currently closed, no new ideas can be added but you can still react and comment.
                         </p>
                         {expired.map((thread) => (
                             <Link
@@ -95,12 +93,11 @@ export default function Thread() {
                                 <div className="divider mb-5"></div>
                             </Link>
                         ))}
-                        <h1 className="text-3xl md:text-4xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-6xl sm:leading-10  mb-3 lg:text-5xl">
+                        <h1 className="text-center font-bold mt-3 mb-2 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
                             Archived Events
                         </h1>
-                        <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify mb-5">
-                            These Threads are closed and you can read them but
-                            not react or submit new ideas & comments.
+                        <p className="px-2 text-center mb-2 text-xs sm:text-xl md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-500">
+                            These Threads are closed and you can read them but not react or submit new ideas & comments.
                         </p>
                         {closed.map((thread) => (
                             <Link
@@ -118,7 +115,6 @@ export default function Thread() {
                                         button_text: "See more",
                                     }}
                                 />
-                                <div className="divider mb-5"></div>
                             </Link>
                         ))}
                     </div>

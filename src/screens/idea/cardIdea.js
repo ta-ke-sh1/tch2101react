@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from "react";
 // eslint-disable-next-line
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Tag from "../../components/tag.js";
+import Tags from "../../components/tag.js";
 import { host_url } from "../../utils/utils.js";
 import { decodeToken } from "../../utils/utils.js";
 
@@ -114,7 +114,7 @@ export default function CardItem({ props }) {
     fetchReactions();
   }
   async function exportData(event) {
-    
+    console.log(event);
   }
   useEffect(() => {
     fetchComments();
@@ -122,112 +122,210 @@ export default function CardItem({ props }) {
   }, []);
 
   return (
-    <div className=" mt-3 flex flex-col">
-      <div className="bg-white mt-3">
-        <div className="bg-white border shadow p-5 text-xl text-gray-700 font-semibold">
-          <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-            <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 mb-2">
-              {props.title}
-            </h1>
-            {props.category
-              ? props.category.map((tag) => <Tag key={tag} text={tag} />)
+    <>
+        <main className="h-full w-full bg-gray-50 flex items-center justify-center">
+            <div className="border max-w-screen-md bg-white mt-6 rounded-2xl p-4">
+              <div className="flex items-center	justify-between">
+                <div className="gap-3.5	flex items-center ">
+                  <img
+                    src="https://images.unsplash.com/photo-1617077644557-64be144aa306?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
+                    className="object-cover bg-yellow-500 rounded-full w-10 h-10"
+                  />
+                  <div className="flex flex-col">
+                    <b className="mb-2 capitalize">{props.writer_id}</b>
+                    <time
+                      dateTime={props.post_date}
+                      className="text-gray-400 text-xs"
+                    >
+                      {props.post_date}
+                    </time>
+                  </div>
+                </div>
+                <div className="bg-gray-100	rounded-full h-3.5 flex	items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 0 24 24"
+                    width="34px"
+                    fill="#92929D"
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="whitespace-pre-wrap mt-1 font-bold">
+                {props.title}
+              </div>
+              <div className="whitespace-pre-wrap mt-1 font-bold">
+              {props.category
+                ? props.category.map((tag) => <Tags key={tag} text={tag} />)
               : ""}
-            <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify mb-1">
-              Posted on: {props.post_date}
-            </p>
-            <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify mb-1">
-              Approved by {props.approver_id}
-            </p>
-            <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify">
-              {props.content}
-            </p>
-          </div>
-        </div>
-        <div className="bg-white p-1 rounded-b-lg border shadow flex flex-row flex-wrap">
-          <div className="w-1/4 flex items-center justify-center  bg-white rounded-md hover:bg-gray-200 focus:outline-none">
-            <button
-              onClick={(e) => handleReaction(e, true)}
-              className={
+              </div>
+              <div className="whitespace-pre-wrap mt-7">{props.content}</div>
+              <div className="mt-5 flex gap-2	 justify-center border-b pb-4 flex-wrap	">
+                <img
+                  src="https://images.unsplash.com/photo-1610147323479-a7fb11ffd5dd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80"
+                  className="bg-red-500 rounded-2xl w-1/3 object-cover h-96 flex-auto"
+                  alt="photo"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1614914135224-925593607248?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80"
+                  className="bg-red-500 rounded-2xl w-1/3 object-cover h-96 flex-auto"
+                  alt="photo"
+                />
+              </div>
+              <div className=" h-16 border-b  flex items-center justify-around	">
+                <div className="flex items-center	gap-3">
+                <button onClick={(e) => handleReaction(e, true)}
+                className={
                 isReacted === 1
                   ? "bg-blue-500 text-white hover:bg-blue-700  font-bold py-2 px-4 border border-blue-700 rounded"
                   : "bg-white text-black hover:bg-blue-700 font-bold py-2 px-4  border-blue-700 rounded"
-              }
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6 "
-              >
-                <path d="M7.493 18.75c-.425 0-.82-.236-.975-.632A7.48 7.48 0 016 15.375c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23h-.777zM2.331 10.977a11.969 11.969 0 00-.831 4.398 12 12 0 00.52 3.507c.26.85 1.084 1.368 1.973 1.368H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 01-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227z" />
-              </svg>
-            </button>
-            {reactions.like}
-          </div>
-          <div className="w-1/4 flex items-center justify-center  bg-white rounded-md hover:bg-gray-200 focus:outline-none">
-            <button
-              onClick={(e) => handleReaction(e, false)}
+              }>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z"
+                    />
+                  </svg>
+                </button>
+                 
+
+                  <div className="text-sm">{reactions.like} Likes</div>
+                </div>
+                <div className="flex items-center	gap-3">
+                <button onClick={(e) => handleReaction(e, false)}
               className={
                 isReacted === -1
                   ? "bg-blue-500 text-white hover:bg-blue-700  font-bold py-2 px-4  border-blue-700 rounded"
                   : "bg-white text-black hover:bg-blue-700  font-bold py-2 px-4  border-blue-700 rounded"
-              }
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6"
-              >
-                <path d="M15.73 5.25h1.035A7.465 7.465 0 0118 9.375a7.465 7.465 0 01-1.235 4.125h-.148c-.806 0-1.534.446-2.031 1.08a9.04 9.04 0 01-2.861 2.4c-.723.384-1.35.956-1.653 1.715a4.498 4.498 0 00-.322 1.672V21a.75.75 0 01-.75.75 2.25 2.25 0 01-2.25-2.25c0-1.152.26-2.243.723-3.218C7.74 15.724 7.366 15 6.748 15H3.622c-1.026 0-1.945-.694-2.054-1.715A12.134 12.134 0 011.5 12c0-2.848.992-5.464 2.649-7.521.388-.482.987-.729 1.605-.729H9.77a4.5 4.5 0 011.423.23l3.114 1.04a4.5 4.5 0 001.423.23zM21.669 13.773c.536-1.362.831-2.845.831-4.398 0-1.22-.182-2.398-.52-3.507-.26-.85-1.084-1.368-1.973-1.368H19.1c-.445 0-.72.498-.523.898.591 1.2.924 2.55.924 3.977a8.959 8.959 0 01-1.302 4.666c-.245.403.028.959.5.959h1.053c.832 0 1.612-.453 1.918-1.227z" />
-              </svg>
-            </button>
-            {reactions.dislike}
-          </div>
-          <div className="w-1/4 flex items-center justify-center  bg-white rounded-md hover:bg-gray-200 focus:outline-none">
-            <a
-              href="{#}"
+              } >
+                    <svg 
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M7.5 15h2.25m8.024-9.75c.011.05.028.1.052.148.591 1.2.924 2.55.924 3.977a8.96 8.96 0 01-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398C20.613 14.547 19.833 15 19 15h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 00.303-.54m.023-8.25H16.48a4.5 4.5 0 01-1.423-.23l-3.114-1.04a4.5 4.5 0 00-1.423-.23H6.504c-.618 0-1.217.247-1.605.729A11.95 11.95 0 002.25 12c0 .434.023.863.068 1.285C2.427 14.306 3.346 15 4.372 15h3.126c.618 0 .991.724.725 1.282A7.471 7.471 0 007.5 19.5a2.25 2.25 0 002.25 2.25.75.75 0 00.75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 002.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384"
+                    />
+                  </svg>
+              </button>
+                  
+                  <div className="text-sm">{reactions.dislike} Dislike</div>
+                </div>
+                <div className="flex items-center gap-3">
+                <a href="{#}"
               className="text-blue-500 hover:underline"
-              onClick={openPopup}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 01-3.476.383.39.39 0 00-.297.17l-2.755 4.133a.75.75 0 01-1.248 0l-2.755-4.133a.39.39 0 00-.297-.17 48.9 48.9 0 01-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97zM6.75 8.25a.75.75 0 01.75-.75h9a.75.75 0 010 1.5h-9a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H7.5z"
-                  clipRule="evenodd"
+              onClick={openPopup}>
+                <svg
+                    width="20px"
+                    height="19px"
+                    viewBox="0 0 20 19"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                  >
+                    <g
+                      id="?-Social-Media"
+                      stroke="none"
+                      strokeWidth={1}
+                      fill="none"
+                      fillRule="evenodd"
+                    >
+                      <g
+                        id="Square_Timeline"
+                        transform="translate(-312.000000, -746.000000)"
+                      >
+                        <g
+                          id="Post-1"
+                          transform="translate(280.000000, 227.000000)"
+                        >
+                          <g
+                            id="Post-Action"
+                            transform="translate(0.000000, 495.000000)"
+                          >
+                            <g
+                              transform="translate(30.000000, 21.000000)"
+                              id="Comment"
+                            >
+                              <g>
+                                <g id="ic_comment-Component/icon/ic_comment">
+                                  <g id="Comments">
+                                    <polygon
+                                      id="Path"
+                                      points="0 0 24 0 24 25 0 25"
+                                    />
+                                    <g
+                                      id="iconspace_Chat-3_25px"
+                                      transform="translate(2.000000, 3.000000)"
+                                      fill="#92929D"
+                                    >
+                                      <path
+                                        d="M10.5139395,15.2840977 L6.06545155,18.6848361 C5.05870104,19.4544672 3.61004168,18.735539 3.60795568,17.4701239 L3.60413773,15.1540669 C1.53288019,14.6559967 0,12.7858138 0,10.5640427 L0,4.72005508 C0,2.11409332 2.10603901,0 4.70588235,0 L15.2941176,0 C17.893961,0 20,2.11409332 20,4.72005508 L20,10.5640427 C20,13.1700044 17.893961,15.2840977 15.2941176,15.2840977 L10.5139395,15.2840977 Z M5.60638935,16.5183044 L9.56815664,13.4896497 C9.74255213,13.3563295 9.955971,13.2840977 10.1754888,13.2840977 L15.2941176,13.2840977 C16.7876789,13.2840977 18,12.0671403 18,10.5640427 L18,4.72005508 C18,3.21695746 16.7876789,2 15.2941176,2 L4.70588235,2 C3.21232108,2 2,3.21695746 2,4.72005508 L2,10.5640427 C2,12.0388485 3.1690612,13.2429664 4.6301335,13.28306 C5.17089106,13.297899 5.60180952,13.7400748 5.60270128,14.2810352 L5.60638935,16.5183044 Z"
+                                        id="Path"
+                                      />
+                                    </g>
+                                  </g>
+                                </g>
+                              </g>
+                            </g>
+                          </g>
+                        </g>
+                      </g>
+                    </g>
+                  </svg>
+                </a>
+                 
+            
+                  <div className="text-sm	"> {comments.length}  Comments </div>
+                </div>
+                <div className="flex items-center	gap-3">
+                <button 
+                 type="button"
+              onClick={() => exportData(props.id)}>
+                        <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                    />
+                  </svg>
+              </button>
+                  <div className="text-sm">Download</div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between mt-4">
+                <img
+                  src="https://images.unsplash.com/photo-1595152452543-e5fc28ebc2b8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
+                  className="bg-yellow-500 rounded-full w-10 h-10 object-cover border"
                 />
-              </svg>
-            </a>
-            ({comments.length})
-          </div>
-          <div className="w-1/4 flex items-center justify-center  bg-white rounded-md hover:bg-gray-200 focus:outline-none">
-            <button
-              type="button"
-              onClick={() => exportData(props.id)}
-              className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
-            >
-              <svg
-                aria-hidden="true"
-                className="w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Download
-            </button>
-          </div>
-        </div>
+                <div className="flex items-center	justify-between	 bg-gray-50 h-11 w-11/12 border rounded-2xl	 overflow-hidden px-4 ">
+                  {/* <input type="text" placeholder="Write your comment..." name="comment"></input> */}
+                </div>
+              </div>
+            </div>
+          </main>
         <div
           className={`fixed z-10 inset-0 overflow-y-auto ${
             isOpen ? "" : "hidden"
@@ -333,7 +431,6 @@ export default function CardItem({ props }) {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+        </>
   );
 }
