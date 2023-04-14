@@ -124,6 +124,7 @@ export default function CardItem({ props }) {
 
   async function handleReaction(event, reaction) {
     event.preventDefault();
+    if (props.isClosed) return;
     await axios
       .get(
         host_url +
@@ -386,8 +387,8 @@ export default function CardItem({ props }) {
           </div>
           <div className="flex items-center justify-between mt-4">
             <img
-              src={host_url + decodedToken.avatar}
-              className="bg-yellow-500 rounded-full w-10 h-10 object-cover border"
+              src={decodedToken.avatar.endsWith('.jpg') ? host_url + decodeToken.avatar : host_url + '/avatar/default.jpg'}
+              className="rounded-full w-10 h-10 object-cover border"
             />
             <div className="flex items-center	justify-between	 bg-gray-50 h-11 w-11/12 border rounded-2xl	 overflow-hidden px-4 ">
               {/* <input type="text" placeholder="Write your comment..." name="comment"></input> */}

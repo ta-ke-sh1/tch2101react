@@ -27,7 +27,7 @@ export default function Navbar() {
         navigate("/");
     }
 
-    useEffect(() => {}, []);
+    useEffect(() => { }, []);
 
     return (
         <Disclosure
@@ -107,7 +107,7 @@ export default function Navbar() {
                                             </span>
                                             <img
                                                 className="h-8 w-8 rounded-full"
-                                                src={host_url + avatar}
+                                                src={avatar.endsWith('.jpg') ? host_url + avatar : host_url + '/avatar/default.jpg'}
                                                 alt={host_url + avatar}
                                             />
                                         </Menu.Button>
@@ -217,7 +217,7 @@ export default function Navbar() {
                                 <div className="flex-shrink-0">
                                     <img
                                         className="h-10 w-10 rounded-full"
-                                        src={host_url + avatar}
+                                        src={avatar.endsWith('.jpg') ? host_url + avatar : host_url + '/avatar/default.jpg'}
                                         alt={host_url + avatar}
                                     />
                                 </div>

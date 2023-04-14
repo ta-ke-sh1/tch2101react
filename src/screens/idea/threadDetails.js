@@ -211,20 +211,6 @@ export default function ThreadDetails() {
               },
             ]}
           />
-          {/*         
-         <Link to={"/threads"} className="mr-3"> {!isExpired(thread.endDate) ? (
-                  <a onClick={handleShow} >
-                    
-                    Add New Idea
-                  </a>
-                ) : (
-                 <div className="flex flex-row text-2xs md:text-2px"> 
-                    Archived Thread
-                    </div>
-                )}</Link>
-         <Link to={"/threads"} className="mr-3">Upload Idea</Link> */}
-
-
           {/* </Menu> */}
         </Header>
         <Content
@@ -256,6 +242,8 @@ export default function ThreadDetails() {
                 file: idea.file,
                 content: idea.content,
                 categories: categories,
+                isEnded: isExpired(thread.endDate),
+                isClosed: isExpired(thread.closedDate),
               }}
             />
           ))}
