@@ -181,37 +181,6 @@ export default function Navbar() {
                     </div>
 
                     <Disclosure.Panel className="lg:hidden">
-                        <div className="space-y-1 pt-2 pb-3">
-                            {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800" */}
-                            <Disclosure.Button
-                                as="a"
-                                href="{#}"
-                                className="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700"
-                            >
-                                Dashboard
-                            </Disclosure.Button>
-                            <Disclosure.Button
-                                as="a"
-                                href="{#}"
-                                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
-                            >
-                                Team
-                            </Disclosure.Button>
-                            <Disclosure.Button
-                                as="a"
-                                href="{#}"
-                                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
-                            >
-                                Projects
-                            </Disclosure.Button>
-                            <Disclosure.Button
-                                as="a"
-                                href="{#}"
-                                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
-                            >
-                                Calendar
-                            </Disclosure.Button>
-                        </div>
                         <div className="border-t border-gray-200 pt-4 pb-3">
                             <div className="flex items-center px-4">
                                 <div className="flex-shrink-0">
@@ -221,26 +190,6 @@ export default function Navbar() {
                                         alt={host_url + avatar}
                                     />
                                 </div>
-                                <div className="ml-3">
-                                    <div className="text-base font-medium text-gray-800">
-                                        Tom Cook
-                                    </div>
-                                    <div className="text-sm font-medium text-gray-500">
-                                        tom@example.com
-                                    </div>
-                                </div>
-                                <button
-                                    type="button"
-                                    className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                >
-                                    <span className="sr-only">
-                                        View notifications
-                                    </span>
-                                    <BellIcon
-                                        className="h-6 w-6"
-                                        aria-hidden="true"
-                                    />
-                                </button>
                             </div>
                             <div className="mt-3 space-y-1">
                                 <Disclosure.Button
@@ -248,14 +197,44 @@ export default function Navbar() {
                                     href="{#}"
                                     className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                                 >
-                                    Your Profile
+                                    {({ active }) => (
+                                                    <div
+                                                        onClick={() =>
+                                                            navigate(
+                                                                "/user/" + user
+                                                            )
+                                                        }
+                                                        className={classNames(
+                                                            active
+                                                                ? "bg-gray-100"
+                                                                : "",
+                                                            "block px-4 py-2 text-sm text-gray-700"
+                                                        )}
+                                                    >
+                                                        Your Profile
+                                                    </div>
+                                                )}
                                 </Disclosure.Button>
                                 <Disclosure.Button
                                     as="a"
                                     href="{#}"
                                     className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                                 >
-                                    Settings
+                                    {({ active }) => (
+                                                    <div
+                                                        onClick={() =>
+                                                            navigate("/threads")
+                                                        }
+                                                        className={classNames(
+                                                            active
+                                                                ? "bg-gray-100"
+                                                                : "",
+                                                            "block px-4 py-2 text-sm text-gray-700"
+                                                        )}
+                                                    >
+                                                        Threads
+                                                    </div>
+                                                )}
                                 </Disclosure.Button>
                                 <Disclosure.Button
                                     as="a"

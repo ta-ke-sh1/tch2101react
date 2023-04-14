@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Breadcrumb, Layout, Menu, theme, Card, Button } from "antd";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { UploadOutlined } from "@ant-design/icons";
+import Navbar from "../navbar";
 
 import {
   fromMilisecondsToDate,
@@ -12,7 +12,6 @@ import {
 } from "../../utils/utils.js";
 
 import IdeaForm from "./ideaForm.js";
-import CategoryForm from "./categoryForm";
 import CardItem from "./cardIdea.js";
 import { useAuth } from "../../hooks/useAuth.js";
 import Tags from "../../components/tag.js";
@@ -167,43 +166,11 @@ export default function ThreadDetails() {
     );
   }
 
-  const handleDeleteCategory = (id) => {
-    axios.delete(host_url + "/category", { params: { id: id } }).then((res) => {
-      console.log(res);
-    });
-  };
-
   return (
     <>
       <Layout>
-        <Header style={{ position: "sticky", top: 0, zIndex: 1, width: "100%" }}>
-          <div
-            style={{
-              float: "right",
-              width: 120,
-              height: 31,
-              margin: "16px 24px 16px 0",
-              background: "rgba(255, 255, 255, 0.2)",
-            }}
-          />
-
-          <Menu
-            theme="dark"
-            mode="horizontal"
-          >
-            <Menu.Item>
-              <a rel="noopener noreferrer" href="/threads">
-                Threads
-              </a>
-            </Menu.Item>
-
-            <Menu.Item>
-              <a rel="noopener noreferrer" href="/threads">
-                Upload Idea
-              </a>
-            </Menu.Item>
-          </Menu>
-        </Header>
+      <Navbar />
+       
         <Content
           className="site-layout "
           style={{ margin: "24px 16px 0", overflow: "initial" }}
@@ -238,7 +205,7 @@ export default function ThreadDetails() {
                 Archived Thread
               </Button>
             )}
-            {auth.clearance < 2 ? (
+            {/* {auth.clearance < 2 ? (
               <div className="h-30 w-full shadow  mt-10">
                 <Button variant="primary" onClick={handleShow}>
                   Add New Category
@@ -264,13 +231,9 @@ export default function ThreadDetails() {
                   ))}
                 </ul>
               </div>
-            )}
+            )} */}
 
-            <Button type="primary">asdasd</Button>
-            <Button type="primary">asdasd</Button>
-            <Button type="primary">asdasd</Button>
-            <Button type="primary">asdasd</Button>
-
+           
           </Breadcrumb>
           <br></br>
           {!ideas.length && "No posts found."}

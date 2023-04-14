@@ -5,7 +5,7 @@ import axios from "axios";
 import Tags from "../../components/tag.js";
 import { host_url } from "../../utils/utils.js";
 import { decodeToken } from "../../utils/utils.js";
-import { download } from 'downloadjs';
+
 
 export default function CardItem({ props }) {
   const [u, setUser] = useState({});
@@ -184,11 +184,7 @@ export default function CardItem({ props }) {
   return (
     <>
       <main className="h-full w-full bg-gray-50 flex items-center justify-center" >
-        <div className="border max-w-screen-md bg-white mt-6 rounded-2xl p-4" style={
-          {
-            minWidth: '800px'
-          }
-        }>
+        <div className="border max-w-screen-md bg-white mt-6 rounded-2xl p-4" >
           <div className="flex items-center	justify-between">
             <div className="gap-3.5	flex items-center ">
               <img
@@ -362,27 +358,6 @@ export default function CardItem({ props }) {
 
 
               <div className="text-sm	"> {comments.length}  Comments </div>
-            </div>
-            <div className="flex items-center	gap-3">
-              <button
-                type="button"
-                onClick={() => exportData(props.id)}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    strokeLinejoin="round"
-                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-                  />
-                </svg>
-              </button>
-              <div className="text-sm">Download</div>
             </div>
           </div>
           <div className="flex items-center justify-between mt-4">
