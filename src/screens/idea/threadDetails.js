@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Layout, Menu, theme ,Card} from "antd";
+import { Breadcrumb, Layout, Menu, theme, Card } from "antd";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { UploadOutlined } from "@ant-design/icons";
@@ -23,7 +23,7 @@ export default function ThreadDetails() {
 
   const ideaPerPageCount = 4;
 
-  // const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const [ideas, setIdeas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,24 +48,21 @@ export default function ThreadDetails() {
   useEffect(() => {
     initIdeas();
     initThread();
-    // if (auth.clearance > 2) {
-    //   initCategories();
-    // }
+    initCategories();
   }, []);
 
-  // async function initCategories() {
-  //   axios.get(host_url + "/category").then((res) => {
-  //     var result = [];
-  //     for (let i = 0; i < res.data.length; i++) {
-  //       result.push({
-  //         id: res.data[i].id,
-  //         addedBy: res.data[i].addedBy,
-  //         idea: res.data[i].idea,
-  //       });
-  //     }
-  //     setCategories(result);
-  //   });
-  // }
+  async function initCategories() {
+    axios.get(host_url + "/category").then((res) => {
+      var result = [];
+      for (let i = 0; i < res.data.length; i++) {
+        result.push({
+          id: res.data[i].id,
+          name: res.data[i].name,
+        });
+      }
+      setCategories(result);
+    });
+  }
 
   async function initIdeas() {
     axios
@@ -90,6 +87,8 @@ export default function ThreadDetails() {
             category: res.data[i].idea.category,
             is_anonymous: false,
             writer_id: res.data[i].idea.writer_id,
+            file: res.data[i].idea.file,
+            content: res.data[i].idea.content,
           });
 
           for (let j = 0; j < categories.length; j++) {
@@ -150,7 +149,9 @@ export default function ThreadDetails() {
             description: res.data[i].idea.description,
             category: res.data[i].idea.category,
             is_anonymous: false,
+            file: res.data[i].idea.file,
             writer_id: res.data[i].idea.writer_id,
+            content: res.data[i].idea.content,
           });
         }
         result.sort((a, b) => a.post_date - b.post_date).reverse();
@@ -175,42 +176,42 @@ export default function ThreadDetails() {
 
   return (
     <>
-     <Layout>
-      <Header style={{ position: "sticky", top: 0, zIndex: 1, width: "100%" }}>
-        <div
-          style={{
-            float: "right",
-            width: 120,
-            height: 31,
-            margin: "16px 24px 16px 0",
-            background: "rgba(255, 255, 255, 0.2)",
-          }}
-        />
+      <Layout>
+        <Header style={{ position: "sticky", top: 0, zIndex: 1, width: "100%" }}>
+          <div
+            style={{
+              float: "right",
+              width: 120,
+              height: 31,
+              margin: "16px 24px 16px 0",
+              background: "rgba(255, 255, 255, 0.2)",
+            }}
+          />
 
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['2']}
-          items={[
-            {
-              key: '1',
-            //   icon: <UserOutlined />,
-              label: 'Thread',
-              href: '/threads'
-            },
-            {
-              key: '2',
-            //   icon: <VideoCameraOutlined />,
-              label: 'Add Category',
-            },
-            {
-              key: '3',
-              icon: <UploadOutlined />,
-              label: 'Upload Idea',
-            },
-          ]}
-        />
-{/*         
+          <Menu
+            theme="dark"
+            mode="horizontal"
+            defaultSelectedKeys={['2']}
+            items={[
+              {
+                key: '1',
+                //   icon: <UserOutlined />,
+                label: 'Thread',
+                href: '/threads'
+              },
+              {
+                key: '2',
+                //   icon: <VideoCameraOutlined />,
+                label: 'Add Category',
+              },
+              {
+                key: '3',
+                icon: <UploadOutlined />,
+                label: 'Upload Idea',
+              },
+            ]}
+          />
+          {/*         
          <Link to={"/threads"} className="mr-3"> {!isExpired(thread.endDate) ? (
                   <a onClick={handleShow} >
                     
@@ -223,40 +224,41 @@ export default function ThreadDetails() {
                 )}</Link>
          <Link to={"/threads"} className="mr-3">Upload Idea</Link> */}
 
-          
-        {/* </Menu> */}
-      </Header>
-      <Content
-        className="site-layout "
-        style={{ margin: "24px 16px 0", overflow: "initial" }}
-      >
-       <Card 
-      bordered 
-      style={{ width: '100%' }}
-      className="my-card  bg-gray-100"
-    >
-      
-    </Card>
-        <Breadcrumb style={{ margin: "16px 0" }} className="flex justify-center items-center h-16  sm:h-20 bg-gray-100"> 
-        <h1 class="text-gray-800 text-lg sm:text-2xl font-bold">Tiêu đề của bạn</h1></Breadcrumb>
-        <br></br>
 
-                    {!ideas.length && "No posts found."}
-                              {currentIdeas.map((idea) => (
-                                <CardItem
-                                  key={idea.id}
-                                  props={{
-                                    id: idea.id,
-                                    post_date: idea.post_date,
-                                    title: idea.title,
-                                    description: idea.description,
-                                    category: idea.category,
-                                    is_anonymous: false,
-                                    writer_id: idea.writer_id,
-                                  }}
-                                />
-                              ))}
+          {/* </Menu> */}
+        </Header>
+        <Content
+          className="site-layout "
+          style={{ margin: "24px 16px 0", overflow: "initial" }}
+        >
+          <Card
+            bordered
+            style={{ width: '100%' }}
+            className="my-card  bg-gray-100"
+          >
 
+          </Card>
+          <Breadcrumb style={{ margin: "16px 0" }} className="flex justify-center items-center h-16  sm:h-20 bg-gray-100">
+            <h1 class="text-gray-800 text-lg sm:text-2xl font-bold">Tiêu đề của bạn</h1></Breadcrumb>
+          <br></br>
+          {!ideas.length && "No posts found."}
+          {currentIdeas.map((idea) => (
+            <CardItem
+              key={idea.id}
+              props={{
+                id: idea.id,
+                post_date: idea.post_date,
+                title: idea.title,
+                description: idea.description,
+                category: idea.category,
+                is_anonymous: false,
+                writer_id: idea.writer_id,
+                file: idea.file,
+                content: idea.content,
+                categories: categories,
+              }}
+            />
+          ))}
           <div className="flex flex-col items-center mb-5">
             <span className="text-sm text-gray-700 dark:text-gray-400">
               Page{" "}
@@ -293,13 +295,13 @@ export default function ThreadDetails() {
               </Button>
             </div>
           </div>
-      </Content>
-      <Footer style={{ textAlign: "center" }}>TCH2202</Footer>
-    </Layout>
-      
+        </Content>
+        <Footer style={{ textAlign: "center" }}>TCH2202</Footer>
+      </Layout>
+
 
       {/*  */}
-      <IdeaForm  
+      <IdeaForm
         props={{
           show: show,
           showEditIdea: showEditIdea,

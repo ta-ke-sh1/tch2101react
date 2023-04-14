@@ -6,6 +6,7 @@ import { decodeToken, host_url } from "../../utils/utils.js";
 import Navbar from "../navbar.js";
 
 export default function IdeaDetail() {
+
     let { id } = useParams();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -16,8 +17,12 @@ export default function IdeaDetail() {
     function closePopup() {
         setIsOpen(false);
     }
+
     const [idea, setIdea] = useState({});
     const [comments, setComments] = useState([]);
+
+    const [attachedImages, setImages] = useState([]);
+    const [attachedFiles, setFiles] = useState([])
 
     const [comment, setComment] = useState("");
     const [isAnonymous, setAnonymous] = useState(false);
@@ -131,9 +136,8 @@ export default function IdeaDetail() {
         await axios
             .get(
                 host_url +
-                    `/reaction?document=${id}&user=${
-                        decodedToken.user
-                    }&reaction=${reaction ? 1 : -1}`
+                `/reaction?document=${id}&user=${decodedToken.user
+                }&reaction=${reaction ? 1 : -1}`
             )
             .then((res) => {
                 console.log(res);
@@ -193,8 +197,8 @@ export default function IdeaDetail() {
                                     </h1>
                                     {idea.category
                                         ? idea.category.map((tag) => (
-                                              <Tag key={tag} text={tag} />
-                                          ))
+                                            <Tag key={tag} text={tag} />
+                                        ))
                                         : ""}
                                     <p className="text-lg leading-7 text-gray-500 dark:text-gray-400 text-justify mb-1">
                                         Posted on: {idea.post_date}
@@ -273,9 +277,8 @@ export default function IdeaDetail() {
                                 </div>
                             </div>
                             <div
-                                className={`fixed z-10 inset-0 overflow-y-auto ${
-                                    isOpen ? "" : "hidden"
-                                }`}
+                                className={`fixed z-10 inset-0 overflow-y-auto ${isOpen ? "" : "hidden"
+                                    }`}
                             >
                                 <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                                     <div
