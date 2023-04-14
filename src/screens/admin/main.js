@@ -55,15 +55,16 @@ const navigation = [
     index: 4,
     name: "Category",
     icon: InboxIcon,
-     current: true },
-    ,
+    current: true
+  },
+  ,
   {
     index: 5,
     name: "Event",
     href: "#",
     icon: ChartBarIcon,
     current: false,
-    
+
   },
 ];
 
@@ -79,15 +80,15 @@ function classNames(...classes) {
 
 
 export default function AdminMain() {
-  const [isRender,setRender] = useState(true);
+  const [isRender, setRender] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [componentIndex, setIndex] = useState();
+  const [componentIndex, setIndex] = useState(5);
   const components = {
     0: <DashboardComponent />,
     1: <UserComponent />,
     2: <DepartmentComponent />,
-    4:<CategoryComponent />,
-    5:<ThreadComponent />
+    4: <CategoryComponent />,
+    5: <ThreadComponent />
   };
   return (
     <>
@@ -428,11 +429,10 @@ export default function AdminMain() {
 
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-            {/* {isRender ? <Dashboard1 /> : components[componentIndex] } */}
-            {components[componentIndex] }
+              {components[componentIndex]}
             </div>
           </main>
-          
+
         </div>
       </div>
     </>

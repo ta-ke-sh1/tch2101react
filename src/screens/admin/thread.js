@@ -2,7 +2,7 @@ import React, { useEffect, useState, } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
-import { host_url  } from "../../utils/utils";
+import { host_url } from "../../utils/utils";
 
 
 
@@ -11,8 +11,8 @@ export default function ThreadComponent() {
   const [showThread, setShowThread] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleCloseThread= () => setShowThread(false);
-  const handleShowThread= () => setShowThread(true);
+  const handleCloseThread = () => setShowThread(false);
+  const handleShowThread = () => setShowThread(true);
 
   const [threads, setThread] = useState([]);
   useEffect(() => {
@@ -22,15 +22,67 @@ export default function ThreadComponent() {
   const fromMilisecondsToDate = (milisecondsSinceEpoch) => {
     const date = new Date(milisecondsSinceEpoch * 1000);
     return date.toUTCString();
-};
+  };
+
   function fetchThread() {
     axios
-      .get(host_url+"/thread/")
+      .get(host_url + "/thread/")
       .then((res) => {
         setThread(res.data);
         console.log(res.data);
       })
       .catch((err) => console.error(err));
+  }
+
+  const getAllSelected = () => {
+    var array = []
+    var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+
+    for (var i = 0; i < checkboxes.length; i++) {
+      array.push(checkboxes[i].value)
+    }
+
+    return array;
+  }
+
+  const handleDownloadCSV = async (id) => {
+    const response = await axios.get(host_url + '/admin/createThreadReport', {
+      responseType: 'blob',
+      params: {
+        id: id
+      },
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      }
+    });
+    const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+    const fileLink = document.createElement('a');
+    fileLink.href = fileURL;
+    fileLink.setAttribute('download', `${"Report_" + id + '.csv'}`);
+    fileLink.setAttribute('target', '_blank');
+    document.body.appendChild(fileLink);
+    fileLink.click();
+    fileLink.remove();
+  }
+
+  const handleDownloadZip = async () => {
+    const selected = getAllSelected();
+    console.log(selected)
+
+    const response = await axios.get(host_url + '/admin/zipDirectory', {
+      responseType: 'blob',
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      }
+    });
+    const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+    const fileLink = document.createElement('a');
+    fileLink.href = fileURL;
+    fileLink.setAttribute('download', `${"\\summary_file\\summary" + new Date().toJSON().slice(0, 10).replace(/-/g, "-") + '.zip'}`);
+    fileLink.setAttribute('target', '_blank');
+    document.body.appendChild(fileLink);
+    fileLink.click();
+    fileLink.remove();
   }
 
   function deleteThread(id) {
@@ -57,6 +109,26 @@ export default function ThreadComponent() {
                 />
               </form>
             </div>
+            <button
+              onClick={() => handleDownloadZip()}
+              type="button"
+              className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
+            >
+              <svg
+                aria-hidden="true"
+                className="w-4 h-4 mr-2 fill-current"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              Zip All Files
+            </button>
           </div>
           <div
             className="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred"
@@ -92,6 +164,9 @@ export default function ThreadComponent() {
                     Name
                   </th>
                   <th scope="col" className="px-6 py-3">
+                    Description
+                  </th>
+                  <th scope="col" className="px-6 py-3">
                     Start Day
                   </th>
                   <th scope="col" className="px-6 py-3">
@@ -101,20 +176,17 @@ export default function ThreadComponent() {
                     Close Date
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Idea Count
-                  </th>
-
-                  <th scope="col" className="px-6 py-3">
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody>
-              {threads.map((item, index) => (
+                {threads.map((item, index) => (
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td className="w-4 p-4">
                       <div className="flex items-center">
                         <input
+                          value={item.id}
                           id="checkbox-table-search-1"
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -138,12 +210,10 @@ export default function ThreadComponent() {
                       </div>
                     </th>
                     <td className="px-6 py-4" >{item.name}</td>
+                    <td className="px-6 py-4" >{item.description}</td>
                     <td className="px-6 py-4" >{fromMilisecondsToDate(item.startDate)}</td>
                     <td className="px-6 py-4" >{fromMilisecondsToDate(item.endDate)}</td>
                     <td className="px-6 py-4" >{fromMilisecondsToDate(item.closedDate)}</td>
-                    <td className="px-6 py-4" >{item.ideaCount}</td>
-
-
                     <td className="pl-3">
                       {/* Modal toggle */}
                       <Button
@@ -152,12 +222,18 @@ export default function ThreadComponent() {
                       >
                         Edit
                       </Button>
-
+                      <br />
                       <Button
                         variant="danger"
                         onClick={() => deleteThread(item.id)}
                       >
                         Delete
+                      </Button>
+                      <br />
+                      <Button
+                        onClick={() => handleDownloadCSV(item.id)}
+                      >
+                        Download CSV File
                       </Button>
                     </td>
                   </tr>
@@ -170,7 +246,7 @@ export default function ThreadComponent() {
 
         {/* <!--- Model Box ---> */}
         <div className="model_box">
-         
+
           {/*Model EDit account*/}
 
           <div
