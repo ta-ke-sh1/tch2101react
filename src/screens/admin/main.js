@@ -36,21 +36,13 @@ const navigation = [
   },
 
   { index: 2, name: "Department", icon: FolderIcon, current: true },
-  // {
-  //   index: 3,
-  //   name: "Idea",
-  //   href: "#",
-  //   icon: CalendarIcon,
-  //   current: true,
-  //   subNavigations: [
-  //     { index: 3.1, name: "List Idea ", href: "#", icon: UsersIcon, current: false },
-  //     { index: 3.2, name: "Set Deadline Idea ", href: "#", icon: UsersIcon, current: false },
-  //     { index: 3.3, name: "List Comment ", href: "#", icon: UsersIcon, current: false },
-  //     { index: 3.4, name: "Set Deadline Comment ", href: "#", icon: UsersIcon, current: false },
-
-
-  //   ],
-  // },
+  {
+    index: 3,
+    name: "Idea",
+    href: "#",
+    icon: CalendarIcon,
+    current: true,
+  },
   {
     index: 4,
     name: "Category",
@@ -80,13 +72,13 @@ function classNames(...classes) {
 
 
 export default function AdminMain() {
-  const [isRender, setRender] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [componentIndex, setIndex] = useState(5);
+  const [componentIndex, setIndex] = useState(3);
   const components = {
     0: <DashboardComponent />,
     1: <UserComponent />,
     2: <DepartmentComponent />,
+    3: <IdeaComponent />,
     4: <CategoryComponent />,
     5: <ThreadComponent />
   };

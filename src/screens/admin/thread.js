@@ -3,14 +3,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
 import { host_url } from "../../utils/utils";
-
+import { DownOutlined } from '@ant-design/icons';
+import { Dropdown, Space, MenuProps } from 'antd';
 
 
 export default function ThreadComponent() {
-  const [show, setShow] = useState(false);
   const [showThread, setShowThread] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const handleCloseThread = () => setShowThread(false);
   const handleShowThread = () => setShowThread(true);
 
@@ -19,6 +17,17 @@ export default function ThreadComponent() {
     fetchThread();
   }, []);
 
+  const items: MenuProps['items'] = [
+    {
+      label: <a href="https://www.antgroup.com">Download All </a>,
+      key: '0',
+    },
+    {
+      label: <a href="https://www.aliyun.com">Dowload Idea</a>,
+      key: '1',
+    },
+
+  ];
   const fromMilisecondsToDate = (milisecondsSinceEpoch) => {
     const date = new Date(milisecondsSinceEpoch * 1000);
     return date.toUTCString();
@@ -99,7 +108,7 @@ export default function ThreadComponent() {
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
         <div className="row ">
           <div className="col-sm-3 mt-5 mb-4 text-gred">
-            <div className="search">
+            {/* <div className="search">
               <form className="form-inline">
                 <input
                   className="form-control mr-sm-2"
@@ -108,7 +117,34 @@ export default function ThreadComponent() {
                   aria-label="Search"
                 />
               </form>
+            </div> */}
+            <div className="col-sm-3 mt-5 mb-4 text-gred">
+            <div className="w-48 text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+              <Dropdown menu={{ items }} trigger={['click']} className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
+              >
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space>
+                    <svg
+                      aria-hidden="true"
+                      className="w-4 h-4 mr-2 fill-current"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    Download
+                    <DownOutlined />
+                  </Space>
+                </a>
+              </Dropdown>
+
             </div>
+          </div>
             <button
               onClick={() => handleDownloadZip()}
               type="button"
