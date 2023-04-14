@@ -123,13 +123,13 @@ export default function CardItem({ props }) {
 
   return (
     <>
-        <main className="h-full w-full bg-gray-50 flex items-center justify-center">
-            <div className="border max-w-screen-md bg-white mt-6 rounded-2xl p-4">
+        <main className="h-full w-full vs:max-w-screen-vs md:max-w-md xl:max-w-xl lg:max-w-screen-lg mx-auto bg-gray-50 flex items-center justify-center">
+            <div className="border vs:max-w-screen-vs sm:max-w-screen-sm md:max-w-md xl:max-w-xl lg:max-w-screen-lg mx-auto bg-white mt-6 rounded-2xl p-4">
               <div className="flex items-center	justify-between">
                 <div className="gap-3.5	flex items-center ">
                   <img
                     src="https://images.unsplash.com/photo-1617077644557-64be144aa306?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-                    className="object-cover bg-yellow-500 rounded-full w-10 h-10"
+                    className="object-cover bg-yellow-500 rounded-full w-10 h-10 "
                   />
                   <div className="flex flex-col">
                     <b className="mb-2 capitalize">{props.writer_id}</b>
@@ -176,7 +176,7 @@ export default function CardItem({ props }) {
                 />
               </div>
               <div className=" h-16 border-b  flex items-center justify-around	">
-                <div className="flex items-center	gap-3">
+                <div className="flex items-center gap-3">
                 <button onClick={(e) => handleReaction(e, true)}
                 className={
                 isReacted === 1
@@ -202,7 +202,7 @@ export default function CardItem({ props }) {
 
                   <div className="text-sm">{reactions.like} Likes</div>
                 </div>
-                <div className="flex items-center	gap-3">
+                <div className="flex items-center gap-3">
                 <button onClick={(e) => handleReaction(e, false)}
               className={
                 isReacted === -1
@@ -236,6 +236,7 @@ export default function CardItem({ props }) {
                     height="19px"
                     viewBox="0 0 20 19"
                     version="1.1"
+                    class="w-6 h-6"
                     xmlns="http://www.w3.org/2000/svg"
                     xmlnsXlink="http://www.w3.org/1999/xlink"
                   >
@@ -293,10 +294,11 @@ export default function CardItem({ props }) {
             
                   <div className="text-sm	"> {comments.length}  Comments </div>
                 </div>
-                <div className="flex items-center	gap-3">
+                <div className="flex items-center gap-3">
                 <button 
                  type="button"
-              onClick={() => exportData(props.id)}>
+              onClick={() => exportData(props.id)}
+              >
                         <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -315,17 +317,10 @@ export default function CardItem({ props }) {
                   <div className="text-sm">Download</div>
                 </div>
               </div>
-              <div className="flex items-center justify-between mt-4">
-                <img
-                  src="https://images.unsplash.com/photo-1595152452543-e5fc28ebc2b8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-                  className="bg-yellow-500 rounded-full w-10 h-10 object-cover border"
-                />
-                <div className="flex items-center	justify-between	 bg-gray-50 h-11 w-11/12 border rounded-2xl	 overflow-hidden px-4 ">
-                  {/* <input type="text" placeholder="Write your comment..." name="comment"></input> */}
-                </div>
-              </div>
+        
             </div>
           </main>
+          
         <div
           className={`fixed z-10 inset-0 overflow-y-auto ${
             isOpen ? "" : "hidden"

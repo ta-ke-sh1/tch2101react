@@ -20,51 +20,37 @@ import DepartmentComponent from "./department";
 import IdeaComponent from "./idea";
 import CategoryComponent from "./category";
 import Dashboard1 from '../../components/chart';
+import ThreadComponent from "./thread";
+
 
 
 const navigation = [
   { index: 0, name: "Dashboard", href: "#", icon: HomeIcon, current: true },
   {
+    index: 1,
     name: "User",
     href: "#",
     icon: UsersIcon,
     current: true,
     subnav: true,
-    subNavigations: [
-      {
-        index: 1.1,
-        name: "List user ",
-        href: "#",
-        icon: UsersIcon,
-        current: true,
-      },
-      { name: "List QA manager ", href: "#", icon: UsersIcon, current: false },
-      {
-        name: "List QA coordinator",
-        href: "#",
-        icon: UsersIcon,
-        current: false,
-      },
-      { name: "List staff ", href: "#", icon: UsersIcon, current: false },
-    ],
   },
 
   { index: 2, name: "Department", icon: FolderIcon, current: true },
-  {
-    index: 3,
-    name: "Idea",
-    href: "#",
-    icon: CalendarIcon,
-    current: true,
-    subNavigations: [
-      { index: 3.1, name: "List Idea ", href: "#", icon: UsersIcon, current: false },
-      { index: 3.2, name: "Set Deadline Idea ", href: "#", icon: UsersIcon, current: false },
-      { index: 3.3, name: "List Comment ", href: "#", icon: UsersIcon, current: false },
-      { index: 3.4, name: "Set Deadline Comment ", href: "#", icon: UsersIcon, current: false },
+  // {
+  //   index: 3,
+  //   name: "Idea",
+  //   href: "#",
+  //   icon: CalendarIcon,
+  //   current: true,
+  //   subNavigations: [
+  //     { index: 3.1, name: "List Idea ", href: "#", icon: UsersIcon, current: false },
+  //     { index: 3.2, name: "Set Deadline Idea ", href: "#", icon: UsersIcon, current: false },
+  //     { index: 3.3, name: "List Comment ", href: "#", icon: UsersIcon, current: false },
+  //     { index: 3.4, name: "Set Deadline Comment ", href: "#", icon: UsersIcon, current: false },
 
 
-    ],
-  },
+  //   ],
+  // },
   {
     index: 4,
     name: "Category",
@@ -72,14 +58,12 @@ const navigation = [
      current: true },
     ,
   {
+    index: 5,
     name: "Event",
     href: "#",
     icon: ChartBarIcon,
     current: false,
-    subNavigations: [
-      { index: 5.1,name: "List threads ", href: "#", icon: UsersIcon, current: false },
-      {index:5.2, name: "List ideas ", href: "#", icon: UsersIcon, current: false },
-    ],
+    
   },
 ];
 
@@ -100,10 +84,10 @@ export default function AdminMain() {
   const [componentIndex, setIndex] = useState();
   const components = {
     0: <DashboardComponent />,
-    1.1: <UserComponent />,
+    1: <UserComponent />,
     2: <DepartmentComponent />,
-    3.1: <IdeaComponent />,
-    4:<CategoryComponent />
+    4:<CategoryComponent />,
+    5:<ThreadComponent />
   };
   return (
     <>

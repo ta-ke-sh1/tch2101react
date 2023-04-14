@@ -1,56 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
-import { host_url } from "../../utils/utils";
-export default function DepartmentComponent() {
+import { host_url  } from "../../utils/utils";
+
+
+
+export default function ThreadComponent() {
   const [show, setShow] = useState(false);
-  const [showDepartment, setShowDepartment] = useState(false);
-  const [nameDepartment, setNameDepartment] = useState("");
-
-
+  const [showThread, setShowThread] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleCloseDepartment = () => setShowDepartment(false);
-  const handleShowDepartment = (id) => {
-    setShowDepartment(true);
-    axios
-      .get(host_url + "/department?id=" + id)
-      .then((res) => {
-        setDepartmentById(res.data);
-        console.log(res.data.id);
-      });
-  };
+  const handleCloseThread= () => setShowThread(false);
+  const handleShowThread= () => setShowThread(true);
 
-  const [department, setDepartment] = useState([]);
-  const [departmentById, setDepartmentById] = useState({});
-  const [nameDepartmentById, setNameDepartmentById] = useState({});
-
+  const [threads, setThread] = useState([]);
   useEffect(() => {
-    fetchDepartment();
+    fetchThread();
   }, []);
 
-  function fetchDepartment() {
+  const fromMilisecondsToDate = (milisecondsSinceEpoch) => {
+    const date = new Date(milisecondsSinceEpoch * 1000);
+    return date.toUTCString();
+};
+  function fetchThread() {
     axios
-      .get(host_url + "/department")
+      .get(host_url+"/thread/")
       .then((res) => {
-        setDepartment(res.data);
+        setThread(res.data);
+        console.log(res.data);
       })
       .catch((err) => console.error(err));
   }
-  function addDepartment() {
-    axios.post(host_url + "/department", {
-      name: nameDepartment,
-    });
-  }
-  function editDepartment() {
-    axios.put(host_url + "/department", {
-      id: departmentById.id,
-      name: nameDepartmentById,
-      emp_count: 0,
-    });
-  }
-  function deleteDepartment(id) {
+
+  function deleteThread(id) {
     axios.delete(`${host_url}/department?id=${id}`)
       .then((response) => {
         console.log(response);
@@ -69,7 +52,7 @@ export default function DepartmentComponent() {
                 <input
                   className="form-control mr-sm-2"
                   type="search"
-                  placeholder="Search Department"
+                  placeholder="Search Thread"
                   aria-label="Search"
                 />
               </form>
@@ -80,13 +63,8 @@ export default function DepartmentComponent() {
             style={{ color: "green" }}
           >
             <h2>
-              <b> List Department</b>
+              <b> List Thread</b>
             </h2>
-          </div>
-          <div className="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
-            <Button variant="primary" onClick={handleShow}>
-              Add New Department
-            </Button>
           </div>
         </div>
         <div className="row">
@@ -109,19 +87,30 @@ export default function DepartmentComponent() {
                   <th scope="col" className="px-6 py-3">
                     No
                   </th>
+
                   <th scope="col" className="px-6 py-3">
                     Name
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    emp_count
+                    Start Day
                   </th>
+                  <th scope="col" className="px-6 py-3">
+                    End Day
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Close Date
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Idea Count
+                  </th>
+
                   <th scope="col" className="px-6 py-3">
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {department.map((item, index) => (
+              {threads.map((item, index) => (
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td className="w-4 p-4">
                       <div className="flex items-center">
@@ -148,27 +137,32 @@ export default function DepartmentComponent() {
                         </div>
                       </div>
                     </th>
-                    <td className="px-6 py-4" key={item.id}>{item.name}</td>
-                    <td className="px-6 py-4">{item.emp_count}</td>
+                    <td className="px-6 py-4" >{item.name}</td>
+                    <td className="px-6 py-4" >{fromMilisecondsToDate(item.startDate)}</td>
+                    <td className="px-6 py-4" >{fromMilisecondsToDate(item.endDate)}</td>
+                    <td className="px-6 py-4" >{fromMilisecondsToDate(item.closedDate)}</td>
+                    <td className="px-6 py-4" >{item.ideaCount}</td>
+
 
                     <td className="pl-3">
                       {/* Modal toggle */}
                       <Button
                         variant="primary"
-                        onClick={() => handleShowDepartment(item.id)}
+                        onClick={() => handleShowThread(item.id)}
                       >
                         Edit
                       </Button>
 
                       <Button
                         variant="danger"
-                        onClick={() => deleteDepartment(item.id)}
+                        onClick={() => deleteThread(item.id)}
                       >
                         Delete
                       </Button>
                     </td>
                   </tr>
                 ))}
+
               </tbody>
             </table>
           </div>
@@ -176,55 +170,19 @@ export default function DepartmentComponent() {
 
         {/* <!--- Model Box ---> */}
         <div className="model_box">
-          <Modal
-            show={show}
-            onHide={handleClose}
-            backdrop="static"
-            keyboard={false}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>Add A New Department</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <form onSubmit={addDepartment}>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    onChange={(e) => setNameDepartment(e.target.value)}
-                    id="name"
-                    placeholder="Enter Name Department"
-                  />
-                </div>
-
-                <button type="submit" className="btn btn-success mt-4">
-                  Add A New Department
-                </button>
-              </form>
-            </Modal.Body>
-
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
-          {/* Model Box Finsihs */}
+         
           {/*Model EDit account*/}
 
           <div
-            id="DepartmentModal"
+            id="ThreadModal"
             tabIndex={-1}
             aria-hidden="true"
             className="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
           >
-
-
             <div className="relative w-full h-full max-w-2xl md:h-auto">
-
               <Modal
-                show={showDepartment}
-                onHide={handleCloseDepartment}
+                show={showThread}
+                onHide={handleCloseThread}
                 backdrop="static"
                 keyboard={false}
               >
@@ -233,37 +191,26 @@ export default function DepartmentComponent() {
                   <Modal.Title>Edit </Modal.Title>
                 </Modal.Header>
                 {/* Modal content */}
-
-
                 <Modal.Body>
-
                   <form
-                    onSubmit={editDepartment}
+                    action="#"
                     className="relative bg-white rounded-lg shadow dark:bg-gray-700"
                   >
                     {/* Modal body */}
                     <div className="p-6 space-y-6">
                       <div className="grid grid-cols-6 gap-6">
-
                         <div className="col-span-6 sm:col-span-3">
                           <label
                             htmlFor="first-name"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
-                            Name Department
+                            End Date
                           </label>
-                          <input
-                            type="text"
-                            name="form-control"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder={departmentById.name}
-                            onChange={(e) => setNameDepartmentById(e.target.value)}
-                          />
+                          <input type="text" id="datepicker" class="border border-gray-400 p-2 rounded-md text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Select date" />
                         </div>
+
                       </div>
                     </div>
-
-
                     {/* Modal footer */}
                     <Modal.Footer>
                       <button
@@ -275,9 +222,7 @@ export default function DepartmentComponent() {
                     </Modal.Footer>
                   </form>
                 </Modal.Body>
-
               </Modal>
-
             </div>
           </div>
 

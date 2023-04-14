@@ -1,6 +1,12 @@
 // eslint-disable-next-line
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Layout, Menu, theme ,Card} from "antd";
+import {
+  Breadcrumb,
+  Layout,
+  Menu,
+  Card,
+  Button,
+} from "antd";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { UploadOutlined } from "@ant-design/icons";
@@ -10,11 +16,12 @@ import {
   host_url,
   isExpired,
 } from "../../utils/utils.js";
-import { Button } from "react-bootstrap";
+
 import IdeaForm from "./ideaForm.js";
-import { Link } from "react-router-dom";
+import CategoryForm from "./categoryForm";
 import CardItem from "./cardIdea.js";
 import { useAuth } from "../../hooks/useAuth.js";
+import Tags from "../../components/tag.js";
 
 export default function ThreadDetails() {
   const { Header, Content, Footer } = Layout;
@@ -23,7 +30,7 @@ export default function ThreadDetails() {
 
   const ideaPerPageCount = 4;
 
-  // const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const [ideas, setIdeas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,31 +48,29 @@ export default function ThreadDetails() {
   const handleCloseEditIdea = () => setShowEditIdea(false);
   const handleShowEditIdea = () => setShowEditIdea(true);
 
-
   const [isLoadedThread, setIsLoadedThread] = useState(false);
   const [isLoadedIdeas, setIsLoadedIdeas] = useState(false);
-
   useEffect(() => {
     initIdeas();
     initThread();
-    // if (auth.clearance > 2) {
-    //   initCategories();
-    // }
+    if (auth.clearance > 2) {
+      initCategories();
+    }
   }, []);
 
-  // async function initCategories() {
-  //   axios.get(host_url + "/category").then((res) => {
-  //     var result = [];
-  //     for (let i = 0; i < res.data.length; i++) {
-  //       result.push({
-  //         id: res.data[i].id,
-  //         addedBy: res.data[i].addedBy,
-  //         idea: res.data[i].idea,
-  //       });
-  //     }
-  //     setCategories(result);
-  //   });
-  // }
+  async function initCategories() {
+    axios.get(host_url + "/category").then((res) => {
+      var result = [];
+      for (let i = 0; i < res.data.length; i++) {
+        result.push({
+          id: res.data[i].id,
+          addedBy: res.data[i].addedBy,
+          idea: res.data[i].idea,
+        });
+      }
+      setCategories(result);
+    });
+  }
 
   async function initIdeas() {
     axios
@@ -167,96 +172,129 @@ export default function ThreadDetails() {
     );
   }
 
-  // const handleDeleteCategory = (id) => {
-  //   axios.delete(host_url + "/category", { params: { id: id } }).then((res) => {
-  //     console.log(res);
-  //   });
-  // };
+  const handleDeleteCategory = (id) => {
+    axios.delete(host_url + "/category", { params: { id: id } }).then((res) => {
+      console.log(res);
+    });
+  };
 
   return (
     <>
-     <Layout>
-      <Header style={{ position: "sticky", top: 0, zIndex: 1, width: "100%" }}>
-        <div
-          style={{
-            float: "right",
-            width: 120,
-            height: 31,
-            margin: "16px 24px 16px 0",
-            background: "rgba(255, 255, 255, 0.2)",
-          }}
-        />
+      <Layout>
+        <Header
+          style={{ position: "sticky", top: 0, zIndex: 1, width: "100%" }}
+        >
+          <div
+            style={{
+              float: "right",
+              width: 120,
+              height: 31,
+              margin: "16px 24px 16px 0",
+              background: "rgba(255, 255, 255, 0.2)",
+            }}
+          />
 
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['2']}
-          items={[
-            {
-              key: '1',
-            //   icon: <UserOutlined />,
-              label: 'Thread',
-              href: '/threads'
-            },
-            {
-              key: '2',
-            //   icon: <VideoCameraOutlined />,
-              label: 'Add Category',
-            },
-            {
-              key: '3',
-              icon: <UploadOutlined />,
-              label: 'Upload Idea',
-            },
-          ]}
-        />
-{/*         
-         <Link to={"/threads"} className="mr-3"> {!isExpired(thread.endDate) ? (
-                  <a onClick={handleShow} >
-                    
+          <Menu
+            theme="dark"
+            mode="horizontal"
+          >
+            <Menu.Item>
+              <a rel="noopener noreferrer" href="/threads">
+                Threads
+              </a>
+            </Menu.Item>
+
+            <Menu.Item>
+              <a rel="noopener noreferrer" href="/threads">
+                Upload Idea
+              </a>
+            </Menu.Item>
+          </Menu>
+        </Header>
+        <Content
+          className="site-layout "
+          style={{ margin: "24px 16px 0", overflow: "initial" }}
+        >
+          <Breadcrumb
+            style={{ margin: "16px 0" }}
+            className="flex justify-center items-center h-16  sm:h-20 bg-gray-100"
+          >
+           
+            {!isExpired(thread.endDate) ? (
+                  <Button type="primary" onClick={handleShow} className="xs:text-xs sm:text-sm md:text-md">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 4.5v15m7.5-7.5h-15"
+                      />
+                    </svg>
                     Add New Idea
-                  </a>
+                  </Button>
                 ) : (
-                 <div className="flex flex-row text-2xs md:text-2px"> 
+                 <Button className="flex flex-row md:text-2px bg-blue-200 mr-2 xs:text-xs sm:text-sm md:text-md "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                  </svg>
                     Archived Thread
-                    </div>
-                )}</Link>
-         <Link to={"/threads"} className="mr-3">Upload Idea</Link> */}
+                    </Button>
+                )}
+                {auth.clearance < 2 ? (
+            <div className="h-30 w-full shadow  mt-10">
+              <Button variant="primary" onClick={handleShow}>
+                Add New Category
+              </Button>
+             
+              {categories.map((tag) => (
+                <li>
+                  <span>{tag.id}</span> - <span>{tag.idea}</span> -{" "}
+                  <button onClick={() => handleDeleteCategory(tag.id)}>
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </div>
+          ) : (
+            <div className="h-30 w-full shadow  mt-10">
+              <h2 className="text-lg font-bold">Sort by category: </h2>
+              <ul>
+                {tags.map((tag) => (
+                  <li>
+                    <Tags key={tag} text={tag} onClick={() => sort(tag)} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+            
+            <Button type="primary">asdasd</Button>
+            <Button type="primary">asdasd</Button>
+            <Button type="primary">asdasd</Button>
+            <Button type="primary">asdasd</Button>
 
-          
-        {/* </Menu> */}
-      </Header>
-      <Content
-        className="site-layout "
-        style={{ margin: "24px 16px 0", overflow: "initial" }}
-      >
-       <Card 
-      bordered 
-      style={{ width: '100%' }}
-      className="my-card  bg-gray-100"
-    >
-      
-    </Card>
-        <Breadcrumb style={{ margin: "16px 0" }} className="flex justify-center items-center h-16  sm:h-20 bg-gray-100"> 
-        <h1 class="text-gray-800 text-lg sm:text-2xl font-bold">Tiêu đề của bạn</h1></Breadcrumb>
-        <br></br>
-
-                    {!ideas.length && "No posts found."}
-                              {currentIdeas.map((idea) => (
-                                <CardItem
-                                  key={idea.id}
-                                  props={{
-                                    id: idea.id,
-                                    post_date: idea.post_date,
-                                    title: idea.title,
-                                    description: idea.description,
-                                    category: idea.category,
-                                    is_anonymous: false,
-                                    writer_id: idea.writer_id,
-                                  }}
-                                />
-                              ))}
-
+          </Breadcrumb>
+          <br></br>
+          {!ideas.length && "No posts found."}
+          {currentIdeas.map((idea) => (
+            <CardItem
+              key={idea.id}
+              props={{
+                id: idea.id,
+                post_date: idea.post_date,
+                title: idea.title,
+                description: idea.description,
+                category: idea.category,
+                is_anonymous: false,
+                writer_id: idea.writer_id,
+              }}
+            />
+          ))}
           <div className="flex flex-col items-center mb-5">
             <span className="text-sm text-gray-700 dark:text-gray-400">
               Page{" "}
@@ -293,13 +331,12 @@ export default function ThreadDetails() {
               </Button>
             </div>
           </div>
-      </Content>
-      <Footer style={{ textAlign: "center" }}>TCH2202</Footer>
-    </Layout>
-      
+        </Content>
+        <Footer style={{ textAlign: "center" }}>TCH2202</Footer>
+      </Layout>
 
       {/*  */}
-      <IdeaForm  
+      <IdeaForm
         props={{
           show: show,
           showEditIdea: showEditIdea,
@@ -310,7 +347,12 @@ export default function ThreadDetails() {
           threadId: id,
         }}
       />
-      {/*  */}
+      <CategoryForm
+        props={{
+
+        }}
+      />
+   
     </>
   );
 }

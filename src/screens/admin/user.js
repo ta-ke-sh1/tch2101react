@@ -25,6 +25,13 @@ export default function UserComponent() {
   const [departmentId, setDepartmentId] = useState("");
   const [UserById, setUserById] = useState({});
 
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const userPerPageCount = 6;
+
+  const indexOfLastUser = currentPage * userPerPageCount;
+  const indexIfFirstUser = indexOfLastUser - userPerPageCount;
+  var currentUsers = users.slice(indexIfFirstUser, indexOfLastUser);
 
   useEffect(() => {
     fetchUsers();
@@ -88,13 +95,13 @@ export default function UserComponent() {
       });
   }
   function deleteUser(id) {
-    axios
-      .post("http://localhost:9000/department/delete/", {
-        id: id,
-      })
-      .then((res) => {
-        console.log(res.data.messages);
-      });
+    axios.delete(`${host_url}/user?id=${id}`)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
 
   return (
@@ -162,7 +169,7 @@ export default function UserComponent() {
                 </tr>
               </thead>
               <tbody>
-                {users.map((item, index) => (
+                {currentUsers.map((item, index) => (
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td className="w-4 p-4">
                       <div className="flex items-center">
@@ -538,6 +545,42 @@ export default function UserComponent() {
           {/*Model EDit account finish*/}
         </div>
       </div>
+      <div className="flex flex-col items-center mb-5">
+            <span className="text-sm text-gray-700 dark:text-gray-400">
+              Page{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {currentPage}
+              </span>{" "}
+              /{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {Math.ceil(users.length / userPerPageCount)}
+              </span>
+            </span>
+            <div className="inline-flex mt-2 xs:mt-0">
+              <Button
+                onClick={() => {
+                  if (currentPage > 1) {
+                    setCurrentPage(currentPage - 1);
+                  }
+                }}
+                className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                Prev
+              </Button>
+              <Button
+                onClick={() => {
+                  if (
+                    currentPage < Math.ceil(users.length / userPerPageCount)
+                  ) {
+                    setCurrentPage(currentPage + 1);
+                  }
+                }}
+                className="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                Next
+              </Button>
+            </div>
+          </div>
     </div>
   );
 }

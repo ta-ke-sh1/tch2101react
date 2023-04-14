@@ -8,7 +8,6 @@ import {
     isExpired,
 } from "../../utils/utils.js";
 import { useFetch } from "../../hooks/fetchingHooks.js";
-// import ContainerWrapper from "../../components/container_wrapper.js";
 import Navbar from "../navbar.js";
 
 export default function Thread() {
