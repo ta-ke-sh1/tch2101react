@@ -1,12 +1,6 @@
 // eslint-disable-next-line
 import React, { useEffect, useState } from "react";
-import {
-  Breadcrumb,
-  Layout,
-  Menu,
-  Card,
-  Button,
-} from "antd";
+import { Breadcrumb, Layout, Menu, theme, Card } from "antd";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { UploadOutlined } from "@ant-design/icons";
@@ -53,9 +47,7 @@ export default function ThreadDetails() {
   useEffect(() => {
     initIdeas();
     initThread();
-    if (auth.clearance > 2) {
-      initCategories();
-    }
+    initCategories();
   }, []);
 
   async function initCategories() {
@@ -64,8 +56,7 @@ export default function ThreadDetails() {
       for (let i = 0; i < res.data.length; i++) {
         result.push({
           id: res.data[i].id,
-          addedBy: res.data[i].addedBy,
-          idea: res.data[i].idea,
+          name: res.data[i].name,
         });
       }
       setCategories(result);
@@ -95,6 +86,8 @@ export default function ThreadDetails() {
             category: res.data[i].idea.category,
             is_anonymous: false,
             writer_id: res.data[i].idea.writer_id,
+            file: res.data[i].idea.file,
+            content: res.data[i].idea.content,
           });
 
           for (let j = 0; j < categories.length; j++) {
@@ -155,7 +148,9 @@ export default function ThreadDetails() {
             description: res.data[i].idea.description,
             category: res.data[i].idea.category,
             is_anonymous: false,
+            file: res.data[i].idea.file,
             writer_id: res.data[i].idea.writer_id,
+            content: res.data[i].idea.content,
           });
         }
         result.sort((a, b) => a.post_date - b.post_date).reverse();
@@ -181,9 +176,7 @@ export default function ThreadDetails() {
   return (
     <>
       <Layout>
-        <Header
-          style={{ position: "sticky", top: 0, zIndex: 1, width: "100%" }}
-        >
+        <Header style={{ position: "sticky", top: 0, zIndex: 1, width: "100%" }}>
           <div
             style={{
               float: "right",
@@ -292,9 +285,15 @@ export default function ThreadDetails() {
                 category: idea.category,
                 is_anonymous: false,
                 writer_id: idea.writer_id,
+                file: idea.file,
+                content: idea.content,
+                categories: categories,
+                isEnded: isExpired(thread.endDate),
+                isClosed: isExpired(thread.closedDate),
               }}
             />
           ))}
+  
           <div className="flex flex-col items-center mb-5">
             <span className="text-sm text-gray-700 dark:text-gray-400">
               Page{" "}
@@ -334,6 +333,7 @@ export default function ThreadDetails() {
         </Content>
         <Footer style={{ textAlign: "center" }}>TCH2202</Footer>
       </Layout>
+
 
       {/*  */}
       <IdeaForm

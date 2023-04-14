@@ -338,10 +338,10 @@ export default function UserComponent() {
                       value={'Admin'}
                     >Admin</option>
                     <option
-                      value={'Quality Assurance Manager'}
+                      value={'QAM'}
                     >Quality Assurance Manager</option>
                     <option
-                      value={'Quality Assurance Coordinator'}
+                      value={'QAC'}
                     >Quality Assurance Coordinator</option>
                     <option
                       value={'Staff'}
@@ -353,7 +353,7 @@ export default function UserComponent() {
                     htmlFor="department"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Select a department 
+                    Select a department
                   </label>
                   <select
                     onChange={(e) => setDepartmentId(e.target.value)}
@@ -408,125 +408,125 @@ export default function UserComponent() {
                   >
                     {/* Modal body */}
                     <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    onChange={(e) => setFullNameUser(e.target.value)}
-                    id="name"
-                    placeholder={UserById.fullName}
-                  />
-                </div>
-                <div class="form-group mt-3">
-                  <input
-                    type="email"
-                    class="form-control"
-                    onChange={(e) => setEmailUser(e.target.value)}
-                    id="InputEmail1"
-                    placeholder={UserById.email}
-                  />
-                </div>
-                <div class="form-group mt-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    onChange={(e) => setUserName(e.target.value)}
-                    id="username"
-                    aria-describedby="emailHelp"
-                    placeholder={UserById.username}
-                  />
-                </div>
-                <div class="form-group mt-3">
-                  <input
-                    type="password"
-                    class="form-control"
-                    onChange={(e) => setPasswordUser(e.target.value)}
-                    id="Password"
-                    placeholder="nhập mật khẩu mới"
-                  />
-                </div>
-                <div class="form-group mt-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    onChange={(e) => setNumberPhoneUser(e.target.value)}
-                    id="phone"
-                    placeholder={UserById.phone}
-                  />
-                </div>
+                      <input
+                        type="text"
+                        class="form-control"
+                        onChange={(e) => setFullNameUser(e.target.value)}
+                        id="name"
+                        placeholder={UserById.fullName}
+                      />
+                    </div>
+                    <div class="form-group mt-3">
+                      <input
+                        type="email"
+                        class="form-control"
+                        onChange={(e) => setEmailUser(e.target.value)}
+                        id="InputEmail1"
+                        placeholder={UserById.email}
+                      />
+                    </div>
+                    <div class="form-group mt-3">
+                      <input
+                        type="text"
+                        class="form-control"
+                        onChange={(e) => setUserName(e.target.value)}
+                        id="username"
+                        aria-describedby="emailHelp"
+                        placeholder={UserById.username}
+                      />
+                    </div>
+                    <div class="form-group mt-3">
+                      <input
+                        type="password"
+                        class="form-control"
+                        onChange={(e) => setPasswordUser(e.target.value)}
+                        id="Password"
+                        placeholder="nhập mật khẩu mới"
+                      />
+                    </div>
+                    <div class="form-group mt-3">
+                      <input
+                        type="text"
+                        class="form-control"
+                        onChange={(e) => setNumberPhoneUser(e.target.value)}
+                        id="phone"
+                        placeholder={UserById.phone}
+                      />
+                    </div>
 
-                <div class="form-group mt-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    onChange={(e) => setDobUser(e.target.value)}
-                    id="dob"
-                    placeholder={UserById.dob}
-                  />
-                </div>
-                <div class="form-group mt-3">
-                  <label
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-whites"
-                    htmlFor="avatar"
-                  >
-                    Upload file
-                  </label>
-                  <input
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    aria-describedby="avatar"
-                    onChange={(e) => setAvatarUser(e.target.value)}
-                    id="image idea"
-                    type="file"
-                  />
-                </div>
+                    <div class="form-group mt-3">
+                      <input
+                        type="text"
+                        class="form-control"
+                        onChange={(e) => setDobUser(e.target.value)}
+                        id="dob"
+                        placeholder={UserById.dob}
+                      />
+                    </div>
+                    <div class="form-group mt-3">
+                      <label
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-whites"
+                        htmlFor="avatar"
+                      >
+                        Upload file
+                      </label>
+                      <input
+                        className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                        aria-describedby="avatar"
+                        onChange={(e) => setAvatarUser(e.target.value)}
+                        id="image idea"
+                        type="file"
+                      />
+                    </div>
 
-                <div class="form-group mt-3">
-                  <label
-                    htmlFor="role"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Select a Role
-                  </label>
-                  <select
-                    defaultValue={UserById.role}
-                    onChange={(e) => setRoleUser(e.target.value)}
-                    id="role"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option
-                      value={'Admin'}
-                    >Admin</option>
-                    <option
-                      value={'Quality Assurance Manager'}
-                    >Quality Assurance Manager</option>
-                    <option
-                      value={'Quality Assurance Coordinator'}
-                    >Quality Assurance Coordinator</option>
-                    <option
-                      value={'Staff'}
-                    >Staff</option>
-                  </select>
-                </div>
-                <div class="form-group mt-3" >
-                  <label
-                    htmlFor="department"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Select a department 
-                  </label>
-                  <select
-                    onChange={(e) => setDepartmentId(e.target.value)}
-                    id="department"
-                    placeholder={UserById.department}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    {department.map((item) =>
-                      <option
-                        selected
-                        value={item.id}
-                      >{item.name}</option>
-                    )}
-                  </select>
-                </div>
+                    <div class="form-group mt-3">
+                      <label
+                        htmlFor="role"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Select a Role
+                      </label>
+                      <select
+                        defaultValue={UserById.role}
+                        onChange={(e) => setRoleUser(e.target.value)}
+                        id="role"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      >
+                        <option
+                          value={'Admin'}
+                        >Admin</option>
+                        <option
+                          value={'Quality Assurance Manager'}
+                        >Quality Assurance Manager</option>
+                        <option
+                          value={'Quality Assurance Coordinator'}
+                        >Quality Assurance Coordinator</option>
+                        <option
+                          value={'Staff'}
+                        >Staff</option>
+                      </select>
+                    </div>
+                    <div class="form-group mt-3" >
+                      <label
+                        htmlFor="department"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Select a department
+                      </label>
+                      <select
+                        onChange={(e) => setDepartmentId(e.target.value)}
+                        id="department"
+                        placeholder={UserById.department}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      >
+                        {department.map((item) =>
+                          <option
+                            selected
+                            value={item.id}
+                          >{item.name}</option>
+                        )}
+                      </select>
+                    </div>
                     {/* Modal footer */}
                     <Modal.Footer>
                       <button

@@ -21,11 +21,11 @@ export default function Login() {
             auth.clearance = 4;
             localStorage.setItem("clearance", 4);
             navigate("/admin");
-        } else if (roles.includes("Faculty Manager")) {
+        } else if (roles.includes("QAM")) {
             auth.clearance = 3;
             localStorage.setItem("clearance", 3);
             navigate("/threads");
-        } else if (roles.includes("Faculty Coordinator")) {
+        } else if (roles.includes("QAC")) {
             auth.clearance = 2;
             localStorage.setItem("clearance", 2);
             navigate("/threads");
