@@ -88,20 +88,9 @@ export default function ThreadDetails() {
                         file: res.data[i].idea.file,
                         content: res.data[i].idea.content,
                     });
-
-                    for (let j = 0; j < categories.length; j++) {
-                        if (
-                            !curr_tags.includes(categories[j]) &&
-                            categories[j] !== null &&
-                            categories[j] !== undefined
-                        ) {
-                            curr_tags.push(categories[j]);
-                        }
-                    }
                 }
                 result.sort((a, b) => a.post_date - b.post_date).reverse();
                 setIdeas(result);
-                setTags(curr_tags);
                 setIsLoadedIdeas(true);
             })
             .catch((err) => console.error(err));
@@ -229,11 +218,7 @@ export default function ThreadDetails() {
 
                                 {categories.map((tag) => (
                                     <li>
-                                        <span>{tag.id}</span> -{" "}
-                                        <span>{tag.idea}</span> -{" "}
-                                        {/* <button onClick={() => handleDeleteCategory(tag.id)}>
-                      Delete
-                    </button> */}
+                                        <span>{tag.name}</span>
                                     </li>
                                 ))}
                             </div>
@@ -243,11 +228,11 @@ export default function ThreadDetails() {
                                     Sort by category:{" "}
                                 </h2>
 
-                                {tags.map((tag) => (
+                                {categories.map((tag) => (
                                     <Tags
-                                        key={tag}
-                                        text={tag}
-                                        onClick={() => sort(tag)}
+                                        key={tag.id}
+                                        text={tag.name}
+                                        onClick={() => sort(tag.id)}
                                     />
                                 ))}
                             </div>
