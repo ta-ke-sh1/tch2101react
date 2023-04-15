@@ -179,7 +179,6 @@ export default function ThreadDetails() {
             style={{ margin: "16px 0" }}
             className="flex justify-center items-center h-16  sm:h-20 bg-gray-100"
           >
-
             {isExpired(thread.endDate) ? (
               <Button type="primary" onClick={handleShow} className="flex flex-grow xs:text-xs sm:text-sm md:text-md">
                 <svg
@@ -205,34 +204,6 @@ export default function ThreadDetails() {
                 Archived Thread
               </Button>
             )}
-            {auth.clearance < 2 ? (
-              <div className="h-30 w-full shadow  mt-10">
-                <Button variant="primary" onClick={handleShow}>
-                  Add New Category
-                </Button>
-
-                {categories.map((tag) => (
-                  <li>
-                    <span>{tag.id}</span> - <span>{tag.idea}</span> -{" "}
-                    {/* <button onClick={() => handleDeleteCategory(tag.id)}>
-                      Delete
-                    </button> */}
-                  </li>
-                ))}
-              </div>
-            ) : (
-              <div className="h-30 w-full shadow  mt-10">
-                <h2 className="text-lg font-bold">Sort by category: </h2>
-                
-                  {tags.map((tag) => (
-                      <Tags key={tag} text={tag} onClick={() => sort(tag)} />
-
-                  ))}
-               
-              </div>
-            )}
-
-           
           </Breadcrumb>
           <br></br>
           {!ideas.length && "No posts found."}

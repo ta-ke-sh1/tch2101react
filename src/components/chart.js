@@ -172,15 +172,15 @@ export default function Dashboard() {
     }
 
     return (
-         
+         <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
             <div className="flex" style={{
                 marginTop: '5%'
             }}>
-                <div className="relative-container vs:flex vs :flex-grow" style={{
+                <div className="relative-container" style={{
                     marginBottom: '5%'
                 }}>
-                    <div className="custom-center vs:flex-grow ">
+                    <div className="custom-center">
                         <StackData props={{
                             tableName: "Device Types",
                             data: deviceTypes
@@ -235,6 +235,7 @@ export default function Dashboard() {
                 }} />
             </div>
             </div>
+          </main>
          
        
     );
@@ -310,8 +311,8 @@ function StackData({ props }) {
                     Total: {sum}
                 </p>
                 <BarChart
-                    width={80}
-                    height={10}
+                    width={800}
+                    height={60}
                     data={data}
                     stackOffset="expand"
                     layout="vertical"

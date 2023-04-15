@@ -232,16 +232,6 @@ export default function CardItem({ props }) {
                 {images.map((image) => <img src={host_url + "/files/" + props.id + "/" + image} height={'auto'} width={350}></img>)}
               </> : <span></span>}
             <br />
-            {files.length > 0 ? <>
-              <h1>Attached Files</h1>
-              <br />
-              {files.map((file) =>
-                <button onClick={() => { handleDownloadFile(file) }}>
-                  {file}
-                </button>
-              )}
-            </> : <span></span>}
-
           </div>
           <div className=" h-16 border-b  flex items-center justify-around	">
             <div className="flex items-center	gap-3">
@@ -361,12 +351,16 @@ export default function CardItem({ props }) {
             </div>
           </div>
           <div className="flex items-center justify-between mt-4">
-            <img
-              src={decodedToken.avatar.endsWith('.jpg') ? host_url + decodeToken.avatar : host_url + '/avatar/default.jpg'}
-              className="rounded-full w-10 h-10 object-cover border"
-            />
             <div className="flex items-center	justify-between	 bg-gray-50 h-11 w-11/12 border rounded-2xl	 overflow-hidden px-4 ">
-              {/* <input type="text" placeholder="Write your comment..." name="comment"></input> */}
+                {files.length > 0 ? <>
+                  <h1>Attached Files</h1>
+                  <br />
+                  {files.map((file) =>
+                    <button onClick={() => { handleDownloadFile(file) }}>
+                      {file}
+                    </button>
+                  )}
+                </> : <span></span>}
             </div>
           </div>
         </div>
