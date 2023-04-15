@@ -39,7 +39,7 @@ export default function DepartmentComponent() {
       .catch((err) => console.error(err));
   }
   function addDepartment() {
-    axios.post(host_url + "/department", {
+    axios.post(host_url + "/department/", {
       name: nameDepartment,
     });
   }

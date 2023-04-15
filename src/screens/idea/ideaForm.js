@@ -7,6 +7,7 @@ import {
     host_url,
 } from "../../utils/utils";
 import Select from "react-select";
+import { data } from "autoprefixer";
 
 export default function IdeaForm({ props }) {
     const [categories, setCategories] = useState([]);
@@ -50,7 +51,7 @@ export default function IdeaForm({ props }) {
                 for (let i = 0; i < res.data.length; i++) {
                     c.push({
                         value: res.data[i].id,
-                        label: res.data[i].id,
+                        label: res.data[i].name,
                     });
                 }
                 setCategories(c);
@@ -70,7 +71,7 @@ export default function IdeaForm({ props }) {
     const handleChangeHashtag = (selectValue) => {
         const hashtags = [];
         for (let i = 0; i < selectValue.length; i++) {
-            hashtags.push(selectValue[i].label);
+            hashtags.push(selectValue[i].value);
         }
         setHashtags(hashtags);
     };
@@ -104,6 +105,9 @@ export default function IdeaForm({ props }) {
             },
         });
         console.log(response);
+
+        
+        
     }
 
     return (
@@ -216,23 +220,21 @@ export default function IdeaForm({ props }) {
                         </div>
                         <div className="flex justify-end">
                             <button
-                                // onClick={props.handleClose}
+                                onClick={props.handleClose}
                                 type="submit"
                                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 mr-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
                                 Add Idea
                             </button>
-                        </div>
-                    </form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <button
+                            <div
                         onClick={props.handleClose}
                         className="text-black bg-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
                         Cancel
-                    </button>
-                </Modal.Footer>
+                    </div>
+                        </div>
+                    </form>
+                </Modal.Body>
             </Modal>
             {/* Model Box Finsihs */}
         </div>

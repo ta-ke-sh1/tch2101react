@@ -81,7 +81,7 @@ var tagsData = {
     ]
 }
 
-export default function Dashboard1() {
+export default function Dashboard() {
 
     const url = host_url + '/admin/dashboard?limit=7';
     const { error, isLoaded, data } = useFetch(url);
@@ -172,15 +172,15 @@ export default function Dashboard1() {
     }
 
     return (
-         <main className="py-10">
+         
             <div className="px-4 sm:px-6 lg:px-8">
             <div className="flex" style={{
                 marginTop: '5%'
             }}>
-                <div className="relative-container" style={{
+                <div className="relative-container vs:flex vs :flex-grow" style={{
                     marginBottom: '5%'
                 }}>
-                    <div className="custom-center">
+                    <div className="custom-center vs:flex-grow ">
                         <StackData props={{
                             tableName: "Device Types",
                             data: deviceTypes
@@ -235,7 +235,6 @@ export default function Dashboard1() {
                 }} />
             </div>
             </div>
-          </main>
          
        
     );
@@ -311,8 +310,8 @@ function StackData({ props }) {
                     Total: {sum}
                 </p>
                 <BarChart
-                    width={800}
-                    height={60}
+                    width={80}
+                    height={10}
                     data={data}
                     stackOffset="expand"
                     layout="vertical"
