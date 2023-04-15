@@ -1,7 +1,7 @@
 import moment from "moment";
 import jwt_decode from "jwt-decode";
 
-export const host_url = 'http://localhost:9000';
+export const host_url = "http://localhost:9000";
 
 export const convertSecondsToTime = (input) => {
     var seconds = input;
@@ -16,8 +16,8 @@ export const convertSecondsToTime = (input) => {
         hours: hrs,
         minutes: mnts,
         seconds: seconds,
-    }
-}
+    };
+};
 
 export const fromMilisecondsToDate = (milisecondsSinceEpoch) => {
     const date = new Date(milisecondsSinceEpoch * 1000);
@@ -44,7 +44,7 @@ export function isExpiredToken(secondsSinceEpoch) {
 
 export function convertDateToDayOfTheWeek(date) {
     var day = moment(date, "DD MMM YYYY");
-    return day.format('ddd');
+    return day.format("ddd");
 }
 
 export function getCurrentDateAsDBFormat() {
