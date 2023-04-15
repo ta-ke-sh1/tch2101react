@@ -19,74 +19,70 @@ import ContainerWrapper from "../components/container_wrapper";
 import moment from "moment";
 import { convertDateToDayOfTheWeek, host_url } from "../utils/utils";
 
-
 var tagsData = {
-    "tag_count": [
+    tag_count: [
         {
-            "id": "Equipment",
-            "count": 0
+            id: "Equipment",
+            count: 0,
         },
         {
-            "id": "Funding",
-            "count": 19
+            id: "Funding",
+            count: 19,
         },
         {
-            "id": "Human Resources",
-            "count": 23
+            id: "Human Resources",
+            count: 23,
         },
         {
-            "id": "Sanitary",
-            "count": 23
+            id: "Sanitary",
+            count: 23,
         },
         {
-            "id": "Scheduling",
-            "count": 25
+            id: "Scheduling",
+            count: 25,
         },
         {
-            "id": "Teaching Quality",
-            "count": 27
-        }
+            id: "Teaching Quality",
+            count: 27,
+        },
     ],
-    "ideaByDepartment": [
+    ideaByDepartment: [
         {
-            "id": "1D17R3ozi5G8Ih12H4CV",
-            "name": "Graphic Design",
-            "count": 16
+            id: "1D17R3ozi5G8Ih12H4CV",
+            name: "Graphic Design",
+            count: 16,
         },
         {
-            "id": "1desZrSKpLUFY7rZXB5s",
-            "name": "asdasdasdasdasdasdasd",
-            "count": 0
+            id: "1desZrSKpLUFY7rZXB5s",
+            name: "asdasdasdasdasdasdasd",
+            count: 0,
         },
         {
-            "id": "HrBpfqyOOPVomC6FuyPM",
-            "name": "Game Design",
-            "count": 6
+            id: "HrBpfqyOOPVomC6FuyPM",
+            name: "Game Design",
+            count: 6,
         },
         {
-            "id": "TnKVhc7Euaskx4W9n3sW",
-            "name": "Business",
-            "count": 27
+            id: "TnKVhc7Euaskx4W9n3sW",
+            name: "Business",
+            count: 27,
         },
         {
-            "id": "ZbxTmrJKbT16HOSYPbN2",
-            "name": "Computer Science",
-            "count": 0
+            id: "ZbxTmrJKbT16HOSYPbN2",
+            name: "Computer Science",
+            count: 0,
         },
         {
-            "id": "s4sXB2J5q6Zx1f4qIIwB",
-            "name": "Finance",
-            "count": 34
-        }
-    ]
-}
+            id: "s4sXB2J5q6Zx1f4qIIwB",
+            name: "Finance",
+            count: 34,
+        },
+    ],
+};
 
 export default function Dashboard() {
-
-    const url = host_url + '/admin/dashboard?limit=7';
+    const url = host_url + "/admin/dashboard?limit=7";
     const { error, isLoaded, data } = useFetch(url);
-
-    // const popularTrends = useFetch('http://localhost:9000/admin/popularTags')
 
     const [deviceTypes, setDeviceTypes] = useState([]);
     const [comments, setComments] = useState([]);
@@ -131,8 +127,8 @@ export default function Dashboard() {
         for (var t in tagsData.tag_count) {
             tc.push({
                 name: tagsData.tag_count[t].id,
-                count: tagsData.tag_count[t].count
-            })
+                count: tagsData.tag_count[t].count,
+            });
         }
 
         for (var i in tagsData.ideaByDepartment) {
@@ -140,7 +136,7 @@ export default function Dashboard() {
                 name: tagsData.ideaByDepartment[i].name,
                 id: tagsData.ideaByDepartment[i].id,
                 count: tagsData.ideaByDepartment[i].count,
-            })
+            });
         }
 
         setDeviceTypes(dt);
@@ -154,9 +150,7 @@ export default function Dashboard() {
     if (error) {
         return (
             <ContainerWrapper>
-                <h1>
-                    {error}
-                </h1>
+                <h1>{error}</h1>
             </ContainerWrapper>
         );
     }
@@ -164,27 +158,32 @@ export default function Dashboard() {
     if (!isLoaded) {
         return (
             <ContainerWrapper>
-                <h1>
-                    Loading Data!
-                </h1>
+                <h1>Loading Data!</h1>
             </ContainerWrapper>
         );
     }
 
     return (
-         
-            <div className="px-4 sm:px-6 lg:px-8">
-            <div className="flex" style={{
-                marginTop: '5%'
-            }}>
-                <div className="relative-container vs:flex vs :flex-grow" style={{
-                    marginBottom: '5%'
-                }}>
+        <div className="px-4 sm:px-6 lg:px-8">
+            <div
+                className="flex"
+                style={{
+                    marginTop: "5%",
+                }}
+            >
+                <div
+                    className="relative-container vs:flex vs :flex-grow"
+                    style={{
+                        marginBottom: "5%",
+                    }}
+                >
                     <div className="custom-center vs:flex-grow ">
-                        <StackData props={{
-                            tableName: "Device Types",
-                            data: deviceTypes
-                        }} />
+                        <StackData
+                            props={{
+                                tableName: "Device Types",
+                                data: deviceTypes,
+                            }}
+                        />
                     </div>
                 </div>
             </div>
@@ -195,7 +194,7 @@ export default function Dashboard() {
                         width: 350,
                         height: 350,
                         tableName: "Ideas",
-                        data: posts
+                        data: posts,
                     }}
                 />
                 <LineData
@@ -203,7 +202,7 @@ export default function Dashboard() {
                         width: 350,
                         height: 350,
                         tableName: "Comments",
-                        data: comments
+                        data: comments,
                     }}
                 />
             </div>
@@ -213,10 +212,9 @@ export default function Dashboard() {
                         width: 800,
                         height: 350,
                         tableName: "Unique Visits",
-                        data: uniqueVisit
+                        data: uniqueVisit,
                     }}
                 />
-
             </div>
             <div className="flex justify-between">
                 <BarData
@@ -224,42 +222,39 @@ export default function Dashboard() {
                         width: 350,
                         height: 350,
                         tableName: "Categories Ranking",
-                        data: tagCount
+                        data: tagCount,
                     }}
                 />
-                <BarData props={{
-                    width: 350,
-                    height: 350,
-                    tableName: "Department Ranking",
-                    data: departmentCount
-                }} />
+                <BarData
+                    props={{
+                        width: 350,
+                        height: 350,
+                        tableName: "Department Ranking",
+                        data: departmentCount,
+                    }}
+                />
             </div>
-            </div>
-         
-       
+        </div>
     );
 }
-
 
 function BarData({ props }) {
     const [data, setData] = useState([{}]);
 
     useEffect(() => {
         setData(props.data);
-    }, [data])
+    }, [data]);
 
     return (
         <>
-            <div className="overflow-hidden rounded-lg shadow-md m-2 pr-8" >
+            <div className="overflow-hidden rounded-lg shadow-md m-2 pr-8">
                 <div className="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
-                    <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">{props.tableName}</h1>
+                    <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">
+                        {props.tableName}
+                    </h1>
                 </div>
-                <ResponsiveContainer
-                    width={props.width}
-                    height={props.height}>
-                    <BarChart
-                        data={data}
-                    >
+                <ResponsiveContainer width={props.width} height={props.height}>
+                    <BarChart data={data}>
                         <CartesianGrid strokeDasharray="4 4" />
                         <XAxis dataKey={"name"} />
                         <YAxis />
@@ -267,7 +262,6 @@ function BarData({ props }) {
                         <Tooltip />
                     </BarChart>
                 </ResponsiveContainer>
-
             </div>
         </>
     );
@@ -290,21 +284,28 @@ function StackData({ props }) {
             sum_m += props.data[i].value.mobile;
             sum_t += props.data[i].value.tablet;
         }
-        setSum(sum_d + sum_m + sum_t)
-        setData([{
-            "Desktop": sum_d,
-            "Mobile": sum_m,
-            "Tablet": sum_t
-        }])
-    }
+        setSum(sum_d + sum_m + sum_t);
+        setData([
+            {
+                Desktop: sum_d,
+                Mobile: sum_m,
+                Tablet: sum_t,
+            },
+        ]);
+    };
 
     return (
         <>
-            <div className="overflow-hidden rounded-lg shadow-md m-2 pr-8" style={{
-                position: 'relative',
-            }}>
+            <div
+                className="overflow-hidden rounded-lg shadow-md m-2 pr-8"
+                style={{
+                    position: "relative",
+                }}
+            >
                 <div className="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
-                    <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">{props.tableName}</h1>
+                    <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">
+                        {props.tableName}
+                    </h1>
                 </div>
                 <p className="bg-neutral-50 pb-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
                     Total: {sum}
@@ -316,15 +317,25 @@ function StackData({ props }) {
                     stackOffset="expand"
                     layout="vertical"
                 >
-                    <Legend layout="horizontal" verticalAlign="bottom" height={36} />
+                    <Legend
+                        layout="horizontal"
+                        verticalAlign="bottom"
+                        height={36}
+                    />
                     <XAxis hide type="number" />
-                    <YAxis type="category" dataKey="name" stroke="#FFFFFF" fontSize="12" />
-                    <Bar dataKey="Desktop" stackId={'a'} fill="#FF8042" />
-                    <Bar dataKey="Mobile" stackId={'a'} fill="#FFBB28" />
-                    <Bar dataKey="Tablet" stackId={'a'} fill="#00C49F" />
+                    <YAxis
+                        type="category"
+                        dataKey="name"
+                        stroke="#FFFFFF"
+                        fontSize="12"
+                    />
+                    <Bar dataKey="Desktop" stackId={"a"} fill="#FF8042" />
+                    <Bar dataKey="Mobile" stackId={"a"} fill="#FFBB28" />
+                    <Bar dataKey="Tablet" stackId={"a"} fill="#00C49F" />
                 </BarChart>
             </div>
-            <br /><br />
+            <br />
+            <br />
         </>
     );
 }
@@ -337,13 +348,15 @@ function LineData({ props }) {
 
     useEffect(() => {
         setData(props.data);
-    }, [data])
+    }, [data]);
 
     return (
         <>
             <div className="overflow-hidden rounded-lg shadow-md m-2 pr-8">
                 <div className="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
-                    <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">{props.tableName}</h1>
+                    <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">
+                        {props.tableName}
+                    </h1>
                 </div>
 
                 <LineChart
