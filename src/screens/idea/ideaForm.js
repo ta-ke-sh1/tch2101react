@@ -63,7 +63,7 @@ export default function IdeaForm({ props }) {
     const handleChangeCategory = (selectValue) => {
         const categories = [];
         for (let i = 0; i < selectValue.length; i++) {
-            categories.push(selectValue[i].label);
+            categories.push(selectValue[i].value);
         }
         setCategory(categories);
     };
@@ -85,7 +85,9 @@ export default function IdeaForm({ props }) {
         formData.append("approver_id", "admin");
         formData.append("writer_id", decodedToken.user);
         formData.append("title", title);
-        formData.append("category", category);
+        for (let i = 0; i < category.length; i++) {
+            formData.append("category", category[i]);
+        }
         formData.append("content", content);
         formData.append("is_anonymous", isAnonymous);
         formData.append("approved_date", getCurrentDateAsDBFormat());
@@ -93,21 +95,20 @@ export default function IdeaForm({ props }) {
         formData.append("visit_count", 0);
         formData.append("thread", props.threadId);
         formData.append("stat", "Approved");
+        for (let i = 0; i < hashtags.length; i++) {
+            formData.append("hashtag", hashtags[i]);
+        }
         for (let i = 0; i < chosenFiles.length; i++) {
             formData.append("items", chosenFiles[i]);
         }
-
-        console.log(formData.values());
 
         const response = await axios.post(host_url + "/idea", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
         });
-        console.log(response);
 
-        
-        
+        console.log(response);
     }
 
     return (
@@ -186,7 +187,7 @@ export default function IdeaForm({ props }) {
                                 isMulti
                                 defaultValue={{
                                     label: "Equipment",
-                                    value: "Equipment",
+                                    value: "6YfqEukmUOYMnAzB8rb4",
                                 }}
                                 onChange={handleChangeCategory}
                                 options={categories}
@@ -227,11 +228,11 @@ export default function IdeaForm({ props }) {
                                 Add Idea
                             </button>
                             <div
-                        onClick={props.handleClose}
-                        className="text-black bg-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    >
-                        Cancel
-                    </div>
+                                onClick={props.handleClose}
+                                className="text-black bg-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            >
+                                Cancel
+                            </div>
                         </div>
                     </form>
                 </Modal.Body>
