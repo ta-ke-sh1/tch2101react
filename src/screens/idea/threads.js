@@ -32,6 +32,7 @@ export default function Thread() {
             continue;
         } else {
             unexpired.push(data[i]);
+            continue;
         }
     }
 
@@ -43,79 +44,104 @@ export default function Thread() {
                 </div>
                 <div className="flex-grow flex justify-center items-center text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl">
                     <div className="container">
-                        <h1 className="text-center font-bold mt-4 mb-3 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
-                            Current Events
-                        </h1>
-                        <p className="px-2 text-center mb-3 text-xs sm:text-xl md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-500 ">
-                            The currently active threads are here. Feel free to explore
-                        </p>
-                        {unexpired.map((thread) => (
-                            <Link
-                                key={thread.name}
-                                to={"/threads/" + thread.id}
-                            >
-                                <ThreadCard
-                                    props={{
-                                        ideaCount: thread.ideaCount,
-                                        title: thread.name,
-                                        paragraph: thread.description,
-                                        date: fromMilisecondsToDate(
-                                            thread.endDate
-                                        ),
-                                        button_text: "See more",
-                                    }}
-                                />
-                            </Link>
-                        ))}
-                        <h1 className="text-center font-bold mt-4 mb-2 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
-                            Closed Events
-                        </h1>
-                        <p className="px-2 text-center mb-2 text-xs sm:text-xl md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-500 ">
-                            These Threads are currently closed, no new ideas can be added but you can still react and comment.
-                        </p>
-                        {expired.map((thread) => (
-                            <Link
-                                key={thread.name}
-                                to={"/threads/" + thread.id}
-                            >
-                                <ThreadCard
-                                    props={{
-                                        ideaCount: thread.ideaCount,
-                                        title: thread.name,
-                                        paragraph: thread.description,
-                                        date: fromMilisecondsToDate(
-                                            thread.endDate
-                                        ),
-                                        button_text: "See more",
-                                    }}
-                                />
-                                <div className="divider mb-5"></div>
-                            </Link>
-                        ))}
-                        <h1 className="text-center font-bold mt-3 mb-2 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
-                            Archived Events
-                        </h1>
-                        <p className="px-2 text-center mb-2 text-xs sm:text-xl md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-500">
-                            These Threads are closed and you can read them but not react or submit new ideas & comments.
-                        </p>
-                        {closed.map((thread) => (
-                            <Link
-                                key={thread.name}
-                                to={"/threads/" + thread.id}
-                            >
-                                <ThreadCard
-                                    props={{
-                                        ideaCount: thread.ideaCount,
-                                        title: thread.name,
-                                        paragraph: thread.description,
-                                        date: fromMilisecondsToDate(
-                                            thread.endDate
-                                        ),
-                                        button_text: "See more",
-                                    }}
-                                />
-                            </Link>
-                        ))}
+                        {unexpired.length > 0 ? (
+                            <>
+                                <h1 className="text-center font-bold mt-3 mb-2 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
+                                    Current Events
+                                </h1>
+                                <p className="px-2 text-center mb-2 text-xs sm:text-xl md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-500 ">
+                                    The currently active threads are here. Feel
+                                    free to explore
+                                </p>
+                                {unexpired.map((thread) => (
+                                    <Link
+                                        key={thread.name}
+                                        to={"/threads/" + thread.id}
+                                    >
+                                        <ThreadCard
+                                            props={{
+                                                ideaCount: thread.ideaCount,
+                                                title: thread.name,
+                                                paragraph: thread.description,
+                                                date: fromMilisecondsToDate(
+                                                    thread.endDate
+                                                ),
+                                                button_text: "See more",
+                                            }}
+                                        />
+                                    </Link>
+                                ))}
+                            </>
+                        ) : (
+                            <></>
+                        )}
+
+                        {expired.length > 0 ? (
+                            <>
+                                <h1 className="text-center font-bold mt-3 mb-2 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
+                                    Ended Events
+                                </h1>
+                                <p className="px-2 text-center mb-2 text-xs sm:text-xl md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-500 ">
+                                    These Threads are currently closed, no new
+                                    ideas can be added but you can still react
+                                    and comment.
+                                </p>
+                                {expired.map((thread) => (
+                                    <Link
+                                        key={thread.name}
+                                        to={"/threads/" + thread.id}
+                                    >
+                                        <ThreadCard
+                                            props={{
+                                                ideaCount: thread.ideaCount,
+                                                title: thread.name,
+                                                paragraph: thread.description,
+                                                date: fromMilisecondsToDate(
+                                                    thread.endDate
+                                                ),
+                                                button_text: "See more",
+                                            }}
+                                        />
+                                        <div className="divider mb-5"></div>
+                                    </Link>
+                                ))}
+                            </>
+                        ) : (
+                            <></>
+                        )}
+
+                        {closed.length > 0 ? (
+                            <>
+                                <h1 className="text-center font-bold mt-3 mb-2 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
+                                    Archived Events
+                                </h1>
+                                <p className="px-2 text-center mb-2 text-xs sm:text-xl md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-500">
+                                    These Threads are closed and you can read
+                                    them but not react or submit new ideas &
+                                    comments.
+                                </p>
+                                {closed.map((thread) => (
+                                    <Link
+                                        key={thread.name}
+                                        to={"/threads/" + thread.id}
+                                    >
+                                        <ThreadCard
+                                            props={{
+                                                ideaCount: thread.ideaCount,
+                                                title: thread.name,
+                                                paragraph: thread.description,
+                                                date: fromMilisecondsToDate(
+                                                    thread.endDate
+                                                ),
+                                                button_text: "See more",
+                                            }}
+                                        />
+                                    </Link>
+                                ))}
+                            </>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
                 <div className="footter"></div>
