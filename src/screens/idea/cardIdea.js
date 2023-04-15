@@ -413,20 +413,29 @@ export default function CardItem({ props }) {
                         </div>
                     </div>
                     <div className="flex items-center justify-between mt-4">
-                        <img
-                            src={
-                                decodedToken.avatar.endsWith(".jpg")
-                                    ? host_url + decodeToken.avatar
-                                    : host_url + "/avatar/default.jpg"
-                            }
-                            className="rounded-full w-10 h-10 object-cover border"
-                        />
                         <div className="flex items-center	justify-between	 bg-gray-50 h-11 w-11/12 border rounded-2xl	 overflow-hidden px-4 ">
-                            {/* <input type="text" placeholder="Write your comment..." name="comment"></input> */}
+                            {files.length > 0 ? (
+                                <>
+                                    <h1>Attached Files</h1>
+                                    <br />
+                                    {files.map((file) => (
+                                        <button
+                                            onClick={() => {
+                                                handleDownloadFile(file);
+                                            }}
+                                        >
+                                            {file}
+                                        </button>
+                                    ))}
+                                </>
+                            ) : (
+                                <span></span>
+                            )}
                         </div>
                     </div>
                 </div>
             </main>
+
             <div
                 className={`fixed z-10 inset-0 overflow-y-auto ${
                     isOpen ? "" : "hidden"

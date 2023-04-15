@@ -164,77 +164,79 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="px-4 sm:px-6 lg:px-8">
-            <div
-                className="flex"
-                style={{
-                    marginTop: "5%",
-                }}
-            >
+        <main className="py-10">
+            <div className="px-4 sm:px-6 lg:px-8">
                 <div
-                    className="relative-container vs:flex vs :flex-grow"
+                    className="flex"
                     style={{
-                        marginBottom: "5%",
+                        marginTop: "5%",
                     }}
                 >
-                    <div className="custom-center vs:flex-grow ">
-                        <StackData
-                            props={{
-                                tableName: "Device Types",
-                                data: deviceTypes,
-                            }}
-                        />
+                    <div
+                        className="relative-container"
+                        style={{
+                            marginBottom: "5%",
+                        }}
+                    >
+                        <div className="custom-center">
+                            <StackData
+                                props={{
+                                    tableName: "Device Types",
+                                    data: deviceTypes,
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
+                <br />
+                <div className="flex justify-between">
+                    <LineData
+                        props={{
+                            width: 350,
+                            height: 350,
+                            tableName: "Ideas",
+                            data: posts,
+                        }}
+                    />
+                    <LineData
+                        props={{
+                            width: 350,
+                            height: 350,
+                            tableName: "Comments",
+                            data: comments,
+                        }}
+                    />
+                </div>
+                <div className="flex">
+                    <LineData
+                        props={{
+                            width: 800,
+                            height: 350,
+                            tableName: "Unique Visits",
+                            data: uniqueVisit,
+                        }}
+                    />
+                </div>
+                <div className="flex justify-between">
+                    <BarData
+                        props={{
+                            width: 350,
+                            height: 350,
+                            tableName: "Categories Ranking",
+                            data: tagCount,
+                        }}
+                    />
+                    <BarData
+                        props={{
+                            width: 350,
+                            height: 350,
+                            tableName: "Department Ranking",
+                            data: departmentCount,
+                        }}
+                    />
+                </div>
             </div>
-            <br />
-            <div className="flex justify-between">
-                <LineData
-                    props={{
-                        width: 350,
-                        height: 350,
-                        tableName: "Ideas",
-                        data: posts,
-                    }}
-                />
-                <LineData
-                    props={{
-                        width: 350,
-                        height: 350,
-                        tableName: "Comments",
-                        data: comments,
-                    }}
-                />
-            </div>
-            <div className="flex">
-                <LineData
-                    props={{
-                        width: 800,
-                        height: 350,
-                        tableName: "Unique Visits",
-                        data: uniqueVisit,
-                    }}
-                />
-            </div>
-            <div className="flex justify-between">
-                <BarData
-                    props={{
-                        width: 350,
-                        height: 350,
-                        tableName: "Categories Ranking",
-                        data: tagCount,
-                    }}
-                />
-                <BarData
-                    props={{
-                        width: 350,
-                        height: 350,
-                        tableName: "Department Ranking",
-                        data: departmentCount,
-                    }}
-                />
-            </div>
-        </div>
+        </main>
     );
 }
 
@@ -311,8 +313,8 @@ function StackData({ props }) {
                     Total: {sum}
                 </p>
                 <BarChart
-                    width={80}
-                    height={10}
+                    width={800}
+                    height={60}
                     data={data}
                     stackOffset="expand"
                     layout="vertical"
