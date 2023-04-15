@@ -114,6 +114,7 @@ export default function CardItem({ props }) {
         await axios.post(
             host_url + "/comment/",
             {
+                writer_id: props.writer_id,
                 user_id: decodedToken.user,
                 idea_id: props.id,
                 date: Math.floor(Date.now() / 1000),
@@ -488,9 +489,6 @@ export default function CardItem({ props }) {
                                         </div>
                                     </div>
                                 ))}
-                            </div>
-                            <div className="flex justify-between">
-                                {props.file === "" ? "" : props.file}
                             </div>
                             <form
                                 onSubmit={() => handleSubmit()}
