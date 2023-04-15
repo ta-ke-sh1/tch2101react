@@ -43,10 +43,10 @@ export default function Thread() {
                 </div>
                 <div className="flex-grow flex justify-center items-center text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl">
                     <div className="container">
-                        <h1 className="text-center font-bold mt-3 mb-2 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
+                        <h1 className="text-center font-bold mt-4 mb-3 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
                             Current Events
                         </h1>
-                        <p className="px-2 text-center mb-2 text-xs sm:text-xl md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-500 ">
+                        <p className="px-2 text-center mb-3 text-xs sm:text-xl md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-500 ">
                             The currently active threads are here. Feel free to explore
                         </p>
                         {unexpired.map((thread) => (
@@ -67,7 +67,7 @@ export default function Thread() {
                                 />
                             </Link>
                         ))}
-                        <h1 className="text-center font-bold mt-3 mb-2 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
+                        <h1 className="text-center font-bold mt-4 mb-2 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
                             Closed Events
                         </h1>
                         <p className="px-2 text-center mb-2 text-xs sm:text-xl md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-500 ">

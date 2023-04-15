@@ -180,8 +180,8 @@ export default function ThreadDetails() {
             className="flex justify-center items-center h-16  sm:h-20 bg-gray-100"
           >
 
-            {!isExpired(thread.endDate) ? (
-              <Button type="primary" onClick={handleShow} className="xs:text-xs sm:text-sm md:text-md">
+            {isExpired(thread.endDate) ? (
+              <Button type="primary" onClick={handleShow} className="flex flex-grow xs:text-xs sm:text-sm md:text-md">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -205,7 +205,7 @@ export default function ThreadDetails() {
                 Archived Thread
               </Button>
             )}
-            {/* {auth.clearance < 2 ? (
+            {auth.clearance < 2 ? (
               <div className="h-30 w-full shadow  mt-10">
                 <Button variant="primary" onClick={handleShow}>
                   Add New Category
@@ -214,24 +214,23 @@ export default function ThreadDetails() {
                 {categories.map((tag) => (
                   <li>
                     <span>{tag.id}</span> - <span>{tag.idea}</span> -{" "}
-                    <button onClick={() => handleDeleteCategory(tag.id)}>
+                    {/* <button onClick={() => handleDeleteCategory(tag.id)}>
                       Delete
-                    </button>
+                    </button> */}
                   </li>
                 ))}
               </div>
             ) : (
               <div className="h-30 w-full shadow  mt-10">
                 <h2 className="text-lg font-bold">Sort by category: </h2>
-                <ul>
+                
                   {tags.map((tag) => (
-                    <li>
                       <Tags key={tag} text={tag} onClick={() => sort(tag)} />
-                    </li>
+
                   ))}
-                </ul>
+               
               </div>
-            )} */}
+            )}
 
            
           </Breadcrumb>

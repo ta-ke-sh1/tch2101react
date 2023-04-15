@@ -17,18 +17,18 @@ export default function ThreadCard({ props }) {
           </div>
         </div>
         <div className="mt-3 sm:pr-8">
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-500 text-left px">
             {props.paragraph}
           </p>
         </div>
         <dl className="flex mt-6">
           <div className="flex flex-col-reverse">
-            <dt className="text-sm font-medium text-slate-600"> Opens until </dt>
-            <dd className="text-xs text-slate-500">{props.date}</dd>
+          <dd className="text-xs text-slate-500">{props.date}</dd>
+          <dt className="text-sm font-medium text-slate-600"> Opens until </dt>
           </div>
           <div className="flex flex-col-reverse ml-3 sm:ml-6">
-            <dt className="text-sm font-medium text-slate-600">Total Ideas</dt>
-            <dd className="text-xs text-slate-500">{props.ideaCount}</dd>
+          <dd className="text-xs text-slate-500">{props.ideaCount}</dd>
+          <dt className="text-sm font-medium text-slate-600">Total Ideas</dt>
           </div>
         </dl>
       </a>

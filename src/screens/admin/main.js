@@ -14,12 +14,11 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
-import DashboardComponent from "./dashboard";
+import DashboardComponent from '../../components/chart';
 import UserComponent from "./user";
 import DepartmentComponent from "./department";
 import IdeaComponent from "./idea";
 import CategoryComponent from "./category";
-import Dashboard1 from '../../components/chart';
 import ThreadComponent from "./thread";
 
 
@@ -73,7 +72,7 @@ function classNames(...classes) {
 
 export default function AdminMain() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [componentIndex, setIndex] = useState(3);
+  const [componentIndex, setIndex] = useState(0);
   const components = {
     0: <DashboardComponent />,
     1: <UserComponent />,
