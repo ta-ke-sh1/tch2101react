@@ -172,8 +172,8 @@ export default function Dashboard() {
     }
 
     return (
-         <main className="py-10">
-            <div className="px-4 sm:px-6 lg:px-8">
+      
+            <div className="px-5 py-3 sm:px-6 lg:px-8">
             <div className="flex" style={{
                 marginTop: '5%'
             }}>
@@ -189,7 +189,7 @@ export default function Dashboard() {
                 </div>
             </div>
             <br />
-            <div className="flex justify-between">
+            <div className="flex justify-between  flex-col md:flex-row">
                 <LineData
                     props={{
                         width: 350,
@@ -218,7 +218,7 @@ export default function Dashboard() {
                 />
 
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between flex-col md:flex-row">
                 <BarData
                     props={{
                         width: 350,
@@ -235,7 +235,7 @@ export default function Dashboard() {
                 }} />
             </div>
             </div>
-          </main>
+      
          
        
     );
