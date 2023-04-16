@@ -68,14 +68,6 @@ export default function IdeaForm({ props }) {
         setCategory(categories);
     };
 
-    const handleChangeHashtag = (selectValue) => {
-        const hashtags = [];
-        for (let i = 0; i < selectValue.length; i++) {
-            hashtags.push(selectValue[i].value);
-        }
-        setHashtags(hashtags);
-    };
-
     async function handleSubmit(event) {
         const token = localStorage.getItem("access_token");
         const decodedToken = decodeToken(token);
@@ -191,18 +183,6 @@ export default function IdeaForm({ props }) {
                                 }}
                                 onChange={handleChangeCategory}
                                 options={categories}
-                            />
-                        </div>
-                        <div className="mb-6">
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Select a hashtag
-                            </label>
-                            <Select
-                                required
-                                closeMenuOnSelect={false}
-                                isMulti
-                                onChange={handleChangeHashtag}
-                                options={hashtags}
                             />
                         </div>
                         <div className="form-check form-switch mb-6">
