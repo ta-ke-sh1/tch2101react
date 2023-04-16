@@ -164,7 +164,6 @@ export default function Dashboard() {
     }
 
     return (
-<<<<<<< HEAD
       
             <div className="px-5 py-3 sm:px-6 lg:px-8">
             <div className="flex" style={{
@@ -178,30 +177,6 @@ export default function Dashboard() {
                             tableName: "Device Types",
                             data: deviceTypes
                         }} />
-=======
-        <main className="py-10">
-            <div className="px-4 sm:px-6 lg:px-8">
-                <div
-                    className="flex"
-                    style={{
-                        marginTop: "5%",
-                    }}
-                >
-                    <div
-                        className="relative-container"
-                        style={{
-                            marginBottom: "5%",
-                        }}
-                    >
-                        <div className="custom-center">
-                            <StackData
-                                props={{
-                                    tableName: "Device Types",
-                                    data: deviceTypes,
-                                }}
-                            />
-                        </div>
->>>>>>> refs/remotes/origin/main
                     </div>
                 </div>
             </div>
