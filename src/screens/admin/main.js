@@ -21,8 +21,6 @@ import IdeaComponent from "./idea";
 import CategoryComponent from "./category";
 import ThreadComponent from "./thread";
 
-
-
 const navigation = [
   { index: 0, name: "Dashboard", href: "#", icon: HomeIcon, current: true },
   {
@@ -240,8 +238,9 @@ export default function AdminMain() {
           <div className="flex flex-grow flex-col overflow-y-auto border-r border-gray-200 bg-white pt-5">
             <div className="flex flex-shrink-0 items-center px-4">
               <img
-                className="h-8 w-auto"
-                src="https://www.yourdesigner.vn/wp-content/uploads/2017/03/logo-1-1.png"
+                width={100}
+                height={100}
+                src={process.env.PUBLIC_URL + '/logo.png'}
                 alt="TCH2202 admin"
               />
             </div>
@@ -381,7 +380,7 @@ export default function AdminMain() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        src={process.env.PUBLIC_URL + '/logo.png'}
                         alt=""
                       />
                     </Menu.Button>

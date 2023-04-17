@@ -3,12 +3,18 @@ import axios from "axios";
 import { decodeToken, getDeviceType, host_url } from "../utils/utils";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import Alert from '@mui/material/Alert';
 
 export default function Login() {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
-    const [isFetching, setFetch] = useState(false);
     const [isLoggedIn, setLoggedIn] = useState(false);
+
+    const [error, setError] = useState({
+        isError: false,
+        message: "",
+    })
+
     const navigate = useNavigate();
     const auth = useAuth();
 
@@ -53,22 +59,19 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!isFetching) {
-            setFetch(true);
-            var res = await axios.post(
-                host_url + "/login",
-                {
-                    username: username,
-                    password: password,
-                    device_type: getDeviceType()
+        await axios.post(
+            host_url + "/login",
+            {
+                username: username,
+                password: password,
+                device_type: getDeviceType()
+            },
+            {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
                 },
-                {
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    },
-                }
-            );
-
+            }
+        ).then(res => {
             if (res.status === 200) {
                 var roles = [];
                 localStorage.setItem("access_token", res.data.accessToken);
@@ -80,12 +83,21 @@ export default function Login() {
                 auth.refresh_token = res.data.refreshToken;
 
                 relocate(roles);
-                setFetch(false);
-            } else {
-                // Validation message
-                setFetch(false);
             }
-        } else return;
+
+            else if (res.status === 406) {
+                console.log('Error')
+                setError({
+                    isError: true,
+                    message: res.data.message,
+                })
+            }
+        }).catch(error => {
+            setError({
+                isError: true,
+                message: error.response.data.message
+            })
+        })
     };
 
     if (!isLoggedIn) {
@@ -141,8 +153,7 @@ export default function Login() {
                                                         Username
                                                     </label>
                                                 </div>
-
-                                                <div className="form-outline mb-4">
+                                                <div className="form-outline mb-2">
                                                     <input
                                                         type="password"
                                                         value={password}
@@ -157,8 +168,8 @@ export default function Login() {
                                                         Password
                                                     </label>
                                                 </div>
-
-                                                <div className="pt-1 mb-4">
+                                                {error.isError ? <Alert severity="error">{error.message}</Alert> : <></>}
+                                                <div className="pt-1 mb-4 mt-1">
                                                     <button
                                                         className="btn btn-dark btn-lg btn-block"
                                                         type="submit"
