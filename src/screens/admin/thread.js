@@ -1,6 +1,6 @@
 import React, { useEffect, useState, } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal,Form } from "react-bootstrap";
 import axios from "axios";
 import { host_url } from "../../utils/utils";
 import { DownOutlined } from '@ant-design/icons';
@@ -8,9 +8,38 @@ import { Dropdown, Space, MenuProps } from 'antd';
 
 
 export default function ThreadComponent() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [showThread, setShowThread] = useState(false);
   const handleCloseThread = () => setShowThread(false);
-  const handleShowThread = () => setShowThread(true);
+  const [nameThread, setNameThread] = useState("");
+  const [descriptionThread, setDescriptionThread] = useState("");
+  const [startDateThread, setStartDateThread] = useState({});
+  const [endDateThread, setEndDateThread] = useState({});
+  const [closedThread, setClosedThread] = useState({});
+
+  
+
+  const handleShowThread = (id) => {
+    setShowThread(true);
+    axios
+      .get(host_url + "/thread?id=" + id)
+      .then((res) => {
+        setThreadById(res.data);
+        console.log(res.data.id);
+      });
+  };
+
+
+  const [threadById, setThreadById] = useState({});
+  const [nameThreadById, setNameThreadById] = useState({});
+  const [descriptionThreadById, setDescriptionThreadById] = useState("");
+  const [startDateThreadById, setStartDateThreadById] = useState({});
+  const [endDateThreadById, setEndDateThreadById] = useState({});
+  const [closedThreadById, setClosedThreadById] = useState({});
+
+
 
   const [threads, setThread] = useState([]);
   useEffect(() => {
@@ -93,9 +122,25 @@ export default function ThreadComponent() {
     fileLink.click();
     fileLink.remove();
   }
+  function addThread() {
+    axios.post(host_url + "/thread/", {
+      name: nameThread,
+      description:descriptionThread,
+      startDate:startDateThread,
+      closedDate:endDateThread,
+      closedDate:closedThread,
+    });
+  }
+  function editThread() {
+    axios.put(host_url + "/thread", {
+      id: threadById.id,
+      name: nameThreadById,
+      emp_count: 0,
+    });
+  }
 
   function deleteThread(id) {
-    axios.delete(`${host_url}/department?id=${id}`)
+    axios.delete(`${host_url}/Thread?id=${id}`)
       .then((response) => {
         console.log(response);
       })
@@ -108,44 +153,31 @@ export default function ThreadComponent() {
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
         <div className="row ">
           <div className="col-sm-3 mt-5 mb-4 text-gred">
-            {/* <div className="search">
-              <form className="form-inline">
-                <input
-                  className="form-control mr-sm-2"
-                  type="search"
-                  placeholder="Search Thread"
-                  aria-label="Search"
-                />
-              </form>
-            </div> */}
-            <div className="col-sm-3 mt-5 mb-4 text-gred">
-            <div className="w-48 text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-              <Dropdown menu={{ items }} trigger={['click']} className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
-              >
-                <a onClick={(e) => e.preventDefault()}>
-                  <Space>
-                    <svg
-                      aria-hidden="true"
-                      className="w-4 h-4 mr-2 fill-current"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Download
-                    <DownOutlined />
-                  </Space>
-                </a>
-              </Dropdown>
-
-            </div>
-          </div>
-            <button
+              <div className="w-48 text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <Dropdown menu={{ items }} trigger={['click']} className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
+                >
+                  <a onClick={(e) => e.preventDefault()}>
+                    <Space>
+                      <svg
+                        aria-hidden="true"
+                        className="w-4 h-4 mr-2 fill-current"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Download
+                      <DownOutlined />
+                    </Space>
+                  </a>
+                </Dropdown>
+              </div>
+            {/* <button
               onClick={() => handleDownloadZip()}
               type="button"
               className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
@@ -164,7 +196,7 @@ export default function ThreadComponent() {
                 />
               </svg>
               Zip All Files
-            </button>
+            </button> */}
           </div>
           <div
             className="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred"
@@ -173,6 +205,11 @@ export default function ThreadComponent() {
             <h2>
               <b> List Thread</b>
             </h2>
+          </div>
+          <div className="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
+            <Button variant="primary" onClick={handleShow} >
+              Add New Thread
+            </Button>
           </div>
         </div>
         <div className="row">
@@ -282,7 +319,67 @@ export default function ThreadComponent() {
 
         {/* <!--- Model Box ---> */}
         <div className="model_box">
+          <Modal
+            show={show}
+            onHide={handleClose}
+            backdrop="static"
+            keyboard={false}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Add A New Thread</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form onSubmit={addThread}>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setNameThread(e.target.value)}
+                    id="name"
+                    placeholder="Enter Name Thread"
+                  />
+                </div>
+                <div className="form-group mt-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setDescriptionThread(e.target.value)}
+                    id="DescriptionThread"
+                    placeholder="Enter Description"
+                  />
+                </div>
+                <div className="form-group mt-3">
+                  <Form.Group controlId="Start Date<">
+                            <Form.Label>Start Date</Form.Label>
+                            <Form.Control type="date" name="startDate" placeholder="Enter Start Date" onChange={(e) => setStartDateThread(e.target.value)}/>
+                        </Form.Group>
+                </div>
+                <div className="form-group mt-3">
+                  <Form.Group controlId="End Date<">
+                            <Form.Label>End Date</Form.Label>
+                            <Form.Control type="date" name="startDate" placeholder="Enter Start  Date" onChange={(e) => setEndDateThread(e.target.value)}/>
+                        </Form.Group>
+                </div>
+                <div className="form-group mt-3">
+                  <Form.Group controlId="Closed Thread">
+                            <Form.Label>Close Date</Form.Label>
+                            <Form.Control type="date" name="startDate" placeholder="Enter Start  Date" onChange={(e) => setClosedThread(e.target.value)}/>
+                        </Form.Group>
+                </div>
+                
+                <button type="submit" className="btn btn-success mt-4">
+                  Add A New Thread
+                </button>
+              </form>
+            </Modal.Body> 
 
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+          {/* Model Box Finsihs */}
           {/*Model EDit account*/}
 
           <div
@@ -291,7 +388,10 @@ export default function ThreadComponent() {
             aria-hidden="true"
             className="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
           >
+
+
             <div className="relative w-full h-full max-w-2xl md:h-auto">
+
               <Modal
                 show={showThread}
                 onHide={handleCloseThread}
@@ -303,26 +403,65 @@ export default function ThreadComponent() {
                   <Modal.Title>Edit </Modal.Title>
                 </Modal.Header>
                 {/* Modal content */}
+
+
                 <Modal.Body>
+
                   <form
-                    action="#"
+                    onSubmit={editThread}
                     className="relative bg-white rounded-lg shadow dark:bg-gray-700"
                   >
                     {/* Modal body */}
-                    <div className="p-6 space-y-6">
+                    <div className="p-6 space-y-6 ">
                       <div className="grid grid-cols-6 gap-6">
+
                         <div className="col-span-6 sm:col-span-3">
                           <label
                             htmlFor="first-name"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
-                            End Date
+                            Name Department
                           </label>
-                          <input type="text" id="datepicker" class="border border-gray-400 p-2 rounded-md text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Select date" />
+                          <input
+                            type="text"
+                            name="form-control"
+                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder={threadById.name}
+                            onChange={(e) => setNameThreadById(e.target.value)}
+                          />
                         </div>
-
                       </div>
                     </div>
+                <div className="form-group mt-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setDescriptionThreadById(e.target.value)}
+                    id="DescriptionThread"
+                    placeholder={threadById.description}
+                  />
+                </div>
+                <div className="form-group mt-3">
+                  <Form.Group controlId="Start Date<">
+                            <Form.Label>Start Date</Form.Label>
+                            <Form.Control type="date" name="startDate" placeholder="Enter Start Date" onChange={(e) => setStartDateThreadById(e.target.value)}/>
+                        </Form.Group>
+                </div>
+                <div className="form-group mt-3">
+                  <Form.Group controlId="End Date<">
+                            <Form.Label>End Date</Form.Label>
+                            <Form.Control type="date" name="startDate" placeholder="Enter Start  Date" onChange={(e) => setEndDateThreadById(e.target.value)}/>
+                        </Form.Group>
+                </div>
+                <div className="form-group mt-3">
+                  <Form.Group controlId="Closed Thread">
+                            <Form.Label>Close Date</Form.Label>
+                            <Form.Control type="date" name="startDate" placeholder="Enter Start  Date" onChange={(e) => setClosedThreadById(e.target.value)}/>
+                        </Form.Group>
+                </div>
+                    
+
+
                     {/* Modal footer */}
                     <Modal.Footer>
                       <button
@@ -334,7 +473,9 @@ export default function ThreadComponent() {
                     </Modal.Footer>
                   </form>
                 </Modal.Body>
+
               </Modal>
+
             </div>
           </div>
 

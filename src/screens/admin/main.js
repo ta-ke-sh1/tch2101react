@@ -72,7 +72,7 @@ function classNames(...classes) {
 
 export default function AdminMain() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [componentIndex, setIndex] = useState(0);
+  const [componentIndex, setIndex] = useState(5);
   const components = {
     0: <DashboardComponent />,
     1: <UserComponent />,
@@ -418,7 +418,7 @@ export default function AdminMain() {
             </div>
           </div>
 
-          <main className="py-10">
+          <main className="py-10 min-w-fit">
             <div className="px-4 sm:px-6 lg:px-8">
               {components[componentIndex]}
             </div>

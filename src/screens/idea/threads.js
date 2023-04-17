@@ -75,7 +75,7 @@ export default function Thread() {
                         ) : (
                             <></>
                         )}
-
+                                
                         {expired.length > 0 ? (
                             <>
                                 <h1 className="text-center font-bold mt-3 mb-2 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">

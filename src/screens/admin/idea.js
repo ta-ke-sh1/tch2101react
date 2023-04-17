@@ -35,11 +35,6 @@ export default function IdeaMainComponent() {
           category
         </a>
       </Menu.Item>
-      <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-          cATEGORY
-        </a>
-      </Menu.Item>
     </Menu>
   );
 
