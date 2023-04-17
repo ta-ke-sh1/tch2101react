@@ -169,12 +169,15 @@ export default function Dashboard() {
 
         <div className="px-5 py-3 sm:px-6 lg:px-8">
             <div className="flex" style={{
-                marginTop: '5%'
+                marginTop: '80px'
             }}>
                 <div className="relative-container" style={{
-                    marginBottom: '5%'
+                    marginBottom: '5%',
+                    width: '100vw'
                 }}>
-                    <div className="custom-center">
+                    <div className="custom-center" style={{
+                        width: '80vw',
+                    }}>
                         <StackData props={{
                             tableName: "Device Types",
                             data: deviceTypes
@@ -183,8 +186,9 @@ export default function Dashboard() {
                 </div>
             </div>
             <br />
+            <br /><br /><br />
             <Grid container>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                     <LineData
                         props={{
                             width: 350,
@@ -194,7 +198,7 @@ export default function Dashboard() {
                         }}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6} >
                     <LineData
                         props={{
                             width: 350,
@@ -215,9 +219,8 @@ export default function Dashboard() {
                     }}
                 />
             </Grid>
-
             <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                     <BarData
                         props={{
                             width: 350,
@@ -227,7 +230,7 @@ export default function Dashboard() {
                         }}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                     <BarData props={{
                         width: 350,
                         height: 350,
@@ -301,46 +304,48 @@ function StackData({ props }) {
 
     return (
         <>
-            <div
-                className="overflow-hidden rounded-lg shadow-md m-2 pr-8"
-                style={{
-                    position: "relative",
-                }}
-            >
-                <div className="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
-                    <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">
-                        {props.tableName}
-                    </h1>
-                </div>
-                <p className="bg-neutral-50 pb-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
-                    Total: {sum}
-                </p>
-                <BarChart
-                    width={800}
-                    height={60}
-                    data={data}
-                    stackOffset="expand"
-                    layout="vertical"
-                >
-                    <Legend
-                        layout="horizontal"
-                        verticalAlign="bottom"
-                        height={36}
-                    />
-                    <XAxis hide type="number" />
-                    <YAxis
-                        type="category"
-                        dataKey="name"
-                        stroke="#FFFFFF"
-                        fontSize="12"
-                    />
-                    <Bar dataKey="Desktop" stackId={"a"} fill="#FF8042" />
-                    <Bar dataKey="Mobile" stackId={"a"} fill="#FFBB28" />
-                    <Bar dataKey="Tablet" stackId={"a"} fill="#00C49F" />
-                </BarChart>
-            </div>
-            <br />
-            <br />
+            <Grid container>
+                <Grid xs={12} md={16} item>
+                    <div
+                        className="overflow-hidden rounded-lg shadow-md m-2 pr-8"
+                        style={{
+                            position: "relative",
+                        }}
+                    >
+                        <div className="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
+                            <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">
+                                {props.tableName}
+                            </h1>
+                        </div>
+                        <p className="bg-neutral-50 pb-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
+                            Total: {sum}
+                        </p>
+                        <ResponsiveContainer width={'100%'} height={60}>
+                            <BarChart
+                                data={data}
+                                stackOffset="expand"
+                                layout="vertical"
+                            >
+                                <Legend
+                                    layout="horizontal"
+                                    verticalAlign="bottom"
+                                    height={36}
+                                />
+                                <XAxis hide type="number" />
+                                <YAxis
+                                    type="category"
+                                    dataKey="name"
+                                    stroke="#FFFFFF"
+                                    fontSize="12"
+                                />
+                                <Bar dataKey="Desktop" stackId={"a"} fill="#FF8042" />
+                                <Bar dataKey="Mobile" stackId={"a"} fill="#FFBB28" />
+                                <Bar dataKey="Tablet" stackId={"a"} fill="#00C49F" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </Grid>
+            </Grid>
         </>
     );
 }
