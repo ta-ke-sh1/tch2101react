@@ -1,7 +1,7 @@
 import { useContext, createContext } from "react";
 import { useNavigate, Navigate, Outlet } from "react-router-dom";
 import React, { useState, useMemo } from "react";
-import ValidToken from "../components/token_validity";
+import ValidToken from "./token_validity";
 
 const AuthContext = createContext();
 

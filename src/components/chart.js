@@ -19,6 +19,8 @@ import ContainerWrapper from "../components/container_wrapper";
 import moment from "moment";
 import { convertDateToDayOfTheWeek, host_url } from "../utils/utils";
 
+import Grid from '@mui/material/Grid';
+
 var tagsData = {
     tag_count: [
         {
@@ -164,8 +166,8 @@ export default function Dashboard() {
     }
 
     return (
-      
-            <div className="px-5 py-3 sm:px-6 lg:px-8">
+
+        <div className="px-5 py-3 sm:px-6 lg:px-8">
             <div className="flex" style={{
                 marginTop: '5%'
             }}>
@@ -181,25 +183,29 @@ export default function Dashboard() {
                 </div>
             </div>
             <br />
-            <div className="flex justify-between  flex-col md:flex-row">
-                <LineData
-                    props={{
-                        width: 350,
-                        height: 350,
-                        tableName: "Ideas",
-                        data: posts
-                    }}
-                />
-                <LineData
-                    props={{
-                        width: 350,
-                        height: 350,
-                        tableName: "Comments",
-                        data: comments
-                    }}
-                />
-            </div>
-            <div className="flex">
+            <Grid container>
+                <Grid item xs={6}>
+                    <LineData
+                        props={{
+                            width: 350,
+                            height: 350,
+                            tableName: "Ideas",
+                            data: posts
+                        }}
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <LineData
+                        props={{
+                            width: 350,
+                            height: 350,
+                            tableName: "Comments",
+                            data: comments
+                        }}
+                    />
+                </Grid>
+            </Grid>
+            <Grid>
                 <LineData
                     props={{
                         width: 800,
@@ -208,28 +214,32 @@ export default function Dashboard() {
                         data: uniqueVisit
                     }}
                 />
+            </Grid>
 
-            </div>
-            <div className="flex justify-between flex-col md:flex-row">
-                <BarData
-                    props={{
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
+                    <BarData
+                        props={{
+                            width: 350,
+                            height: 350,
+                            tableName: "Categories Ranking",
+                            data: tagCount
+                        }}
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <BarData props={{
                         width: 350,
                         height: 350,
-                        tableName: "Categories Ranking",
-                        data: tagCount
-                    }}
-                />
-                <BarData props={{
-                    width: 350,
-                    height: 350,
-                    tableName: "Department Ranking",
-                    data: departmentCount
-                }} />
-            </div>
-            </div>
-      
-         
-       
+                        tableName: "Department Ranking",
+                        data: departmentCount
+                    }} />
+                </Grid>
+            </Grid>
+        </div>
+
+
+
     );
 }
 
@@ -248,7 +258,7 @@ function BarData({ props }) {
                         {props.tableName}
                     </h1>
                 </div>
-                <ResponsiveContainer width={props.width} height={props.height}>
+                <ResponsiveContainer width={'100%'} height={props.height}>
                     <BarChart data={data}>
                         <CartesianGrid strokeDasharray="4 4" />
                         <XAxis dataKey={"name"} />
@@ -353,18 +363,21 @@ function LineData({ props }) {
                         {props.tableName}
                     </h1>
                 </div>
+                <ResponsiveContainer
+                    width={'100%'}
+                    height={props.height}>
+                    <LineChart
 
-                <LineChart
-                    width={props.width}
-                    height={props.height}
-                    data={data}
-                >
-                    <CartesianGrid strokeDasharray="4 4" />
-                    <XAxis dataKey={"date"} />
-                    <YAxis />
-                    <Line type="monotone" dataKey={"value"} stroke="#8884d8" />
-                    <Tooltip />
-                </LineChart>
+                        data={data}
+                    >
+                        <CartesianGrid strokeDasharray="4 4" />
+                        <XAxis dataKey={"date"} />
+                        <YAxis />
+                        <Line type="monotone" dataKey={"value"} stroke="#8884d8" />
+                        <Tooltip />
+                    </LineChart>
+                </ResponsiveContainer>
+
             </div>
         </>
     );
