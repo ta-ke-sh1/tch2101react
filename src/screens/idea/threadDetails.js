@@ -176,7 +176,7 @@ export default function ThreadDetails() {
           style={{ margin: "24px 16px 0", overflow: "initial" }}
         >
           <Breadcrumb
-            className="flex justify-end sticky top-0  w-50 h-16  sm:h-20 bg-gray-100"
+            className="flex justify-start sticky top-0  w-50 h-16  sm:h-20 bg-gray-100"
           >
             {!isExpired(thread.endDate) ? (
               <Button
@@ -221,7 +221,7 @@ export default function ThreadDetails() {
               </Button>
             )}
 
-            {auth.clearance >=2  ? (
+            {auth.clearance >2  ? (
               <div className="h-30 w-full shadow  mt-10">
                 <Button variant="primary" onClick={handleShow}>
                   Add New Category
@@ -229,10 +229,10 @@ export default function ThreadDetails() {
               </div>
             ) : (
               
-              <div className="h-30 w-full shadow  mt-2">
+              <div className="ml-3 w-70">
                 <Dropdown
                   overlay={menuListCategory}
-                  className="flex flex-grow items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
+                  className="rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
                 >
                   <a onClick={(e) => e.preventDefault()}>
                     <Space>
