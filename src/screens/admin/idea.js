@@ -1,9 +1,9 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
-import { Button, Modal, NavItem, DD } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, Space,Menu} from 'antd';
+import { Dropdown, Space, Menu } from 'antd';
 
 import axios from "axios";
 import { host_url } from "../../utils/utils";
@@ -77,12 +77,12 @@ export default function IdeaMainComponent() {
         <div className="flex flex-grow ">
           <div className="col-sm-3 mt-5 mb-4 text-gred flex">
             <div className="w-48 text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white ">
-            <Dropdown overlay={menuDownload}
-              className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
+              <Dropdown overlay={menuDownload}
+                className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
               >
-              <a onClick={(e) => e.preventDefault()}>
+                <div onClick={(e) => e.preventDefault()}>
                   <Space>
-                  <svg
+                    <svg
                       aria-hidden="true"
                       className="w-4 h-4 mr-2 fill-current"
                       fill="currentColor"
@@ -98,8 +98,8 @@ export default function IdeaMainComponent() {
                     Download
                     <DownOutlined />
                   </Space>
-                </a>
-              </Dropdown> 
+                </div>
+              </Dropdown>
             </div>
           </div>
           <div
@@ -114,15 +114,15 @@ export default function IdeaMainComponent() {
           <div className="col-sm-3 mt-5 mb-4 text-gred flex justify-end">
             <div className="w-48 text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white ">
               <Dropdown overlay={menuListCategory}
-              className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
+                className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
               >
-              <a onClick={(e) => e.preventDefault()}>
+                <div onClick={(e) => e.preventDefault()}>
                   <Space>
                     Sort by category
                     <DownOutlined />
                   </Space>
-                </a>
-              </Dropdown>         
+                </div>
+              </Dropdown>
             </div>
           </div>
         </div>

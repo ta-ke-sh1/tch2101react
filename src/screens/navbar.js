@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { decodeToken, host_url } from "../utils/utils";
 import { useAuth } from "../hooks/useAuth";
@@ -198,22 +198,22 @@ export default function Navbar() {
                                     className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                                 >
                                     {({ active }) => (
-                                                    <div
-                                                        onClick={() =>
-                                                            navigate(
-                                                                "/user/" + user
-                                                            )
-                                                        }
-                                                        className={classNames(
-                                                            active
-                                                                ? "bg-gray-100"
-                                                                : "",
-                                                            "block px-4 py-2 text-sm text-gray-700"
-                                                        )}
-                                                    >
-                                                        Your Profile
-                                                    </div>
-                                                )}
+                                        <div
+                                            onClick={() =>
+                                                navigate(
+                                                    "/user/" + user
+                                                )
+                                            }
+                                            className={classNames(
+                                                active
+                                                    ? "bg-gray-100"
+                                                    : "",
+                                                "block px-4 py-2 text-sm text-gray-700"
+                                            )}
+                                        >
+                                            Your Profile
+                                        </div>
+                                    )}
                                 </Disclosure.Button>
                                 <Disclosure.Button
                                     as="a"
@@ -221,20 +221,20 @@ export default function Navbar() {
                                     className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                                 >
                                     {({ active }) => (
-                                                    <div
-                                                        onClick={() =>
-                                                            navigate("/threads")
-                                                        }
-                                                        className={classNames(
-                                                            active
-                                                                ? "bg-gray-100"
-                                                                : "",
-                                                            "block px-4 py-2 text-sm text-gray-700"
-                                                        )}
-                                                    >
-                                                        Threads
-                                                    </div>
-                                                )}
+                                        <div
+                                            onClick={() =>
+                                                navigate("/threads")
+                                            }
+                                            className={classNames(
+                                                active
+                                                    ? "bg-gray-100"
+                                                    : "",
+                                                "block px-4 py-2 text-sm text-gray-700"
+                                            )}
+                                        >
+                                            Threads
+                                        </div>
+                                    )}
                                 </Disclosure.Button>
                                 <Disclosure.Button
                                     as="a"

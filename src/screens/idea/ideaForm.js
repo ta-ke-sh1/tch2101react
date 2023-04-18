@@ -7,7 +7,6 @@ import {
     host_url,
 } from "../../utils/utils";
 import Select from "react-select";
-import { data } from "autoprefixer";
 
 export default function IdeaForm({ props }) {
     const [categories, setCategories] = useState([]);

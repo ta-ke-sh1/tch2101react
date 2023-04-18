@@ -4,7 +4,7 @@ export default function ThreadCard({ props }) {
   return (
     <>
 
-      <a
+      <div
         className="relative block p-8 overflow-hidden border bg-white border-slate-100 rounded-lg ml-6 mr-6 mt-8 mb-6"
       >
         <span className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600" />
@@ -42,7 +42,7 @@ export default function ThreadCard({ props }) {
             </dt>
           </div>
         </dl>
-      </a>
+      </div>
     </>
   );
 }

@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
-    PieChart,
     LineChart,
     BarChart,
-    Pie,
-    Cell,
     Line,
     Bar,
     XAxis,

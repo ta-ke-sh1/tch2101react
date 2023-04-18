@@ -1,10 +1,8 @@
 import React, { useEffect, useState, } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Modal,Form } from "react-bootstrap";
+import { Button, Modal, Form } from "react-bootstrap";
 import axios from "axios";
 import { host_url } from "../../utils/utils";
-import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, Space, MenuProps } from 'antd';
 
 
 export default function ThreadComponent() {
@@ -19,7 +17,7 @@ export default function ThreadComponent() {
   const [endDateThread, setEndDateThread] = useState({});
   const [closedThread, setClosedThread] = useState({});
 
-  
+
 
   const handleShowThread = (id) => {
     setShowThread(true);
@@ -39,24 +37,11 @@ export default function ThreadComponent() {
   const [endDateThreadById, setEndDateThreadById] = useState({});
   const [closedThreadById, setClosedThreadById] = useState({});
 
-
-
   const [threads, setThread] = useState([]);
   useEffect(() => {
     fetchThread();
   }, []);
 
-  const items: MenuProps['items'] = [
-    {
-      label: <a href="https://www.antgroup.com">Download All </a>,
-      key: '0',
-    },
-    {
-      label: <a href="https://www.aliyun.com">Dowload Idea</a>,
-      key: '1',
-    },
-
-  ];
   const fromMilisecondsToDate = (milisecondsSinceEpoch) => {
     const date = new Date(milisecondsSinceEpoch * 1000);
     return date.toUTCString();
@@ -122,21 +107,31 @@ export default function ThreadComponent() {
     fileLink.click();
     fileLink.remove();
   }
+
   function addThread() {
     axios.post(host_url + "/thread/", {
       name: nameThread,
-      description:descriptionThread,
-      startDate:startDateThread,
-      closedDate:endDateThread,
-      closedDate:closedThread,
+      description: descriptionThread,
+      startDate: startDateThread,
+      endDate: endDateThread,
+      closedDate: closedThread,
     });
   }
+
   function editThread() {
     axios.put(host_url + "/thread", {
       id: threadById.id,
       name: nameThreadById,
       emp_count: 0,
     });
+
+    let obj = {
+      a: descriptionThreadById,
+      b: startDateThreadById,
+      c: endDateThreadById,
+      d: closedThreadById,
+    }
+    console.log(obj)
   }
 
   function deleteThread(id) {
@@ -153,31 +148,7 @@ export default function ThreadComponent() {
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
         <div className="row ">
           <div className="col-sm-3 mt-5 mb-4 text-gred">
-              <div className="w-48 text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                <Dropdown menu={{ items }} trigger={['click']} className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
-                >
-                  <a onClick={(e) => e.preventDefault()}>
-                    <Space>
-                      <svg
-                        aria-hidden="true"
-                        className="w-4 h-4 mr-2 fill-current"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      Download
-                      <DownOutlined />
-                    </Space>
-                  </a>
-                </Dropdown>
-              </div>
-            {/* <button
+            <button
               onClick={() => handleDownloadZip()}
               type="button"
               className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
@@ -196,7 +167,7 @@ export default function ThreadComponent() {
                 />
               </svg>
               Zip All Files
-            </button> */}
+            </button>
           </div>
           <div
             className="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred"
@@ -350,28 +321,28 @@ export default function ThreadComponent() {
                 </div>
                 <div className="form-group mt-3">
                   <Form.Group controlId="Start Date<">
-                            <Form.Label>Start Date</Form.Label>
-                            <Form.Control type="date" name="startDate" placeholder="Enter Start Date" onChange={(e) => setStartDateThread(e.target.value)}/>
-                        </Form.Group>
+                    <Form.Label>Start Date</Form.Label>
+                    <Form.Control type="date" name="startDate" placeholder="Enter Start Date" onChange={(e) => setStartDateThread(e.target.value)} />
+                  </Form.Group>
                 </div>
                 <div className="form-group mt-3">
                   <Form.Group controlId="End Date<">
-                            <Form.Label>End Date</Form.Label>
-                            <Form.Control type="date" name="startDate" placeholder="Enter Start  Date" onChange={(e) => setEndDateThread(e.target.value)}/>
-                        </Form.Group>
+                    <Form.Label>End Date</Form.Label>
+                    <Form.Control type="date" name="startDate" placeholder="Enter Start  Date" onChange={(e) => setEndDateThread(e.target.value)} />
+                  </Form.Group>
                 </div>
                 <div className="form-group mt-3">
                   <Form.Group controlId="Closed Thread">
-                            <Form.Label>Close Date</Form.Label>
-                            <Form.Control type="date" name="startDate" placeholder="Enter Start  Date" onChange={(e) => setClosedThread(e.target.value)}/>
-                        </Form.Group>
+                    <Form.Label>Close Date</Form.Label>
+                    <Form.Control type="date" name="startDate" placeholder="Enter Start  Date" onChange={(e) => setClosedThread(e.target.value)} />
+                  </Form.Group>
                 </div>
-                
+
                 <button type="submit" className="btn btn-success mt-4">
                   Add A New Thread
                 </button>
               </form>
-            </Modal.Body> 
+            </Modal.Body>
 
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
@@ -403,10 +374,7 @@ export default function ThreadComponent() {
                   <Modal.Title>Edit </Modal.Title>
                 </Modal.Header>
                 {/* Modal content */}
-
-
                 <Modal.Body>
-
                   <form
                     onSubmit={editThread}
                     className="relative bg-white rounded-lg shadow dark:bg-gray-700"
@@ -432,36 +400,33 @@ export default function ThreadComponent() {
                         </div>
                       </div>
                     </div>
-                <div className="form-group mt-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    onChange={(e) => setDescriptionThreadById(e.target.value)}
-                    id="DescriptionThread"
-                    placeholder={threadById.description}
-                  />
-                </div>
-                <div className="form-group mt-3">
-                  <Form.Group controlId="Start Date<">
-                            <Form.Label>Start Date</Form.Label>
-                            <Form.Control type="date" name="startDate" placeholder="Enter Start Date" onChange={(e) => setStartDateThreadById(e.target.value)}/>
-                        </Form.Group>
-                </div>
-                <div className="form-group mt-3">
-                  <Form.Group controlId="End Date<">
-                            <Form.Label>End Date</Form.Label>
-                            <Form.Control type="date" name="startDate" placeholder="Enter Start  Date" onChange={(e) => setEndDateThreadById(e.target.value)}/>
-                        </Form.Group>
-                </div>
-                <div className="form-group mt-3">
-                  <Form.Group controlId="Closed Thread">
-                            <Form.Label>Close Date</Form.Label>
-                            <Form.Control type="date" name="startDate" placeholder="Enter Start  Date" onChange={(e) => setClosedThreadById(e.target.value)}/>
-                        </Form.Group>
-                </div>
-                    
-
-
+                    <div className="form-group mt-3">
+                      <input
+                        type="text"
+                        className="form-control"
+                        onChange={(e) => setDescriptionThreadById(e.target.value)}
+                        id="DescriptionThread"
+                        placeholder={threadById.description}
+                      />
+                    </div>
+                    <div className="form-group mt-3">
+                      <Form.Group controlId="Start Date<">
+                        <Form.Label>Start Date</Form.Label>
+                        <Form.Control type="date" name="startDate" placeholder="Enter Start Date" onChange={(e) => setStartDateThreadById(e.target.value)} />
+                      </Form.Group>
+                    </div>
+                    <div className="form-group mt-3">
+                      <Form.Group controlId="End Date<">
+                        <Form.Label>End Date</Form.Label>
+                        <Form.Control type="date" name="startDate" placeholder="Enter Start  Date" onChange={(e) => setEndDateThreadById(e.target.value)} />
+                      </Form.Group>
+                    </div>
+                    <div className="form-group mt-3">
+                      <Form.Group controlId="Closed Thread">
+                        <Form.Label>Close Date</Form.Label>
+                        <Form.Control type="date" name="startDate" placeholder="Enter Start  Date" onChange={(e) => setClosedThreadById(e.target.value)} />
+                      </Form.Group>
+                    </div>
                     {/* Modal footer */}
                     <Modal.Footer>
                       <button
@@ -473,12 +438,9 @@ export default function ThreadComponent() {
                     </Modal.Footer>
                   </form>
                 </Modal.Body>
-
               </Modal>
-
             </div>
           </div>
-
           {/*Model EDit account finish*/}
         </div>
       </div>

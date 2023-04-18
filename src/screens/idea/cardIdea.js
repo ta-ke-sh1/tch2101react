@@ -145,10 +145,6 @@ export default function CardItem({ props }) {
         fetchReactions();
     }
 
-    async function exportData(event) {
-        console.log(event);
-    }
-
     const initFileDisplay = () => {
         let images = [];
         let files = [];
@@ -200,6 +196,7 @@ export default function CardItem({ props }) {
                     <div className="flex items-center	justify-between">
                         <div className="gap-3.5	flex items-center ">
                             <img
+                                alt={'avatar'}
                                 src={host_url + u.avatar}
                                 className="object-cover bg-yellow-500 rounded-full w-10 h-10"
                             />
@@ -250,6 +247,7 @@ export default function CardItem({ props }) {
                             <>
                                 {images.map((image) => (
                                     <img
+                                        alt={'image-' + props.writer_id}
                                         src={
                                             host_url +
                                             "/files/" +

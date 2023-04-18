@@ -7,7 +7,6 @@ import {
 } from "../utils/utils";
 import axios from "axios";
 import { useAuth } from "./useAuth";
-import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function ValidToken({ children }) {

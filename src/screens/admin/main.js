@@ -46,7 +46,6 @@ const navigation = [
     icon: InboxIcon,
     current: true
   },
-  ,
   {
     index: 5,
     name: "Event",

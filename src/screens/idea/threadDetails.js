@@ -1,11 +1,11 @@
 // eslint-disable-next-line
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Layout, Menu, theme, Card, Button, Dropdown, Space } from "antd";
+import { Layout, Menu, Button, Dropdown, Space } from "antd";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../navbar";
 import { DownOutlined } from '@ant-design/icons';
-import {  Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 import {
   fromMilisecondsToDate,
@@ -20,7 +20,7 @@ import Tags from "../../components/tag.js";
 import Link from "antd/es/typography/Link";
 
 export default function ThreadDetails() {
-  const { Header, Content, Footer } = Layout;
+  const { Content, Footer } = Layout;
   let { id } = useParams();
   const auth = useAuth();
 
@@ -30,7 +30,6 @@ export default function ThreadDetails() {
 
   const [ideas, setIdeas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [tags, setTags] = useState([]);
   const [thread, setThread] = useState({});
 
   const indexOfLastPost = currentPage * ideaPerPageCount;
@@ -50,8 +49,8 @@ export default function ThreadDetails() {
   const [nameCategory, setNameCategory] = useState({});
   function addNewCategory() {
     axios
-      .post(host_url+"/category/",{
-        
+      .post(host_url + "/category/", {
+
         name: nameCategory,
       })
       .then((res) => {
@@ -68,7 +67,7 @@ export default function ThreadDetails() {
     initIdeas();
     initThread();
     initCategories();
-    addNewCategory() ;
+    addNewCategory();
   }, []);
 
   const menuListCategory = (
@@ -103,9 +102,7 @@ export default function ThreadDetails() {
       })
       .then((res) => {
         var result = [];
-        var curr_tags = [];
         for (var i = 0; i < res.data.length; i++) {
-          var categories = res.data[i].idea.category;
           result.push({
             id: res.data[i].id,
             key: res.data[i].idea.id,
@@ -211,7 +208,7 @@ export default function ThreadDetails() {
               </>
             )}
 
-            {auth.clearance > 2  ? (
+            {auth.clearance > 2 ? (
               <div className="text-white  bg-white ml-10 d-flex items-center justify-center  w-40 h-8 rounded">
                 <Link variant="primary" onClick={handleShowCategory}>
                   Add New Category
@@ -223,15 +220,15 @@ export default function ThreadDetails() {
                 overlay={menuListCategory}
                 className="rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
               >
-                <a onClick={(e) => e.preventDefault()}>
+                <div className="text-black  bg-white ml-10 d-flex items-center justify-center  w-40 h-8 rounded" onClick={(e) => e.preventDefault()}>
                   <Space>
                     Sort by category
                     <DownOutlined />
                   </Space>
-                </a>
+                </div>
               </Dropdown>
             </div>
-          </Breadcrumb>
+          </div>
           <br></br>
           {!ideas.length && "No posts found."}
           {currentIdeas.map((idea) => (
@@ -308,40 +305,40 @@ export default function ThreadDetails() {
       />
       {/* */}
       <div className="model_box">
-          <Modal
-            show={addCategory}
-            onHide={handleClose}
-            backdrop="static"
-            keyboard={false}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>Add A New Category</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <form onSubmit={addNewCategory}>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    onChange={(e) => setNameCategory(e.target.value)}
-                    id="name"
-                    placeholder="Enter Name Category"
-                  />
-                </div>
+        <Modal
+          show={addCategory}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Add A New Category</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form onSubmit={addNewCategory}>
+              <div className="form-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  onChange={(e) => setNameCategory(e.target.value)}
+                  id="name"
+                  placeholder="Enter Name Category"
+                />
+              </div>
 
-                <button type="submit" className="btn btn-success mt-4">
-                  Add A New Category
-                </button>
-              </form>
-            </Modal.Body>
+              <button type="submit" className="btn btn-success mt-4">
+                Add A New Category
+              </button>
+            </form>
+          </Modal.Body>
 
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseCategory}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
-          </div>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseCategory}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </>
   );
 }

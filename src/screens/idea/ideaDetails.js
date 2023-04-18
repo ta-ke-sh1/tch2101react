@@ -21,9 +21,6 @@ export default function IdeaDetail() {
     const [idea, setIdea] = useState({});
     const [comments, setComments] = useState([]);
 
-    const [attachedImages, setImages] = useState([]);
-    const [attachedFiles, setFiles] = useState([])
-
     const [comment, setComment] = useState("");
     const [isAnonymous, setAnonymous] = useState(false);
 
