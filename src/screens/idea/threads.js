@@ -69,7 +69,9 @@ export default function Thread() {
                                                 button_text: "See more",
                                             }}
                                         />
+                                        <div className="divider mt-9"></div>
                                     </Link>
+                                    
                                 ))}
                             </>
                         ) : (
@@ -102,7 +104,7 @@ export default function Thread() {
                                                 button_text: "See more",
                                             }}
                                         />
-                                        <div className="divider mb-5"></div>
+                                        <div className="divider mt-5 "></div>
                                     </Link>
                                 ))}
                             </>

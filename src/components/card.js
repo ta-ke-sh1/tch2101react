@@ -4,7 +4,7 @@ export default function ThreadCard({ props }) {
   return (
     <>
       <a
-        className="relative block p-8 overflow-hidden border bg-white border-slate-100 rounded-lg ml-6 mr-6"
+        className="relative block p-8 overflow-hidden border bg-white border-slate-100 rounded-lg ml-6 mr-6 mt-4"
       >
         <span className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600" />
         <div className="justify-between sm:flex">
