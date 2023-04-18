@@ -59,7 +59,7 @@ const navigation = [
 
 const userNavigation = [
   { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
+  { name: "Threads", href: "/threads" },
   { name: "Sign out", href: "#" },
 ];
 function classNames(...classes) {
@@ -77,7 +77,7 @@ export default function AdminMain() {
     2: <DepartmentComponent />,
     3: <IdeaComponent />,
     4: <CategoryComponent />,
-    5: <ThreadComponent />
+    5: <ThreadComponent />,
   };
   return (
     <>

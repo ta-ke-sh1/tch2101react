@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../navbar";
 import { DownOutlined } from '@ant-design/icons';
+import {  Modal } from "react-bootstrap";
 
 import {
   fromMilisecondsToDate,
@@ -16,6 +17,7 @@ import IdeaForm from "./ideaForm.js";
 import CardItem from "./cardIdea.js";
 import { useAuth } from "../../hooks/useAuth.js";
 import Tags from "../../components/tag.js";
+import Link from "antd/es/typography/Link";
 
 export default function ThreadDetails() {
   const { Header, Content, Footer } = Layout;
@@ -42,12 +44,31 @@ export default function ThreadDetails() {
   const handleCloseEditIdea = () => setShowEditIdea(false);
   const handleShowEditIdea = () => setShowEditIdea(true);
 
+  const [addCategory, setAddCategory] = useState(false);
+  const handleShowCategory = () => setAddCategory(true);
+  const handleCloseCategory = () => setAddCategory(false);
+  const [nameCategory, setNameCategory] = useState({});
+  function addNewCategory() {
+    axios
+      .post(host_url+"/category/",{
+        
+        name: nameCategory,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.error(err));
+  }
+
+
+
   const [isLoadedThread, setIsLoadedThread] = useState(false);
   const [isLoadedIdeas, setIsLoadedIdeas] = useState(false);
   useEffect(() => {
     initIdeas();
     initThread();
     initCategories();
+    addNewCategory() ;
   }, []);
 
   const menuListCategory = (
@@ -175,41 +196,26 @@ export default function ThreadDetails() {
           className="site-layout "
           style={{ margin: "24px 16px 0", overflow: "initial" }}
         >
-          <Breadcrumb
-            className="flex justify-start sticky top-0  w-50 h-16  sm:h-20 bg-gray-100"
+          <div
+            className="flex justify-start  sm:h-20 bg-gray-100"
           >
             {!isExpired(thread.endDate) ? (
               <Button
                 type="primary"
                 onClick={handleShow}
-                className="flex flex-grow xs:text-xs sm:text-sm md:text-md"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
-                  />
-                </svg>
-                Add New Idea
+                className="w-40"
+              > Add New Idea
               </Button>
             ) : (
               <>
               </>
             )}
 
-            {auth.clearance > 2 ? (
-              <div className="h-30 w-full shadow  mt-10">
-                <Button variant="primary" onClick={handleShow}>
+            {auth.clearance > 2  ? (
+              <div className="text-white  bg-white ml-10 d-flex items-center justify-center  w-40 h-8 rounded">
+                <Link variant="primary" onClick={handleShowCategory}>
                   Add New Category
-                </Button>
+                </Link>
               </div>
             ) : <></>}
             <div className="ml-3 w-70">
@@ -300,6 +306,42 @@ export default function ThreadDetails() {
           threadId: id,
         }}
       />
+      {/* */}
+      <div className="model_box">
+          <Modal
+            show={addCategory}
+            onHide={handleClose}
+            backdrop="static"
+            keyboard={false}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Add A New Category</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form onSubmit={addNewCategory}>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setNameCategory(e.target.value)}
+                    id="name"
+                    placeholder="Enter Name Category"
+                  />
+                </div>
+
+                <button type="submit" className="btn btn-success mt-4">
+                  Add A New Category
+                </button>
+              </form>
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseCategory}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+          </div>
     </>
   );
 }
