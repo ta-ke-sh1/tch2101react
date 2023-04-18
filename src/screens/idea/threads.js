@@ -24,6 +24,7 @@ export default function Thread() {
     var expired = [];
 
     for (let i = 0; i < data.length; i++) {
+        console.log(data[i].closedDate)
         if (isExpired(data[i].closedDate)) {
             closed.push(data[i]);
             continue;
@@ -42,6 +43,7 @@ export default function Thread() {
                 <div className="flex justify-between items-center">
                     <Navbar />
                 </div>
+                <br /><br />
                 <div className="flex-grow flex justify-center items-center text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl">
                     <div className="container">
                         {unexpired.length > 0 ? (
@@ -63,23 +65,28 @@ export default function Thread() {
                                                 ideaCount: thread.ideaCount,
                                                 title: thread.name,
                                                 paragraph: thread.description,
-                                                date: fromMilisecondsToDate(
+                                                start_date: fromMilisecondsToDate(
+                                                    thread.startDate
+                                                ),
+                                                expired_date: fromMilisecondsToDate(
                                                     thread.endDate
                                                 ),
+                                                closed_date: fromMilisecondsToDate(thread.closedDate),
                                                 button_text: "See more",
                                             }}
                                         />
                                         <div className="divider mt-9"></div>
                                     </Link>
-                                    
+
                                 ))}
                             </>
                         ) : (
                             <></>
                         )}
-                                
+
                         {expired.length > 0 ? (
                             <>
+                                <br />
                                 <h1 className="text-center font-bold mt-3 mb-2 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
                                     Ended Events
                                 </h1>
@@ -98,9 +105,13 @@ export default function Thread() {
                                                 ideaCount: thread.ideaCount,
                                                 title: thread.name,
                                                 paragraph: thread.description,
-                                                date: fromMilisecondsToDate(
+                                                start_date: fromMilisecondsToDate(
+                                                    thread.startDate
+                                                ),
+                                                expired_date: fromMilisecondsToDate(
                                                     thread.endDate
                                                 ),
+                                                closed_date: fromMilisecondsToDate(thread.closedDate),
                                                 button_text: "See more",
                                             }}
                                         />
@@ -114,6 +125,7 @@ export default function Thread() {
 
                         {closed.length > 0 ? (
                             <>
+                                <br />
                                 <h1 className="text-center font-bold mt-3 mb-2 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
                                     Archived Events
                                 </h1>
@@ -132,9 +144,13 @@ export default function Thread() {
                                                 ideaCount: thread.ideaCount,
                                                 title: thread.name,
                                                 paragraph: thread.description,
-                                                date: fromMilisecondsToDate(
+                                                start_date: fromMilisecondsToDate(
+                                                    thread.startDate
+                                                ),
+                                                expired_date: fromMilisecondsToDate(
                                                     thread.endDate
                                                 ),
+                                                closed_date: fromMilisecondsToDate(thread.closedDate),
                                                 button_text: "See more",
                                             }}
                                         />
