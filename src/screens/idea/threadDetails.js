@@ -193,10 +193,10 @@ export default function ThreadDetails() {
                 <Navbar />
 
                 <Content
-                    className="site-layout "
+                    className="site-layout"
                     style={{ margin: "24px 16px 0", overflow: "initial" }}
                 >
-                    <div className="flex justify-start  sm:h-20 bg-gray-100">
+                    <div className="flex flex-col md:justify-start space-y-10 md:space-y-0 md:flex-row md:space-x-10 sm:h-20 bg-gray-100">
                         {!isExpired(thread.endDate) ? (
                             <Button
                                 type="primary"
@@ -211,7 +211,7 @@ export default function ThreadDetails() {
                         )}
 
                         {auth.clearance > 2 ? (
-                            <div className="text-white  bg-white ml-10 d-flex items-center justify-center  w-40 h-8 rounded">
+                            <div className="text-white  bg-white d-flex items-center justify-center  w-40 h-8 rounded">
                                 <Link
                                     variant="primary"
                                     onClick={handleShowCategory}
@@ -222,13 +222,13 @@ export default function ThreadDetails() {
                         ) : (
                             <></>
                         )}
-                        <div className="ml-3 w-70">
+                        <div className="w-70">
                             <Dropdown
                                 overlay={menuListCategory}
                                 className="rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
                             >
                                 <div
-                                    className="text-black  bg-white ml-10 d-flex items-center justify-center  w-40 h-8 rounded"
+                                    className="text-black  bg-white d-flex items-center justify-center  w-40 h-8 rounded"
                                     onClick={(e) => e.preventDefault()}
                                 >
                                     <Space>
@@ -238,7 +238,32 @@ export default function ThreadDetails() {
                                 </div>
                             </Dropdown>
                         </div>
+                        <div className=" w-70">
+                            <Dropdown
+                                overlay={menuListCategory}
+                                className="rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
+                            >
+                                <div
+                                    className="text-black  bg-white d-flex items-center justify-center  w-40 h-8 rounded"
+                                    onClick={(e) => e.preventDefault()}
+                                >
+                                    <Space>
+                                        Sort by category
+                                        <DownOutlined />
+                                    </Space>
+                                </div>
+                            </Dropdown>
+                        </div>
+                        <Button
+                                type="primary"
+                                onClick={handleShow}
+                                className="w-40"
+                            >
+                                {" "}
+                                Add New Idea
+                            </Button>
                     </div>
+                   
                     <br></br>
                     {!ideas.length && "No posts found."}
                     {currentIdeas.map((idea) => (
