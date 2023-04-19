@@ -35,7 +35,6 @@ export default function CardItem({ props }) {
         fetchReactions();
         fetchUser();
         initFileDisplay();
-        console.log(props.categories);
     }, []);
 
     function fetchUser() {
@@ -149,7 +148,6 @@ export default function CardItem({ props }) {
     const initFileDisplay = () => {
         let images = [];
         let files = [];
-        console.log(props.file);
 
         for (let i = 0; i < props.file.length; i++) {
             if (

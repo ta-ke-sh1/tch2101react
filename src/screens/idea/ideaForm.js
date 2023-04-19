@@ -27,7 +27,6 @@ export default function IdeaForm({ props }) {
         axios
             .get(host_url + "/hashtag")
             .then((res) => {
-                console.log("fetched");
                 var h = [];
                 for (let i = 0; i < res.data.length; i++) {
                     h.push({
@@ -36,7 +35,6 @@ export default function IdeaForm({ props }) {
                     });
                 }
                 setHashtags(h);
-                console.log(h);
             })
             .catch((err) => console.error(err));
     }
@@ -45,7 +43,6 @@ export default function IdeaForm({ props }) {
         axios
             .get(host_url + "/category/")
             .then((res) => {
-                console.log("fetched");
                 var c = [];
                 for (let i = 0; i < res.data.length; i++) {
                     c.push({
@@ -54,7 +51,6 @@ export default function IdeaForm({ props }) {
                     });
                 }
                 setCategories(c);
-                console.log(c);
             })
             .catch((err) => console.error(err));
     }
@@ -98,8 +94,6 @@ export default function IdeaForm({ props }) {
                 "Content-Type": "multipart/form-data",
             },
         });
-
-        console.log(response);
     }
 
     return (
