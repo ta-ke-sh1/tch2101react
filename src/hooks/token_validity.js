@@ -230,7 +230,7 @@ export default function ValidToken({ children }) {
                 <div
                     style={{
                         position: "fixed",
-                        top: "10%",
+                        bottom: "40px",
                         right: "40px",
                         zIndex: 100000000,
                     }}

@@ -108,7 +108,7 @@ export default function CardItem({ props }) {
     }
 
     async function handleSubmit(event) {
-        console.log("commnet posted");
+        if (props.isClosed) return;
         var c = comment;
         setComment(null);
         await axios.post(
@@ -132,12 +132,13 @@ export default function CardItem({ props }) {
 
     async function handleReaction(event, reaction) {
         event.preventDefault();
-        if (props.isClosed) return;
+        console.log(props.isClosed);
         await axios
             .get(
                 host_url +
-                `/reaction?document=${props.id}&user=${decodedToken.user
-                }&reaction=${reaction ? 1 : -1}`
+                    `/reaction?document=${props.id}&user=${
+                        decodedToken.user
+                    }&reaction=${reaction ? 1 : -1}`
             )
             .then((res) => {
                 console.log(res);
@@ -196,7 +197,7 @@ export default function CardItem({ props }) {
                     <div className="flex items-center	justify-between">
                         <div className="gap-3.5	flex items-center ">
                             <img
-                                alt={'avatar'}
+                                alt={"avatar"}
                                 src={host_url + u.avatar}
                                 className="object-cover bg-yellow-500 rounded-full w-10 h-10"
                             />
@@ -231,12 +232,12 @@ export default function CardItem({ props }) {
                     <div className="whitespace-pre-wrap mt-1 font-bold">
                         {props.category
                             ? props.category.map((tag) => {
-                                const res =
-                                    props.categories.find(
-                                        ({ id }) => id === tag
-                                    ) || "";
-                                return <Tags key={tag} text={res.name} />;
-                            })
+                                  const res =
+                                      props.categories.find(
+                                          ({ id }) => id === tag
+                                      ) || "";
+                                  return <Tags key={tag} text={res.name} />;
+                              })
                             : ""}
                     </div>
                     <div className="whitespace-pre-wrap mt-7">
@@ -247,7 +248,7 @@ export default function CardItem({ props }) {
                             <>
                                 {images.map((image) => (
                                     <img
-                                        alt={'image-' + props.writer_id}
+                                        alt={"image-" + props.writer_id}
                                         src={
                                             host_url +
                                             "/files/" +
@@ -268,9 +269,22 @@ export default function CardItem({ props }) {
                         {files.length > 0 ? (
                             <>
                                 <div className="w-full flex flex-row justify-start mt-1">
-                                    <b className="vs:text-xs md:text-md lg:text-3md">Attached Files :</b>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className=" vs:w-4 vs:h-4">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
+                                    <b className="vs:text-xs md:text-md lg:text-3md">
+                                        Attached Files :
+                                    </b>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className=" vs:w-4 vs:h-4"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"
+                                        />
                                     </svg>
                                     {files.map((file) => (
                                         <button
@@ -283,7 +297,6 @@ export default function CardItem({ props }) {
                                         </button>
                                     ))}
                                 </div>
-
                             </>
                         ) : (
                             <span></span>
@@ -417,33 +430,13 @@ export default function CardItem({ props }) {
                             </div>
                         </div>
                     </div>
-                    {/* <div className="flex items-center justify-between mt-4">
-                        <div className="flex items-center	justify-between	 bg-gray-50 h-11 w-11/12 border rounded-2xl	 overflow-hidden px-4 ">
-                            {files.length > 0 ? (
-                                <>
-                                    <h1>Attached Files</h1>
-                                    <br />
-                                    {files.map((file) => (
-                                        <button
-                                            onClick={() => {
-                                                handleDownloadFile(file);
-                                            }}
-                                        >
-                                            {file}
-                                        </button>
-                                    ))}
-                                </>
-                            ) : (
-                                <span></span>
-                            )}
-                        </div>
-                    </div> */}
                 </div>
             </main>
 
             <div
-                className={`fixed z-10 inset-0 overflow-y-auto ${isOpen ? "" : "hidden"
-                    }`}
+                className={`fixed z-10 inset-0 overflow-y-auto ${
+                    isOpen ? "" : "hidden"
+                }`}
             >
                 <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <div

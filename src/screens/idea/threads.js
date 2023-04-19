@@ -24,7 +24,7 @@ export default function Thread() {
     var expired = [];
 
     for (let i = 0; i < data.length; i++) {
-        console.log(data[i].closedDate)
+        console.log(data[i].closedDate);
         if (isExpired(data[i].closedDate)) {
             closed.push(data[i]);
             continue;
@@ -43,7 +43,8 @@ export default function Thread() {
                 <div className="flex justify-between items-center">
                     <Navbar />
                 </div>
-                <br /><br />
+                <br />
+                <br />
                 <div className="flex-grow flex justify-center items-center text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl">
                     <div className="container">
                         {unexpired.length > 0 ? (
@@ -71,13 +72,14 @@ export default function Thread() {
                                                 expired_date: fromMilisecondsToDate(
                                                     thread.endDate
                                                 ),
-                                                closed_date: fromMilisecondsToDate(thread.closedDate),
+                                                closed_date: fromMilisecondsToDate(
+                                                    thread.closedDate
+                                                ),
                                                 button_text: "See more",
                                             }}
                                         />
                                         <div className="divider mt-9"></div>
                                     </Link>
-
                                 ))}
                             </>
                         ) : (
@@ -92,8 +94,8 @@ export default function Thread() {
                                 </h1>
                                 <p className="px-2 text-center mb-2 text-xs sm:text-xl md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-500 ">
                                     These Threads are currently closed, no new
-                                    ideas can be added but you can still react
-                                    and comment.
+                                    ideas can be added but you can still read,
+                                    react and comment.
                                 </p>
                                 {expired.map((thread) => (
                                     <Link
@@ -111,7 +113,9 @@ export default function Thread() {
                                                 expired_date: fromMilisecondsToDate(
                                                     thread.endDate
                                                 ),
-                                                closed_date: fromMilisecondsToDate(thread.closedDate),
+                                                closed_date: fromMilisecondsToDate(
+                                                    thread.closedDate
+                                                ),
                                                 button_text: "See more",
                                             }}
                                         />
@@ -131,7 +135,7 @@ export default function Thread() {
                                 </h1>
                                 <p className="px-2 text-center mb-2 text-xs sm:text-xl md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-500">
                                     These Threads are closed and you can read
-                                    them but not react or submit new ideas &
+                                    them and react but not submit new ideas &
                                     comments.
                                 </p>
                                 {closed.map((thread) => (
@@ -150,7 +154,9 @@ export default function Thread() {
                                                 expired_date: fromMilisecondsToDate(
                                                     thread.endDate
                                                 ),
-                                                closed_date: fromMilisecondsToDate(thread.closedDate),
+                                                closed_date: fromMilisecondsToDate(
+                                                    thread.closedDate
+                                                ),
                                                 button_text: "See more",
                                             }}
                                         />
