@@ -47,7 +47,9 @@ export default function ThreadDetails() {
     const handleShowCategory = () => setAddCategory(true);
     const handleCloseCategory = () => setAddCategory(false);
     const [nameCategory, setNameCategory] = useState({});
+
     function addNewCategory() {
+        if (nameCategory === "") return;
         axios
             .post(host_url + "/category/", {
                 name: nameCategory,
@@ -64,7 +66,6 @@ export default function ThreadDetails() {
         initIdeas();
         initThread();
         initCategories();
-        addNewCategory();
     }, []);
 
     const menuListCategory = (
