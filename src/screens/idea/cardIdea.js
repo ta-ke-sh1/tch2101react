@@ -165,7 +165,7 @@ export default function CardItem({ props }) {
     const handleDownloadFile = async (file) => {
         const response = await axios.get(host_url + "/idea/file", {
             params: {
-                id: props.id,
+                username: props.writer_id,
                 fileName: file,
             },
             responseType: "blob",

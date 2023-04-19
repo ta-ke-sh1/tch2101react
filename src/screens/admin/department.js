@@ -245,7 +245,7 @@ export default function DepartmentComponent() {
                                                 >
                                                     Edit
                                                 </Button>
-                                                
+
                                                 <Button
                                                     variant="danger"
                                                     onClick={() =>

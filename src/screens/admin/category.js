@@ -31,6 +31,7 @@ export default function CategoryComponent() {
   }
 
   async function deleteCategory(id) {
+    console.log(id)
     await axios.get(`${host_url}/category/delete`, {
       params: { id: id },
     }
