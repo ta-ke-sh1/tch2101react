@@ -2,8 +2,7 @@ import React, { useEffect, useState, } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal, Form } from "react-bootstrap";
 import axios from "axios";
-import { host_url } from "../../utils/utils";
-
+import { host_url, isExpired } from "../../utils/utils";
 
 export default function ThreadComponent() {
   const [show, setShow] = useState(false);
@@ -19,13 +18,12 @@ export default function ThreadComponent() {
 
 
 
-  const handleShowThread = (id) => {
+  const handleShowThread = async (id) => {
     setShowThread(true);
-    axios
+    await axios
       .get(host_url + "/thread?id=" + id)
       .then((res) => {
         setThreadById(res.data);
-        console.log(res.data.id);
       });
   };
 
@@ -69,15 +67,15 @@ export default function ThreadComponent() {
   }
 
   const handleDownloadCSV = async (id) => {
+    console.log(id);
     const response = await axios.get(host_url + '/admin/createThreadReport', {
       responseType: 'blob',
       params: {
         id: id
       },
-      headers: {
-        Authorization: localStorage.getItem('access_token'),
-      }
     });
+
+    console.log(response)
     const fileURL = window.URL.createObjectURL(new Blob([response.data]));
     const fileLink = document.createElement('a');
     fileLink.href = fileURL;
@@ -108,34 +106,34 @@ export default function ThreadComponent() {
     fileLink.remove();
   }
 
-  function addThread() {
-    axios.post(host_url + "/thread/", {
+
+  async function addThread() {
+    await axios.post(host_url + "/thread/", {
       name: nameThread,
       description: descriptionThread,
-      startDate: startDateThread,
-      endDate: endDateThread,
-      closedDate: closedThread,
+      startDate: (new Date(startDateThread)).getTime() / 1000,
+      endDate: (new Date(endDateThread)).getTime() / 1000,
+      closedDate: (new Date(closedThread)).getTime() / 1000,
+    }).then((res) => {
+      console.log(res);
     });
   }
 
-  function editThread() {
-    axios.put(host_url + "/thread", {
+  async function editThread() {
+    await axios.post(host_url + "/thread/edit", {
       id: threadById.id,
       name: nameThreadById,
-      emp_count: 0,
+      startDate: (new Date(startDateThread)).getTime() / 1000,
+      endDate: (new Date(endDateThread)).getTime() / 1000,
+      closedDate: (new Date(closedThread)).getTime() / 1000,
+    }).then((res) => {
+      console.log(res);
     });
 
-    let obj = {
-      a: descriptionThreadById,
-      b: startDateThreadById,
-      c: endDateThreadById,
-      d: closedThreadById,
-    }
-    console.log(obj)
   }
 
   function deleteThread(id) {
-    axios.delete(`${host_url}/Thread?id=${id}`)
+    axios.delete(`${host_url}/thread?id=${id}`)
       .then((response) => {
         console.log(response);
       })
@@ -143,6 +141,7 @@ export default function ThreadComponent() {
         console.log(error);
       });
   }
+
   return (
     <div className="container ">
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
@@ -188,22 +187,6 @@ export default function ThreadComponent() {
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th scope="col" className="p-4">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-all-search"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label htmlFor="checkbox-all-search" className="sr-only">
-                        checkbox
-                      </label>
-                    </div>
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    No
-                  </th>
-
                   <th scope="col" className="px-6 py-3">
                     Name
                   </th>
@@ -225,33 +208,12 @@ export default function ThreadComponent() {
                 </tr>
               </thead>
               <tbody>
-                {threads.map((item, index) => (
+                {threads.map((item) => (
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <td className="w-4 p-4">
-                      <div className="flex items-center">
-                        <input
-                          value={item.id}
-                          id="checkbox-table-search-1"
-                          type="checkbox"
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                        />
-                        <label
-                          htmlFor="checkbox-table-search-1"
-                          className="sr-only"
-                        >
-                          checkbox
-                        </label>
-                      </div>
-                    </td>
                     <th
                       scope="row"
                       className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                      <div className="pl-3">
-                        <div className="text-base font-semibold">
-                          {index + 1}
-                        </div>
-                      </div>
                     </th>
                     <td className="px-6 py-4" >{item.name}</td>
                     <td className="px-6 py-4" >{item.description}</td>
@@ -273,7 +235,6 @@ export default function ThreadComponent() {
                       >
                         Delete
                       </Button>
-                      <br />
                       <Button
                         onClick={() => handleDownloadCSV(item.id)}
                       >
@@ -282,7 +243,6 @@ export default function ThreadComponent() {
                     </td>
                   </tr>
                 ))}
-
               </tbody>
             </table>
           </div>
@@ -300,7 +260,7 @@ export default function ThreadComponent() {
               <Modal.Title>Add A New Thread</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <form onSubmit={addThread}>
+              <form onSubmit={() => addThread()}>
                 <div className="form-group">
                   <input
                     type="text"
@@ -376,7 +336,6 @@ export default function ThreadComponent() {
                 {/* Modal content */}
                 <Modal.Body>
                   <form
-                    onSubmit={editThread}
                     className="relative bg-white rounded-lg shadow dark:bg-gray-700"
                   >
                     {/* Modal body */}
@@ -388,7 +347,7 @@ export default function ThreadComponent() {
                             htmlFor="first-name"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
-                            Name Department
+                            Title
                           </label>
                           <input
                             type="text"
@@ -430,6 +389,7 @@ export default function ThreadComponent() {
                     {/* Modal footer */}
                     <Modal.Footer>
                       <button
+                        onClick={() => editThread()}
                         type="submit"
                         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       >
@@ -444,6 +404,6 @@ export default function ThreadComponent() {
           {/*Model EDit account finish*/}
         </div>
       </div>
-    </div>
+    </div >
   );
 }

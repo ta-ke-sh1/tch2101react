@@ -11,7 +11,9 @@ export default function CategoryComponent() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCloseCategory = () => setShowCategory(false);
-  const handleShowCategory = () => setShowCategory(true);
+
+  const [categoryEdit, setCategoryEdit] = useState("");
+  const [categoryAdd, setCategoryAdd] = useState("");
 
   const [categories, setCategory] = useState([]);
   useEffect(() => {
@@ -20,22 +22,50 @@ export default function CategoryComponent() {
 
   function fetchCategory() {
     axios
-      .get(host_url+"/category/")
+      .get(host_url + "/category/")
       .then((res) => {
         setCategory(res.data);
         console.log(res.data);
       })
       .catch((err) => console.error(err));
   }
-  function deleteCategory(id) {
-    axios.delete(`${host_url}/department?id=${id}`)
+
+  async function deleteCategory(id) {
+    await axios.get(`${host_url}/category/delete`, {
+      params: { id: id },
+    }
+    )
       .then((response) => {
         console.log(response);
+        window.location.reload(true)
       })
       .catch((error) => {
         console.log(error);
       });
   }
+
+  async function editCategory(id) {
+    if (categoryEdit === "") return;
+    await axios.post(host_url + "/category/edit", {
+      id: id,
+      name: categoryEdit,
+    }).then((res) => {
+      console.log(res);
+      window.location.reload(true)
+    });
+  }
+
+  async function addCategory() {
+    console.log(categoryAdd)
+    if (categoryAdd === "") return;
+    await axios.post(host_url + "/category", {
+      name: categoryAdd,
+    }, { validateStatus: false }).then((res) => {
+      console.log(res);
+      fetchCategory();
+    });
+  }
+
   return (
     <div class="container ">
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
@@ -43,12 +73,7 @@ export default function CategoryComponent() {
           <div class="col-sm-3 mt-5 mb-4 text-gred">
             <div className="search">
               <form class="form-inline">
-                <input
-                  class="form-control mr-sm-2"
-                  type="search"
-                  placeholder="Search Category"
-                  aria-label="Search"
-                />
+
               </form>
             </div>
           </div>
@@ -61,9 +86,21 @@ export default function CategoryComponent() {
             </h2>
           </div>
           <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
-            <Button variant="primary" onClick={handleShow}>
-              Add New Category
-            </Button>
+            <div class="flex">
+              <form onSubmit={() => addCategory()}>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Enter Name Category"
+                  onChange={(e) => setCategoryAdd(e.target.value)}
+                />
+                <Button variant="primary" onClick={() => addCategory()}>
+                  Add Category
+                </Button>
+              </form>
+
+            </div>
           </div>
         </div>
         <div class="row">
@@ -96,7 +133,7 @@ export default function CategoryComponent() {
                 </tr>
               </thead>
               <tbody>
-              {categories.map((item, index) => (
+                {categories.map((item, index) => (
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td className="w-4 p-4">
                       <div className="flex items-center">
@@ -123,23 +160,29 @@ export default function CategoryComponent() {
                         </div>
                       </div>
                     </th>
-                    <td className="px-6 py-4" key={item.id}>{item.name}</td>
-
-                    <td className="pl-3">
+                    <td className="px-6 py-4" key={item.id}>
+                      <input
+                        placeholder={item.name}
+                        id="checkbox-table-search-1"
+                        type="search"
+                        onChange={(e) => setCategoryEdit(e.target.value)}
+                      />
+                    </td>
+                    <td className="pl-3" >
                       {/* Modal toggle */}
-                      <Button
+                      <Button Button
                         variant="primary"
-                        onClick={() => handleShowCategory(item.id)}
+                        onClick={() => editCategory(item.id)}
                       >
                         Edit
                       </Button>
-
-                      <Button
+                      {item.idea === 0 ? <Button
                         variant="danger"
                         onClick={() => deleteCategory(item.id)}
                       >
                         Delete
-                      </Button>
+                      </Button> : <></>}
+
                     </td>
                   </tr>
                 ))}
@@ -147,10 +190,10 @@ export default function CategoryComponent() {
               </tbody>
             </table>
           </div>
-        </div>
+        </div >
 
         {/* <!--- Model Box ---> */}
-        <div className="model_box">
+        <div div className="model_box" >
           <Modal
             show={show}
             onHide={handleClose}
@@ -200,7 +243,7 @@ export default function CategoryComponent() {
                 keyboard={false}
               >
                 {/* Modal header */}
-                <Modal.Header closeButton>
+                <Modal.Header>
                   <Modal.Title>Edit </Modal.Title>
                 </Modal.Header>
                 {/* Modal content */}
@@ -225,6 +268,7 @@ export default function CategoryComponent() {
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Enter name"
                             required=""
+                            onChange={(event) => setCategoryEdit(event.target.value)}
                           />
                         </div>
 
@@ -233,6 +277,7 @@ export default function CategoryComponent() {
                     {/* Modal footer */}
                     <Modal.Footer>
                       <button
+                        onClick={() => editCategory()}
                         type="submit"
                         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       >
@@ -246,8 +291,8 @@ export default function CategoryComponent() {
           </div>
 
           {/*Model EDit account finish*/}
-        </div>
-      </div>
-    </div>
+        </div >
+      </div >
+    </div >
   );
 }

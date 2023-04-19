@@ -268,10 +268,8 @@ export default function ThreadDetails() {
                 },
             })
             .then((res) => {
-                console.log(res.data);
                 var result = [];
-                for (let i = 0; i < res.data.idea.length; i++) {
-                    console.log(res.data[i].idea.visit_count)
+                for (let i = 0; i < res.data.length; i++) {
                     result.push({
                         id: res.data[i].id,
                         key: res.data[i].idea.id,

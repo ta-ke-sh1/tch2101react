@@ -1,7 +1,12 @@
 import moment from "moment";
 import jwt_decode from "jwt-decode";
 
-export const host_url = "https://tch2202.onrender.com";
+
+// const render_host = "https://tch2202.onrender.com";
+const local_host = 'http://localhost:9000'
+export const host_url = local_host;
+
+
 
 export const convertSecondsToTime = (input) => {
     var seconds = input;

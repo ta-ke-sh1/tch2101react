@@ -85,16 +85,15 @@ export default function DepartmentComponent() {
     }
 
     function editDepartment() {
-        axios.put(host_url + "/department", {
+        axios.post(host_url + "/department/edit", {
             id: departmentById.id,
             name: nameDepartmentById,
-            emp_count: 0,
         });
     }
 
     function deleteDepartment(id) {
         axios
-            .delete(`${host_url}/department?id=${id}`)
+            .get(`${host_url}/department/delete?id=${id}`)
             .then((response) => {
                 console.log(response);
             })
@@ -246,7 +245,7 @@ export default function DepartmentComponent() {
                                                 >
                                                     Edit
                                                 </Button>
-
+                                                
                                                 <Button
                                                     variant="danger"
                                                     onClick={() =>
@@ -277,7 +276,7 @@ export default function DepartmentComponent() {
                                 <Modal.Title>Add A New Department</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <form onSubmit={addDepartment}>
+                                <form onSubmit={() => addDepartment()}>
                                     <div className="form-group">
                                         <input
                                             type="text"
@@ -334,7 +333,7 @@ export default function DepartmentComponent() {
 
                                     <Modal.Body>
                                         <form
-                                            onSubmit={editDepartment}
+                                            onSubmit={() => editDepartment()}
                                             className="relative bg-white rounded-lg shadow dark:bg-gray-700"
                                         >
                                             {/* Modal body */}
@@ -389,7 +388,7 @@ export default function DepartmentComponent() {
             {ideas.length > 0 ? (
                 <div className="container ">
                     <div className="crud shadow-lg p-3 mb-5 mt-2 bg-body rounded">
-                        {}
+                        { }
                         <br />
                         <div className="row">
                             <div className="table-responsive ">
@@ -553,7 +552,7 @@ export default function DepartmentComponent() {
                                 </Button>
                             </div>
                         </div>
-                        {}
+                        { }
                     </div>
                 </div>
             ) : (
