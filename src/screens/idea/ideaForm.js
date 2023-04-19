@@ -89,7 +89,7 @@ export default function IdeaForm({ props }) {
             formData.append("items", chosenFiles[i]);
         }
 
-        const response = await axios.post(host_url + "/idea", formData, {
+        await axios.post(host_url + "/idea", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },

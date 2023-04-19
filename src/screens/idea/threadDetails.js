@@ -53,14 +53,27 @@ export default function ThreadDetails() {
 
     const [departments, setDepartments] = useState([]);
 
-    const [asc, setAsc] = useState(true);
-
     useEffect(() => {
         initIdeas();
         initThread();
         initCategories();
         initDepartment();
     }, []);
+
+    const menuListReaction = (
+        <Menu>
+            <Menu.Item>
+                <Tags
+                    text={'ASC'}
+                    onClick={() => sortByReaction(1)}
+                />
+                <Tags
+                    text={'DESC'}
+                    onClick={() => sortByReaction(0)}
+                />
+            </Menu.Item>
+        </Menu>
+    );
 
     const menuListDeparment = (
         <Menu>
@@ -69,7 +82,7 @@ export default function ThreadDetails() {
                     <Tags
                         key={tag.name}
                         text={tag.name}
-                        onClick={() => sort(tag.id)}
+                        onClick={() => sortByDepartment(tag.id)}
                     />
                 ))}
             </Menu.Item>
@@ -109,6 +122,7 @@ export default function ThreadDetails() {
                 result.push({
                     coordinator: res.data[i].coordinator,
                     name: res.data[i].name,
+                    id: res.data[i].id
                 });
             }
             setDepartments(result);
@@ -181,20 +195,20 @@ export default function ThreadDetails() {
             .catch((err) => console.error(err));
     }
 
-    async function sortByReaction() {
-        axios
-            .get(host_url + "/idea/sortByLike", {
+    async function sortByDepartment(department) {
+        await axios
+            .get(host_url + "/idea/department", {
                 params: {
                     thread: id,
-                    asc: asc,
+                    id: department,
                 },
             })
             .then((res) => {
-                console.log(res);
+                console.log(res)
                 let result = [];
                 for (let i = 0; i < res.data.length; i++) {
                     result.push({
-                        id: res.data[i].id,
+                        id: res.data[i].idea.id,
                         key: res.data[i].idea.id,
                         visit_count: res.data[i].idea.visit_count,
                         stat: res.data[i].idea.stat,
@@ -202,13 +216,46 @@ export default function ThreadDetails() {
                         title: res.data[i].idea.title,
                         description: res.data[i].idea.description,
                         category: res.data[i].idea.category,
-                        is_anonymous: res.data[i].is_anonymous,
+                        is_anonymous: res.data[i].idea.is_anonymous,
                         file: res.data[i].idea.file,
                         writer_id: res.data[i].idea.writer_id,
                         content: res.data[i].idea.content,
                     });
                 }
                 setIdeas(result);
+                setCurrentPage(1)
+            });
+    }
+
+    async function sortByReaction(asc) {
+        await axios
+            .get(host_url + "/idea/sortByLike", {
+                params: {
+                    thread: id,
+                    asc: asc,
+                },
+            })
+            .then((res) => {
+                console.log(res)
+                let result = [];
+                for (let i = 0; i < res.data.ideas.length; i++) {
+                    result.push({
+                        id: res.data.ideas[i].id,
+                        key: res.data.ideas[i].id,
+                        visit_count: res.data.ideas[i].visit_count,
+                        stat: res.data.ideas[i].stat,
+                        post_date: res.data.ideas[i].post_date,
+                        title: res.data.ideas[i].title,
+                        description: res.data.ideas[i].description,
+                        category: res.data.ideas[i].category,
+                        is_anonymous: res.data.ideas[i].is_anonymous,
+                        file: res.data.ideas[i].file,
+                        writer_id: res.data.ideas[i].writer_id,
+                        content: res.data.ideas[i].content,
+                    });
+                }
+                setIdeas(result);
+                setCurrentPage(1)
             });
     }
 
@@ -223,7 +270,8 @@ export default function ThreadDetails() {
             .then((res) => {
                 console.log(res.data);
                 var result = [];
-                for (var i = 0; i < res.data.length; i++) {
+                for (let i = 0; i < res.data.idea.length; i++) {
+                    console.log(res.data[i].idea.visit_count)
                     result.push({
                         id: res.data[i].id,
                         key: res.data[i].idea.id,
@@ -257,7 +305,6 @@ export default function ThreadDetails() {
         <>
             <Layout>
                 <Navbar />
-
                 <Content
                     className="site-layout"
                     style={{ margin: "24px 16px 0", overflow: "initial" }}
@@ -275,7 +322,6 @@ export default function ThreadDetails() {
                         ) : (
                             <></>
                         )}
-
                         {auth.clearance > 2 ? (
                             <div className="text-white  bg-white d-flex items-center justify-center  w-40 h-8 rounded">
                                 <Link
@@ -320,14 +366,22 @@ export default function ThreadDetails() {
                                 </div>
                             </Dropdown>
                         </div>
-                        <Button
-                            type="primary"
-                            onClick={sortByReaction}
-                            className="w-40"
-                        >
-                            {" "}
-                            Sort by Reaction
-                        </Button>
+                        <div className=" w-70">
+                            <Dropdown
+                                overlay={menuListReaction}
+                                className="rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
+                            >
+                                <div
+                                    className="text-black  bg-white d-flex items-center justify-center  w-40 h-8 rounded"
+                                    onClick={(e) => e.preventDefault()}
+                                >
+                                    <Space>
+                                        Sort by Reaction
+                                        <DownOutlined />
+                                    </Space>
+                                </div>
+                            </Dropdown>
+                        </div>
                     </div>
 
                     <br></br>

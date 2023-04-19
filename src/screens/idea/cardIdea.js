@@ -75,7 +75,6 @@ export default function CardItem({ props }) {
                         decodeToken(localStorage.getItem("access_token")).user
                     ) {
                         setReacted(res.data[i].reaction);
-                        console.log("reacted!");
                     }
                 }
                 setReactions({
@@ -106,7 +105,7 @@ export default function CardItem({ props }) {
             .catch((err) => console.error(err));
     }
 
-    async function handleSubmit(event) {
+    async function handleSubmit() {
         if (props.isClosed) return;
         var c = comment;
         setComment(null);
@@ -131,13 +130,11 @@ export default function CardItem({ props }) {
 
     async function handleReaction(event, reaction) {
         event.preventDefault();
-        console.log(props.isClosed);
         await axios
             .get(
                 host_url +
-                    `/reaction?document=${props.id}&user=${
-                        decodedToken.user
-                    }&reaction=${reaction ? 1 : -1}`
+                `/reaction?document=${props.id}&user=${decodedToken.user
+                }&reaction=${reaction ? 1 : -1}`
             )
             .then((res) => {
                 console.log(res);
@@ -230,12 +227,12 @@ export default function CardItem({ props }) {
                     <div className="whitespace-pre-wrap mt-1 font-bold">
                         {props.category
                             ? props.category.map((tag) => {
-                                  const res =
-                                      props.categories.find(
-                                          ({ id }) => id === tag
-                                      ) || "";
-                                  return <Tags key={tag} text={res.name} />;
-                              })
+                                const res =
+                                    props.categories.find(
+                                        ({ id }) => id === tag
+                                    ) || "";
+                                return <Tags key={tag} text={res.name} />;
+                            })
                             : ""}
                     </div>
                     <div className="whitespace-pre-wrap mt-7">
@@ -432,9 +429,8 @@ export default function CardItem({ props }) {
             </main>
 
             <div
-                className={`fixed z-10 inset-0 overflow-y-auto ${
-                    isOpen ? "" : "hidden"
-                }`}
+                className={`fixed z-10 inset-0 overflow-y-auto ${isOpen ? "" : "hidden"
+                    }`}
             >
                 <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <div
