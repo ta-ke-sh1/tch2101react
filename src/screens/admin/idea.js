@@ -1,27 +1,68 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
-import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, Space, Menu } from 'antd';
+import { Button,Modal,Form } from "react-bootstrap";
+import { DownOutlined } from "@ant-design/icons";
+import { Dropdown, Space, Menu } from "antd";
 
 import axios from "axios";
 import { host_url } from "../../utils/utils";
 
-
 export default function IdeaMainComponent() {
-
   const ideaPerPageCount = 5;
+  const [show, setShow] = useState(false);
+  const [idea, setIdea] = useState([]);
+  const [ideaById, setIdeaById] = useState({});
+  const [nameIdeaById, setNameIdeaById] = useState({});
+  
+ 
+  const [threads, setThreads] = useState([]);
   const [ideas, setIdeas] = useState([]);
+  const [showIdea, setShowIdea] = useState(false);
+  const [nameIdea, setNameIdea] = useState("");
+//edit
+
+  const [nameWriter_id, setNameWriter_id] = useState([]);
+  const [approver_id, setApprover_id] = useState([]);
+  const [title, setTitle] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [thread, setThread] = useState([]);
+  const [stat, setStat] = useState([]);
+  const [content, setContent] = useState([]);
+
+  
+  
+
+  
+
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handleCloseIdea = () => setShowIdea(false);
+  const handleShowIdea = (id) => {
+      setShowIdea(true);
+      axios.get(host_url + "/Idea?id=" + id).then((res) => {
+          setIdeaById(res.data);
+          console.log(res.data.id);
+      });
+  };
   const menuDownload = (
     <Menu>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.antgroup.com"
+        >
           Download all(ideas)
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.aliyun.com"
+        >
           Download Idea
         </a>
       </Menu.Item>
@@ -31,7 +72,11 @@ export default function IdeaMainComponent() {
   const menuListCategory = (
     <Menu>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.antgroup.com"
+        >
           category
         </a>
       </Menu.Item>
@@ -40,9 +85,31 @@ export default function IdeaMainComponent() {
 
   useEffect(() => {
     fetchIdeas();
-  }, [])
+  }, []);
+  function deleteIdea(id) {
+    axios
+        .delete(`${host_url}/idea?id=${id}`)
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
 
+function addIdea() {
+  axios.post(host_url + "/idea", {
+      name: nameIdea,
+  });
+}
 
+function editIdea() {
+  axios.put(host_url + "/idea", {
+      id: ideaById.id,
+      name: nameIdeaById,
+      emp_count: 0,
+  });
+}
   async function fetchIdeas() {
     axios
       .get(host_url + "/idea/")
@@ -56,6 +123,7 @@ export default function IdeaMainComponent() {
       })
       .catch((err) => console.error(err));
   }
+  
 
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastPost = currentPage * ideaPerPageCount;
@@ -69,7 +137,7 @@ export default function IdeaMainComponent() {
     // if (!checked) {
     //   setIsCheck(isCheck.filter(item => item !== id));
     // }
-  };
+  }
 
   return (
     <div className="container ">
@@ -77,7 +145,8 @@ export default function IdeaMainComponent() {
         <div className="flex flex-grow ">
           <div className="col-sm-3 mt-5 mb-4 text-gred flex">
             <div className="w-48 text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white ">
-              <Dropdown overlay={menuDownload}
+              <Dropdown
+                overlay={menuDownload}
                 className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
               >
                 <div onClick={(e) => e.preventDefault()}>
@@ -106,14 +175,14 @@ export default function IdeaMainComponent() {
             className="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred"
             style={{ color: "green" }}
           >
-
             <h2>
               <b> List idea</b>
             </h2>
           </div>
           <div className="col-sm-3 mt-5 mb-4 text-gred flex justify-end">
             <div className="w-48 text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white ">
-              <Dropdown overlay={menuListCategory}
+              <Dropdown
+                overlay={menuListCategory}
                 className="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
               >
                 <div onClick={(e) => e.preventDefault()}>
@@ -167,9 +236,9 @@ export default function IdeaMainComponent() {
                   <th scope="col" className="px-3 py-2">
                     Post_date
                   </th>
-                  {/* <th scope="col" className="px-3 py-2">
-                    Is_anonymous
-                  </th> */}
+                  <th scope="col" className="px-3 py-2">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -201,11 +270,208 @@ export default function IdeaMainComponent() {
                     </td>
                     <td className="px-3 py-2">{idea.post_date}</td>
                     {/* <td className="px-3 py-2">{idea.is_anonymous}</td> */}
+                    <Button
+                      variant="primary"
+                      onClick={() => handleShowIdea(idea.id)}
+                    >
+                      Edit
+                    </Button>
+                    <br />
+                    <Button
+                      variant="danger"
+                      onClick={() => deleteIdea(idea.id)}
+                    >
+                      Delete
+                    </Button>
                   </tr>
-
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+        <div className="model_box">
+          {/* <Modal
+            show={show}
+            onHide={handleClose}
+            backdrop="static"
+            keyboard={false}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Add A New Idea</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form onSubmit={addIdea}>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setNameIdea(e.target.value)}
+                    id="name"
+                    placeholder="Enter Name Idea"
+                  />
+                </div>
+
+                <button type="submit" className="btn btn-success mt-4">
+                  Add A New Idea
+                </button>
+              </form>
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal> */}
+          {/* Model Box Finsihs */}
+          {/*Model EDit account*/}
+
+          <div
+            id="IdeaModal"
+            tabIndex={-1}
+            aria-hidden="true"
+            className="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
+          >
+            <div className="relative w-full h-full max-w-2xl md:h-auto">
+              <Modal
+                show={showIdea}
+                onHide={handleCloseIdea}
+                backdrop="static"
+                keyboard={false}
+              >
+                {/* Modal header */}
+                <Modal.Header closeButton>
+                  <Modal.Title>Edit </Modal.Title>
+                </Modal.Header>
+                {/* Modal content */}
+                <Modal.Body>
+                  <form
+                    onSubmit={editIdea}
+                    className="relative bg-white rounded-lg shadow dark:bg-gray-700"
+                  >
+                    {/* Modal body */}
+                    <div className="form-group">
+                    <Form.Label>Writer_id</Form.Label>
+
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setNameWriter_id(e.target.value)}
+                    id="name"
+                    placeholder="admin"
+                  />
+                </div>
+                <div className="form-group mt-3">
+                <Form.Label>Approver_id</Form.Label>
+
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setApprover_id(e.target.value)}
+                    id="DescriptionThread"
+                    placeholder="admin"
+                  />
+                </div>
+                <div className="form-group mt-3">
+                <Form.Label>title</Form.Label>
+
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setTitle(e.target.value)}
+                    id="title"
+                    placeholder="Lorem Ipsum Sit Dolor"
+                  />
+                </div>
+                <div className="form-group mt-3">
+                <Form.Label>Category</Form.Label>
+
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setCategory(e.target.value)}
+                    id="Category"
+                    placeholder="Funding"
+                  />
+                </div>
+                <div className="form-group mt-3">
+                <Form.Label>Thread</Form.Label>
+
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setThread(e.target.value)}
+                    id="DescriptionThread"
+                    placeholder="Fall 2022 Halloween Event"
+                  />
+                </div>
+                <div className="form-group mt-3">
+                <Form.Label>Stat</Form.Label>
+
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setStat(e.target.value)}
+                    id="Stat"
+                    placeholder="Approved"
+                  />
+                </div>
+                <div className="form-group mt-3">
+                <Form.Label>Content</Form.Label>
+
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setContent(e.target.value)}
+                    id="Content"
+                    placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vulputate libero in finibus laoreet. Suspendisse dignissim ultricies tortor in iaculis. Nam in nunc tellus. Vivamus vitae congue elit, vel auctor nunc"
+                  />
+                </div>
+                
+                <div className="form-group mt-3">
+                  <Form.Group controlId="Start Date<">
+                    <Form.Label>Post Date</Form.Label>
+                    <Form.Control type="date" name="startDate" placeholder="2023/3/13"  />
+                  </Form.Group>
+                </div>
+                <div className="form-group mt-3">
+                  <Form.Group controlId="End Date<">
+                    <Form.Label>approved_date</Form.Label>
+                    <Form.Control type="date" name="startDate" placeholder="2023/3/20" />
+                  </Form.Group>
+                </div>
+                <div className="form-group mt-3">
+                <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id="flexSwitchCheckDefault"
+                                        // onChange={(e) =>
+                                        //     setAnonymous(e.target.checked)
+                                        // }
+                                    />
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor="flexSwitchCheckDefault"
+                                    >
+                                        Is anonymous?
+                                    </label>
+                </div>
+
+               
+
+                    {/* Modal footer */}
+                    <Modal.Footer>
+                      <button
+                        type="submit"
+                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      >
+                        Save all
+                      </button>
+                    </Modal.Footer>
+                  </form>
+                </Modal.Body>
+              </Modal>
+            </div>
           </div>
         </div>
         <div className="flex flex-col items-center mb-5">
@@ -232,9 +498,7 @@ export default function IdeaMainComponent() {
             </Button>
             <Button
               onClick={() => {
-                if (
-                  currentPage < Math.ceil(ideas.length / ideaPerPageCount)
-                ) {
+                if (currentPage < Math.ceil(ideas.length / ideaPerPageCount)) {
                   setCurrentPage(currentPage + 1);
                 }
               }}
