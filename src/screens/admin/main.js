@@ -69,7 +69,7 @@ function classNames(...classes) {
 
 export default function AdminMain() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [componentIndex, setIndex] = useState(2);
+  const [componentIndex, setIndex] = useState(5);
   const components = {
     0: <DashboardComponent />,
     1: <UserComponent />,

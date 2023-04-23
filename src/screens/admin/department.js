@@ -79,13 +79,13 @@ export default function DepartmentComponent() {
     }
 
     function addDepartment() {
-        axios.post(host_url + "/department", {
+        axios.post(host_url + "/department/", {
             name: nameDepartment,
         });
     }
 
     function editDepartment() {
-        axios.put(host_url + "/department", {
+        axios.post(host_url + "/department/edit/", {
             id: departmentById.id,
             name: nameDepartmentById,
             emp_count: 0,
@@ -94,7 +94,7 @@ export default function DepartmentComponent() {
 
     function deleteDepartment(id) {
         axios
-            .delete(`${host_url}/department?id=${id}`)
+            .get(`${host_url}/department/delete?id=${id}`)
             .then((response) => {
                 console.log(response);
             })

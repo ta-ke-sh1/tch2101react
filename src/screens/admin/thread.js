@@ -12,7 +12,7 @@ export default function ThreadComponent() {
   const [showThread, setShowThread] = useState(false);
   const handleCloseThread = () => setShowThread(false);
   const [nameThread, setNameThread] = useState("");
-  const [descriptionThread, setDescriptionThread] = useState("");
+  const [descriptionThread, setDescriptionThread] = useState({});
   const [startDateThread, setStartDateThread] = useState({});
   const [endDateThread, setEndDateThread] = useState({});
   const [closedThread, setClosedThread] = useState({});
@@ -20,19 +20,19 @@ export default function ThreadComponent() {
 
 
   const handleShowThread = (id) => {
+    console.log(id);
     setShowThread(true);
     axios
       .get(host_url + "/thread?id=" + id)
       .then((res) => {
         setThreadById(res.data);
-        console.log(res.data.id);
       });
   };
 
-
+//edit
   const [threadById, setThreadById] = useState({});
   const [nameThreadById, setNameThreadById] = useState({});
-  const [descriptionThreadById, setDescriptionThreadById] = useState("");
+  const [descriptionThreadById, setDescriptionThreadById] = useState({});
   const [startDateThreadById, setStartDateThreadById] = useState({});
   const [endDateThreadById, setEndDateThreadById] = useState({});
   const [closedThreadById, setClosedThreadById] = useState({});
@@ -119,19 +119,28 @@ export default function ThreadComponent() {
   }
 
   function editThread() {
-    axios.put(host_url + "/thread", {
-      id: threadById.id,
+    axios.post(host_url + "/thread/edit/", {
+      id: threadById,
       name: nameThreadById,
+      description: descriptionThreadById,
+      startDate: startDateThreadById ,
+      endDate: endDateThreadById ,
+      closedDate: closedThreadById,
       emp_count: 0,
+    })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
     });
-
-    let obj = {
-      a: descriptionThreadById,
-      b: startDateThreadById,
-      c: endDateThreadById,
-      d: closedThreadById,
-    }
-    console.log(obj)
+    // let obj = {
+    //   a: descriptionThreadById,
+    //   b: startDateThreadById,
+    //   c: endDateThreadById,
+    //   d: closedThreadById,
+    // }
+    // console.log(obj)
   }
 
   function deleteThread(id) {
@@ -380,10 +389,9 @@ export default function ThreadComponent() {
                     className="relative bg-white rounded-lg shadow dark:bg-gray-700"
                   >
                     {/* Modal body */}
-                    <div className="p-6 space-y-6 ">
-                      <div className="grid grid-cols-6 gap-6">
-
-                        <div className="col-span-6 sm:col-span-3">
+                    <div className=" ">
+                  
+                        <div className="form-group mt-3">
                           <label
                             htmlFor="first-name"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -394,37 +402,43 @@ export default function ThreadComponent() {
                             type="text"
                             name="form-control"
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder={threadById.name}
+                            defaultValue={threadById.name}
                             onChange={(e) => setNameThreadById(e.target.value)}
                           />
                         </div>
                       </div>
-                    </div>
+                   
                     <div className="form-group mt-3">
+                    <label
+                            htmlFor="first-name"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
+                            Description
+                          </label>
                       <input
                         type="text"
                         className="form-control"
                         onChange={(e) => setDescriptionThreadById(e.target.value)}
                         id="DescriptionThread"
-                        placeholder={threadById.description}
+                        defaultValue={threadById.description}
                       />
                     </div>
                     <div className="form-group mt-3">
                       <Form.Group controlId="Start Date<">
                         <Form.Label>Start Date</Form.Label>
-                        <Form.Control type="date" name="startDate" placeholder="Enter Start Date" onChange={(e) => setStartDateThreadById(e.target.value)} />
+                        <Form.Control type="date" name="startDate" defaultValue={threadById.startDate} onChange={(e) => setStartDateThreadById(e.target.value)} />
                       </Form.Group>
                     </div>
                     <div className="form-group mt-3">
                       <Form.Group controlId="End Date<">
                         <Form.Label>End Date</Form.Label>
-                        <Form.Control type="date" name="startDate" placeholder="Enter Start  Date" onChange={(e) => setEndDateThreadById(e.target.value)} />
+                        <Form.Control type="date" name="startDate" defaultValue={threadById.endDate} onChange={(e) => setEndDateThreadById(e.target.value)} />
                       </Form.Group>
                     </div>
                     <div className="form-group mt-3">
                       <Form.Group controlId="Closed Thread">
                         <Form.Label>Close Date</Form.Label>
-                        <Form.Control type="date" name="startDate" placeholder="Enter Start  Date" onChange={(e) => setClosedThreadById(e.target.value)} />
+                        <Form.Control type="date" name="startDate" defaultValue={threadById.closedDate} onChange={(e) => setClosedThreadById(e.target.value)} />
                       </Form.Group>
                     </div>
                     {/* Modal footer */}

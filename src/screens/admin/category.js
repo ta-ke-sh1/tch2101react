@@ -11,8 +11,11 @@ export default function CategoryComponent() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCloseCategory = () => setShowCategory(false);
-  const handleShowCategory = () => setShowCategory(true);
-
+  const [categoryById, setCategoryById] = useState({});
+  //add
+  const [nameCategory, setNameCategory]=useState({});
+//edit
+  const [editName,setNameEdit]=useState({});
   const [categories, setCategory] = useState([]);
   useEffect(() => {
     fetchCategory();
@@ -23,12 +26,54 @@ export default function CategoryComponent() {
       .get(host_url+"/category/")
       .then((res) => {
         setCategory(res.data);
-        console.log(res.data);
       })
       .catch((err) => console.error(err));
   }
+
+  const handleShowCategory = (id) => {
+    setShowCategory(true);
+    axios
+    .get(host_url + "/category/", {
+      params: {
+          id: id,
+      },
+  })
+      .then((res) => {
+        setCategoryById(res.data);
+      });
+  };
+  function addCategory(event) {
+
+    event.preventDefault();
+    axios
+          .post(host_url+'/category/',
+          {
+             name:nameCategory 
+            }
+          )
+          .then((res)=>{
+            console.log(res);
+          })
+          .catch((err) => console.error(err));
+
+  }
+  function editCategory(event) {
+    event.preventDefault();
+    axios
+          .put(host_url+'/category/edit/',
+          {
+             id: categoryById.id,
+             name:editName 
+            }
+          )
+          .then((res)=>{
+            console.log(res);
+          })
+          .catch((err) => console.error(err));
+
+  }
   function deleteCategory(id) {
-    axios.delete(`${host_url}/department?id=${id}`)
+    axios.delete(`${host_url}/category/delete?id=${id}`)
       .then((response) => {
         console.log(response);
       })
@@ -161,12 +206,12 @@ export default function CategoryComponent() {
               <Modal.Title>Add A New Category</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <form>
+              <form onSubmit={addCategory}>
                 <div class="form-group">
                   <input
                     type="text"
                     class="form-control"
-                    id="name"
+                    onChange={(e)=>setNameCategory(e.target.value)}
                     placeholder="Enter Name Category"
                   />
                 </div>
@@ -206,7 +251,7 @@ export default function CategoryComponent() {
                 {/* Modal content */}
                 <Modal.Body>
                   <form
-                    action="#"
+                    onSubmit={editCategory}
                     className="relative bg-white rounded-lg shadow dark:bg-gray-700"
                   >
                     {/* Modal body */}
@@ -223,8 +268,9 @@ export default function CategoryComponent() {
                             type="text"
                             name="form-control"
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Enter name"
-                            required=""
+                            defaultValue={categoryById.name}
+                            onChange={(e)=>setNameEdit(e.target.value)}
+                            placeholder={categoryById.name}
                           />
                         </div>
 

@@ -39,7 +39,8 @@ export default function IdeaMainComponent() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCloseIdea = () => setShowIdea(false);
-  const handleShowIdea = (id) => {
+  function handleShowIdea(id)  {
+    console.log(id);
       setShowIdea(true);
       axios.get(host_url + "/Idea?id=" + id).then((res) => {
           setIdeaById(res.data);
@@ -242,7 +243,7 @@ function editIdea() {
                 </tr>
               </thead>
               <tbody>
-                {currentIdeas.map((idea, index) => (
+                {currentIdeas.map((idea) => (
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td className="w-4 p-4">
                       <div className="flex items-center">
@@ -255,7 +256,7 @@ function editIdea() {
                       </div>
                     </td>
 
-                    <td className="px-3 py-2">{index + 1}</td>
+                    {/* <td className="px-3 py-2">{index + 1}</td> */}
                     <td className="px-3 py-2">{idea.writer_id}</td>
                     <td className="px-3 py-2">{idea.approver_id}</td>
                     <td className="px-3 py-2">{idea.approved_date} </td>
