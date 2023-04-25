@@ -14,7 +14,6 @@ import Navbar from "./screens/navbar";
 import ErrorPage from "./screens/error";
 import { AuthProvider, RequireAuth } from "./hooks/useAuth";
 import Dashboard from "./components/chart";
-import Test from "./screens/idea/ideaQAM";
 import Test1 from "./screens/staff/test";
 
 
@@ -33,11 +32,7 @@ const App = () => {
                     errorElement={<ErrorPage />}
                     element={<Login />}
                 />
-                 <Route
-                    path="/test"
-                    errorElement={<ErrorPage />}
-                    element={<Test />}
-                />
+                
                 <Route
                     path="/test1"
                     errorElement={<ErrorPage />}

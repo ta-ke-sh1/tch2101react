@@ -23,7 +23,18 @@ export default function UserComponent() {
   const [roleUser, setRoleUser] = useState("");
   const [dobUser, setDobUser] = useState("");
   const [departmentId, setDepartmentId] = useState("");
+  //edit 
+
   const [UserById, setUserById] = useState({});
+  const [fullNameEdit, setFullNameEdit] = useState("");
+  const [emailEdit, setEmailEdit] = useState("");
+  const [userNameEdit, setUserNameEdit] = useState("");
+  const [passwordUserEdit, setPasswordUserEdit] = useState("");
+  const [numberPhoneUserEdit, setNumberPhoneUserEdit] = useState("");
+  const [avatarUserEdit, setAvatarUserEdit] = useState("");
+  const [roleUserEdit, setRoleUserEdit] = useState("");
+  const [dobUserEdit, setDobUserEdit] = useState("");
+  const [departmentIdEdit, setDepartmentIdEdit] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -94,6 +105,35 @@ export default function UserComponent() {
         console.log(res.data.messages);
       });
   }
+  function editUser() {
+    axios
+    .post(host_url + "/user/edit/", {
+      id:UserById.id,
+      fullName: fullNameEdit,
+      email: emailEdit,
+      username: userNameEdit,
+      password: passwordUserEdit,
+      phone: numberPhoneUserEdit,
+      stat: 'Activated',
+      avatar: avatarUserEdit,
+      role: roleUserEdit,
+      dob: dobUserEdit,
+      department_id: departmentIdEdit,
+    },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
   function deleteUser(id) {
     axios.delete(`${host_url}/user?id=${id}`)
     .then((response) => {
@@ -403,7 +443,7 @@ export default function UserComponent() {
                 {/* Modal content */}
                 <Modal.Body>
                   <form
-                    action="#"
+                    onSubmit={editUser}
                     className="relative bg-white rounded-lg shadow dark:bg-gray-700"
                   >
                     {/* Modal body */}
@@ -411,7 +451,7 @@ export default function UserComponent() {
                       <input
                         type="text"
                         class="form-control"
-                        onChange={(e) => setFullNameUser(e.target.value)}
+                        onChange={(e) => setFullNameEdit(e.target.value)}
                         id="name"
                         placeholder={UserById.fullName}
                       />
@@ -420,7 +460,7 @@ export default function UserComponent() {
                       <input
                         type="email"
                         class="form-control"
-                        onChange={(e) => setEmailUser(e.target.value)}
+                        onChange={(e) => setEmailEdit(e.target.value)}
                         id="InputEmail1"
                         placeholder={UserById.email}
                       />
@@ -429,7 +469,7 @@ export default function UserComponent() {
                       <input
                         type="text"
                         class="form-control"
-                        onChange={(e) => setUserName(e.target.value)}
+                        onChange={(e) => setUserNameEdit(e.target.value)}
                         id="username"
                         aria-describedby="emailHelp"
                         placeholder={UserById.username}
@@ -439,7 +479,7 @@ export default function UserComponent() {
                       <input
                         type="password"
                         class="form-control"
-                        onChange={(e) => setPasswordUser(e.target.value)}
+                        onChange={(e) => setPasswordUserEdit(e.target.value)}
                         id="Password"
                         placeholder="nhập mật khẩu mới"
                       />
@@ -448,7 +488,7 @@ export default function UserComponent() {
                       <input
                         type="text"
                         class="form-control"
-                        onChange={(e) => setNumberPhoneUser(e.target.value)}
+                        onChange={(e) => setNumberPhoneUserEdit(e.target.value)}
                         id="phone"
                         placeholder={UserById.phone}
                       />
@@ -458,7 +498,7 @@ export default function UserComponent() {
                       <input
                         type="text"
                         class="form-control"
-                        onChange={(e) => setDobUser(e.target.value)}
+                        onChange={(e) => setDobUserEdit(e.target.value)}
                         id="dob"
                         placeholder={UserById.dob}
                       />
@@ -473,7 +513,7 @@ export default function UserComponent() {
                       <input
                         className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                         aria-describedby="avatar"
-                        onChange={(e) => setAvatarUser(e.target.value)}
+                        onChange={(e) => setAvatarUserEdit(e.target.value)}
                         id="image idea"
                         type="file"
                       />
@@ -488,7 +528,7 @@ export default function UserComponent() {
                       </label>
                       <select
                         defaultValue={UserById.role}
-                        onChange={(e) => setRoleUser(e.target.value)}
+                        onChange={(e) => setRoleUserEdit(e.target.value)}
                         id="role"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       >
@@ -514,7 +554,7 @@ export default function UserComponent() {
                         Select a department
                       </label>
                       <select
-                        onChange={(e) => setDepartmentId(e.target.value)}
+                        onChange={(e) => setDepartmentIdEdit(e.target.value)}
                         id="department"
                         placeholder={UserById.department}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"

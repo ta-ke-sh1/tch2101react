@@ -60,7 +60,7 @@ export default function CategoryComponent() {
   function editCategory(event) {
     event.preventDefault();
     axios
-          .put(host_url+'/category/edit/',
+          .post(host_url+'/category/edit/',
           {
              id: categoryById.id,
              name:editName 
@@ -70,10 +70,9 @@ export default function CategoryComponent() {
             console.log(res);
           })
           .catch((err) => console.error(err));
-
   }
   function deleteCategory(id) {
-    axios.delete(`${host_url}/category/delete?id=${id}`)
+    axios.get(`${host_url}/category/delete?id=${id}`)
       .then((response) => {
         console.log(response);
       })

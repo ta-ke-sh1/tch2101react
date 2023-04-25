@@ -20,41 +20,7 @@ import DepartmentComponent from "./department";
 import IdeaComponent from "./idea";
 import CategoryComponent from "./category";
 import ThreadComponent from "./thread";
-
-const navigation = [
-  { index: 0, name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  {
-    index: 1,
-    name: "User",
-    href: "#",
-    icon: UsersIcon,
-    current: true,
-    subnav: true,
-  },
-
-  { index: 2, name: "Department", icon: FolderIcon, current: true },
-  {
-    index: 3,
-    name: "Idea",
-    href: "#",
-    icon: CalendarIcon,
-    current: true,
-  },
-  {
-    index: 4,
-    name: "Category",
-    icon: InboxIcon,
-    current: true
-  },
-  {
-    index: 5,
-    name: "Event",
-    href: "#",
-    icon: ChartBarIcon,
-    current: false,
-
-  },
-];
+import { useAuth } from "../../hooks/useAuth.js";
 
 const userNavigation = [
   { name: "Your Profile", href: "#" },
@@ -68,15 +34,57 @@ function classNames(...classes) {
 
 
 export default function AdminMain() {
+  const auth = useAuth();
+
+const navigation = auth.clearance > 3 ? [
+  {
+    index: 0,
+    name: "User",
+    href: "#",
+    icon: UsersIcon,
+    current: true,
+    subnav: true,
+  },
+
+  { index: 1, name: "Department", icon: FolderIcon, current: true },
+ 
+  {
+    index: 2,
+    name: "Event",
+    href: "#",
+    icon: ChartBarIcon,
+    current: false,
+
+  },
+] :
+[ { index: 0, name: "Dashboard", href: "#", icon: HomeIcon, current: true },
+{
+  index: 1,
+  name: "Idea",
+  href: "#",
+  icon: CalendarIcon,
+  current: true,
+},
+ 
+{
+  index: 2,
+  name: "Category",
+  icon: InboxIcon,
+  current: true
+}, ];
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [componentIndex, setIndex] = useState(5);
-  const components = {
+  const [componentIndex, setIndex] = useState(1);
+  
+  const components = auth.clearance>3 ? {
+    0: <UserComponent />,
+    1: <DepartmentComponent />,
+    2: <ThreadComponent />,
+
+  }:{
     0: <DashboardComponent />,
-    1: <UserComponent />,
-    2: <DepartmentComponent />,
-    3: <IdeaComponent />,
-    4: <CategoryComponent />,
-    5: <ThreadComponent />,
+    1: <IdeaComponent />,
+    2: <CategoryComponent />,
   };
   return (
     <>
