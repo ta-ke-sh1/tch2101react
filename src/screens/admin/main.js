@@ -74,13 +74,12 @@ const navigation = auth.clearance > 3 ? [
 }, ];
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [componentIndex, setIndex] = useState(1);
+  const [componentIndex, setIndex] = useState(2);
   
   const components = auth.clearance>3 ? {
     0: <UserComponent />,
     1: <DepartmentComponent />,
     2: <ThreadComponent />,
-
   }:{
     0: <DashboardComponent />,
     1: <IdeaComponent />,

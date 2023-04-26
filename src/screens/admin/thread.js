@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal, Form } from "react-bootstrap";
 import axios from "axios";
 import { host_url } from "../../utils/utils";
-
+import moment from "moment";
 
 export default function ThreadComponent() {
   const [show, setShow] = useState(false);
@@ -26,16 +26,17 @@ export default function ThreadComponent() {
       .get(host_url + "/thread?id=" + id)
       .then((res) => {
         setThreadById(res.data);
+        console.log(res.data.id);
       });
   };
 
 //edit
   const [threadById, setThreadById] = useState({});
-  const [nameThreadById, setNameThreadById] = useState({});
-  const [descriptionThreadById, setDescriptionThreadById] = useState({});
-  const [startDateThreadById, setStartDateThreadById] = useState({});
-  const [endDateThreadById, setEndDateThreadById] = useState({});
-  const [closedThreadById, setClosedThreadById] = useState({});
+  const [nameThreadById, setNameThreadById] = useState("");
+  const [descriptionThreadById, setDescriptionThreadById] = useState("");
+  const [startDateThreadById, setStartDateThreadById] = useState("");
+  const [endDateThreadById, setEndDateThreadById] = useState("");
+  const [closedThreadById, setClosedThreadById] = useState("");
 
   const [threads, setThread] = useState([]);
   useEffect(() => {
@@ -47,7 +48,7 @@ export default function ThreadComponent() {
     return date.toUTCString();
   };
 
-  function fetchThread() {
+  async function fetchThread() {
     axios
       .get(host_url + "/thread/")
       .then((res) => {
@@ -118,17 +119,20 @@ export default function ThreadComponent() {
     });
   }
 
-  function editThread() {
-    axios.post(host_url + "/thread/edit/", {
-      id: threadById,
-      name: nameThreadById,
-      description: descriptionThreadById,
-      startDate: startDateThreadById ,
-      endDate: endDateThreadById ,
-      closedDate: closedThreadById,
+  async function editThread(e) {
+    e.preventDefault();
+    await axios.post(host_url + "/thread/edit/", {
+      id: threadById.id,
+      name: !nameThreadById ? threadById.name : nameThreadById,
+      description: !descriptionThreadById ? threadById.name : descriptionThreadById,
+      startDate: !startDateThreadById ? threadById.startDate : startDateThreadById ,
+      endDate: !endDateThreadById ? threadById.endDate : endDateThreadById,
+      closedDate: !closedThreadById ? threadById.closedDate : closedThreadById,
       emp_count: 0,
     })
-    .then((response) => {
+    .then(async (response) => {
+      handleCloseThread();
+      await fetchThread();
       console.log(response);
     })
     .catch((error) => {
@@ -425,20 +429,20 @@ export default function ThreadComponent() {
                     </div>
                     <div className="form-group mt-3">
                       <Form.Group controlId="Start Date<">
-                        <Form.Label>Start Date</Form.Label>
-                        <Form.Control type="date" name="startDate" defaultValue={threadById.startDate} onChange={(e) => setStartDateThreadById(e.target.value)} />
+                        <Form.Label>Start Date: {moment(threadById.startDate*1000).format('yyyy-MM-DD')}</Form.Label>
+                        <Form.Control type="date" name="startDate"  onChange={(e) => setStartDateThreadById(e.target.value)} />
                       </Form.Group>
                     </div>
                     <div className="form-group mt-3">
                       <Form.Group controlId="End Date<">
-                        <Form.Label>End Date</Form.Label>
-                        <Form.Control type="date" name="startDate" defaultValue={threadById.endDate} onChange={(e) => setEndDateThreadById(e.target.value)} />
+                        <Form.Label>End Date: {moment(threadById.endDate * 1000).format('yyyy-MM-DD')}</Form.Label>
+                        <Form.Control type="date" name="startDate" onChange={(e) => setEndDateThreadById(e.target.value)} />
                       </Form.Group>
                     </div>
                     <div className="form-group mt-3">
                       <Form.Group controlId="Closed Thread">
-                        <Form.Label>Close Date</Form.Label>
-                        <Form.Control type="date" name="startDate" defaultValue={threadById.closedDate} onChange={(e) => setClosedThreadById(e.target.value)} />
+                        <Form.Label>Close Date: {moment(threadById.closedDate*1000).format('yyyy-MM-DD')}</Form.Label>
+                        <Form.Control type="date" name="startDate" onChange={(e) => setClosedThreadById(e.target.value)} />
                       </Form.Group>
                     </div>
                     {/* Modal footer */}

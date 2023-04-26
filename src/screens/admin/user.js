@@ -25,12 +25,10 @@ export default function UserComponent() {
   const [departmentId, setDepartmentId] = useState("");
   //edit 
 
-  const [UserById, setUserById] = useState({});
+  const [userById, setUserById] = useState({});
   const [fullNameEdit, setFullNameEdit] = useState("");
   const [emailEdit, setEmailEdit] = useState("");
-  const [userNameEdit, setUserNameEdit] = useState("");
-  const [passwordUserEdit, setPasswordUserEdit] = useState("");
-  const [numberPhoneUserEdit, setNumberPhoneUserEdit] = useState("");
+  // const [passwordUserEdit, setPasswordUserEdit] = useState("");
   const [avatarUserEdit, setAvatarUserEdit] = useState("");
   const [roleUserEdit, setRoleUserEdit] = useState("");
   const [dobUserEdit, setDobUserEdit] = useState("");
@@ -48,14 +46,13 @@ export default function UserComponent() {
     fetchUsers();
     fetchDepartment();
   }, []);
-  const handleShowEditUser = (id) => {
+  function handleShowEditUser(id) {
     setShowEditUser(true);
-    console.log(id);
     axios
       .get(`${host_url}/user?id=${id}`)
       .then((res) => {
         setUserById(res.data);
-        console.log(res.data.id);
+        console.log(res.data.username);
       });
   };
   async function fetchUsers() {
@@ -105,29 +102,24 @@ export default function UserComponent() {
         console.log(res.data.messages);
       });
   }
-  function editUser() {
-    axios
+  async function editUser(event) {
+    console.log(userById.username);
+    event.preventDefault();
+    await axios
     .post(host_url + "/user/edit/", {
-      id:UserById.id,
+      id:userById.username,
       fullName: fullNameEdit,
       email: emailEdit,
-      username: userNameEdit,
-      password: passwordUserEdit,
-      phone: numberPhoneUserEdit,
       stat: 'Activated',
       avatar: avatarUserEdit,
       role: roleUserEdit,
       dob: dobUserEdit,
       department_id: departmentIdEdit,
-    },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    )
-    .then((response) => {
+    },)
+    .then(async (response) => {
       console.log(response);
+      handleCloseEditUser()
+      await fetchUsers();
     })
     .catch((error) => {
       console.log(error);
@@ -453,7 +445,7 @@ export default function UserComponent() {
                         class="form-control"
                         onChange={(e) => setFullNameEdit(e.target.value)}
                         id="name"
-                        placeholder={UserById.fullName}
+                        defaultValue={userById.fullName}
                       />
                     </div>
                     <div class="form-group mt-3">
@@ -462,20 +454,10 @@ export default function UserComponent() {
                         class="form-control"
                         onChange={(e) => setEmailEdit(e.target.value)}
                         id="InputEmail1"
-                        placeholder={UserById.email}
+                        defaultValue={userById.email}
                       />
                     </div>
-                    <div class="form-group mt-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        onChange={(e) => setUserNameEdit(e.target.value)}
-                        id="username"
-                        aria-describedby="emailHelp"
-                        placeholder={UserById.username}
-                      />
-                    </div>
-                    <div class="form-group mt-3">
+                    {/* <div class="form-group mt-3">
                       <input
                         type="password"
                         class="form-control"
@@ -483,16 +465,16 @@ export default function UserComponent() {
                         id="Password"
                         placeholder="nhập mật khẩu mới"
                       />
-                    </div>
-                    <div class="form-group mt-3">
+                    </div> */}
+                    {/* <div class="form-group mt-3">
                       <input
                         type="text"
                         class="form-control"
                         onChange={(e) => setNumberPhoneUserEdit(e.target.value)}
                         id="phone"
-                        placeholder={UserById.phone}
+                        defaultValue={userById.phone}
                       />
-                    </div>
+                    </div> */}
 
                     <div class="form-group mt-3">
                       <input
@@ -500,7 +482,7 @@ export default function UserComponent() {
                         class="form-control"
                         onChange={(e) => setDobUserEdit(e.target.value)}
                         id="dob"
-                        placeholder={UserById.dob}
+                        defaultValue={userById.dob}
                       />
                     </div>
                     <div class="form-group mt-3">
@@ -527,7 +509,7 @@ export default function UserComponent() {
                         Select a Role
                       </label>
                       <select
-                        defaultValue={UserById.role}
+                        defaultValue={userById.role}
                         onChange={(e) => setRoleUserEdit(e.target.value)}
                         id="role"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -536,10 +518,10 @@ export default function UserComponent() {
                           value={'Admin'}
                         >Admin</option>
                         <option
-                          value={'Quality Assurance Manager'}
+                          value={'QAM'}
                         >Quality Assurance Manager</option>
                         <option
-                          value={'Quality Assurance Coordinator'}
+                          value={'QAC'}
                         >Quality Assurance Coordinator</option>
                         <option
                           value={'Staff'}
@@ -556,7 +538,7 @@ export default function UserComponent() {
                       <select
                         onChange={(e) => setDepartmentIdEdit(e.target.value)}
                         id="department"
-                        placeholder={UserById.department}
+                        placeholder={userById.department}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       >
                         {department.map((item) =>

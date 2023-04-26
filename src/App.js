@@ -79,7 +79,7 @@ const App = () => {
                             </>
                         }
                     />
-                    <Route element={<RequireAuth props={{ clearance: 4 }} />}>
+                    <Route element={<RequireAuth props={{ clearance: 3}} />}>
                         <Route
                             path="/admin"
                             errorElement={<ErrorPage />}
