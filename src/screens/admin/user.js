@@ -20,7 +20,7 @@ export default function UserComponent() {
   const [passwordUser, setPasswordUser] = useState("");
   const [numberPhoneUser, setNumberPhoneUser] = useState("");
   const [avatarUser, setAvatarUser] = useState("");
-  const [roleUser, setRoleUser] = useState("");
+  const [roleUser, setRoleUser] = useState([]);
   const [dobUser, setDobUser] = useState("");
   const [departmentId, setDepartmentId] = useState("");
   //edit 
@@ -46,13 +46,15 @@ export default function UserComponent() {
     fetchUsers();
     fetchDepartment();
   }, []);
-  function handleShowEditUser(id) {
-    setShowEditUser(true);
-    axios
+  async function handleShowEditUser(id) {
+    
+    await axios
       .get(`${host_url}/user?id=${id}`)
       .then((res) => {
         setUserById(res.data);
         console.log(res.data.username);
+
+        setShowEditUser(true);
       });
   };
   async function fetchUsers() {
@@ -107,14 +109,14 @@ export default function UserComponent() {
     event.preventDefault();
     await axios
     .post(host_url + "/user/edit/", {
-      id:userById.username,
-      fullName: fullNameEdit,
-      email: emailEdit,
+      id: userById.username,
+      fullName: fullNameEdit == "" ? userById.fullName : fullNameEdit,
+      email: emailEdit == "" ? userById.email : emailEdit,
       stat: 'Activated',
-      avatar: avatarUserEdit,
-      role: roleUserEdit,
-      dob: dobUserEdit,
-      department_id: departmentIdEdit,
+      avatar:null, 
+      role: roleUserEdit == "" ? userById.role[0] : roleUserEdit,
+      dob: dobUserEdit== "" ? userById.dob : dobUserEdit,
+      department_id: departmentIdEdit== "" ? userById.department_id : departmentIdEdit,
     },)
     .then(async (response) => {
       console.log(response);
